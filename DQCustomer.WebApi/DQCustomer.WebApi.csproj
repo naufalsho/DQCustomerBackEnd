@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\CustomApps\Data Quality\DQ-Customer\DQCustomerBackEnd\DQCustomer.WebApi\DQCustomer.WebApi.xml</DocumentationFile>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.52.0.2338" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="MimeKit" Version="2.10.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DQCustomer.BusinessLogic\DQCustomer.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DQCustomer.Common\DQCustomer.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DQCustomer.WebApi.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>
