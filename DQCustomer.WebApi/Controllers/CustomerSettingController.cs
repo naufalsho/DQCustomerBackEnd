@@ -8,6 +8,9 @@ using System;
 using DQCustomer.BusinessObject;
 using DQCustomer.BusinessObject.ViewModel;
 using DQCustomer.DataAccess.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.Common;
+using System.Drawing.Printing;
 
 namespace DQCustomer.WebApi.Controllers
 {
@@ -298,6 +301,21 @@ namespace DQCustomer.WebApi.Controllers
             }
             catch (Exception ex)
             {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetCustomerSearchRequest")]
+        public IActionResult GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetSearchRequest(page, pageSize, column, sorting, titleCustomer, customerName, picName);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
                 return BadRequest(ex.Message);
             }
         }

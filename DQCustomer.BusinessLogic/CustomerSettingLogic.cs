@@ -6,6 +6,8 @@ using DQCustomer.DataAccess;
 using DQCustomer.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -463,7 +465,7 @@ namespace DQCustomer.BusinessLogic
                     var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
                     if (alreadyAssign != null)
                     {
-                        return result = MessageResult(false, "Already assigned");  
+                        return result = MessageResult(false, "Already assigned");
                     }
                     CpSalesHistory newSalesHistory = new CpSalesHistory()
                     {
@@ -570,7 +572,8 @@ namespace DQCustomer.BusinessLogic
 
                     var listCustomerSetting = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(customerID);
 
-                    if(listCustomerSetting.Count == 1) {
+                    if (listCustomerSetting.Count == 1)
+                    {
                         var cs = listCustomerSetting.First();
                         cs.Named = true;
                         cs.Shareable = false;
@@ -902,6 +905,96 @@ namespace DQCustomer.BusinessLogic
             {
                 result = MessageResult(false, ex.Message);
             }
+            return result;
+        }
+
+        public CpCustomerSettingSearchRequest GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName)
+        {
+            //ResultAction result = new ResultAction();
+            //try
+            //{
+            //    using (_context)
+            //    {
+            //        IUnitOfWork uow = new UnitOfWork(_context);
+            //        var existing = uow.CustomerSettingRepository.GetSearchRequest(titleCustomer, customerName, picName);
+            //        result = MessageResult(true, "Success", existing);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    result = MessageResult(false, ex.Message);
+            //}
+
+
+            CpCustomerSettingSearchRequest result = new CpCustomerSettingSearchRequest();
+
+            if (sorting != null)
+            {
+                if (sorting.ToLower() == "descending")
+                    sorting = "desc";
+                if (sorting.ToLower() == "ascending")
+                    sorting = "asc";
+            }
+
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    var existing = uow.CustomerSettingRepository.GetSearchRequest(titleCustomer, customerName, picName);
+
+
+                    var softwareDashboards = (from x in existing
+                                              select new Req_CustomerSearchRequest_ViewModel
+                                              {
+                                                  CustomerID = x.CustomerID,
+                                                  TitleCustomer = x.TitleCustomer,
+                                                  CustomerName = x.CustomerName,
+                                                  PICName = x.PICName
+                                              }).ToList();
+
+                    var resultSoftware = new List<Req_CustomerSearchRequest_ViewModel>();
+
+                    if (page > 0)
+                    {
+                        var queryable = softwareDashboards.AsQueryable();
+                        resultSoftware = queryable
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+                    }
+                    else
+                    {
+                        resultSoftware = softwareDashboards;
+                    }
+
+                    result.TotalRows = softwareDashboards.Count();
+                    result.Column = column;
+
+                    if (sorting != null)
+                    {
+                        if (sorting == "desc")
+                        {
+                            sorting = "descending";
+                            result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                        }
+                        if (sorting == "asc")
+                        {
+                            sorting = "ascending";
+                            result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                        }
+
+                        result.Sorting = sorting;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
             return result;
         }
     }

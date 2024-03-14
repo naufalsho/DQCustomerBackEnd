@@ -269,5 +269,16 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<Req_CustomerSettingGetRelatedCustomerAndLastProject_ViewModel>(_sql, param: null, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
+
+        public List<Req_CustomerSearchRequest_ViewModel> GetSearchRequest(string titleCustomer, string customerName, string picName)
+        {
+            _sql = "[cp].[spSearchRequestCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@TitleCustomer", titleCustomer);
+            vParams.Add("@CustomerName", customerName);
+            vParams.Add("@PICName", picName);
+            var output = _context.db.Query<Req_CustomerSearchRequest_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
     }
 }

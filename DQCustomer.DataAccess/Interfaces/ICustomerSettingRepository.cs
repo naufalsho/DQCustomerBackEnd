@@ -32,5 +32,6 @@ namespace DQCustomer.DataAccess.Interfaces
         List<Req_CustomerSettingGetRelatedCustomerAndLastProject_ViewModel> GetRelatedAndLast();
         void SendEmailReqCustomerSetting(long customerID, long reqSalesID, long approverID);
         void SendEmailApproveRejectCustomerSetting(long customerID, long reqSalesID, bool isApprove, string description, int? modifyUserID);
+        List<Req_CustomerSearchRequest_ViewModel> GetSearchRequest(string titleCustomer, string customerName, string picName);
     }
 }
