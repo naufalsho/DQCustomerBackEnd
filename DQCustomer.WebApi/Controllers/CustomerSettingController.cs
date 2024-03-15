@@ -319,5 +319,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("InsertRequestNewCustomer")]
+        public IActionResult InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.InsertRequestNewCustomer(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

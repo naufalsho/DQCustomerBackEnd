@@ -994,8 +994,48 @@ namespace DQCustomer.BusinessLogic
 
                 throw;
             }
-            
+
             return result;
+        }
+
+        public ResultAction InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        {
+
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    Req_CustomerSettingInsertRequestCustomer_ViewModel newCustomer = new Req_CustomerSettingInsertRequestCustomer_ViewModel()
+                    {
+                        TitleCustomer = objEntity.TitleCustomer,
+                        CustomerName = objEntity.CustomerName,
+                        PICName = objEntity.PICName,
+                        CustomerAddress = objEntity.CustomerAddress,
+                        PhoneNumber = objEntity.PhoneNumber,
+                        IndustryClass = objEntity.IndustryClass,
+                        Website = objEntity.Website,
+                        SocialMedia = objEntity.SocialMedia,
+                        PICPhoneNumber = objEntity.PICPhoneNumber,
+                        PICJobTitle = objEntity.PICJobTitle,
+                        PICEmail = objEntity.PICEmail
+                    };
+
+                    uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer);
+                    result = MessageResult(true, "Insert Success!");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                    result = MessageResult(false, ex.Message);
+            }
+
+            return result;
+
         }
     }
 }

@@ -69,7 +69,7 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@SalesIDs", salesID);
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
-            
+
             return output;
         }
         public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
@@ -279,6 +279,25 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@PICName", picName);
             var output = _context.db.Query<Req_CustomerSearchRequest_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
+        }
+
+        public bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        {
+            _sql = "[cp].[spInsertRequestNewCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@TitleCustomer", objEntity.TitleCustomer);
+            vParams.Add("@CustomerName", objEntity.CustomerName);
+            vParams.Add("@PICName", objEntity.PICName);
+            vParams.Add("@CustomerAddress", objEntity.CustomerAddress);
+            vParams.Add("@PhoneNumber", objEntity.PhoneNumber);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
+            vParams.Add("@Website", objEntity.Website);
+            vParams.Add("@SocialMedia", objEntity.SocialMedia);
+            vParams.Add("@PICPhoneNumber", objEntity.PICPhoneNumber);
+            vParams.Add("@PICJobTitle", objEntity.PICJobTitle);
+            vParams.Add("@PICEmail", objEntity.PICEmail);
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
         }
     }
 }
