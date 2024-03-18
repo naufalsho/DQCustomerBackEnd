@@ -1061,8 +1061,8 @@ namespace DQCustomer.BusinessLogic
                         // Split nilai "customerName" berdasarkan ", " dan simpan ke dalam array
                         string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
 
-                        item.TitleCustomer = customerNameParts[1];
-                        item.CustomerName = customerNameParts[0]; 
+                        item.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
+                        //item.CustomerName = customerNameParts[0]; 
                     }
 
                     result = MessageResult(true, "Success", existing);
