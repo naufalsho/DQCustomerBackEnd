@@ -945,7 +945,7 @@ namespace DQCustomer.BusinessLogic
                     var existing = uow.CustomerSettingRepository.GetSearchRequest(titleCustomer, customerName, picName);
 
 
-                    var softwareDashboards = (from x in existing
+                    var data = (from x in existing
                                               select new Req_CustomerSearchRequest_ViewModel
                                               {
                                                   CustomerID = x.CustomerID,
@@ -954,22 +954,22 @@ namespace DQCustomer.BusinessLogic
                                                   PICName = x.PICName
                                               }).ToList();
 
-                    var resultSoftware = new List<Req_CustomerSearchRequest_ViewModel>();
+                    var resultData = new List<Req_CustomerSearchRequest_ViewModel>();
 
                     if (page > 0)
                     {
-                        var queryable = softwareDashboards.AsQueryable();
-                        resultSoftware = queryable
+                        var queryable = data.AsQueryable();
+                        resultData = queryable
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .ToList();
                     }
                     else
                     {
-                        resultSoftware = softwareDashboards;
+                        resultData = data;
                     }
 
-                    result.TotalRows = softwareDashboards.Count();
+                    result.TotalRows = data.Count();
                     result.Column = column;
 
                     if (sorting != null)
@@ -977,15 +977,19 @@ namespace DQCustomer.BusinessLogic
                         if (sorting == "desc")
                         {
                             sorting = "descending";
-                            result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                            result.Rows = resultData.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
                         }
                         if (sorting == "asc")
                         {
                             sorting = "ascending";
-                            result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                            result.Rows = resultData.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
                         }
 
                         result.Sorting = sorting;
+                    }
+                    else
+                    {
+                        result.Rows = resultData.OrderByDescending(c => c.CustomerID).ToList();
                     }
                 }
             }
