@@ -946,13 +946,13 @@ namespace DQCustomer.BusinessLogic
 
 
                     var data = (from x in existing
-                                              select new Req_CustomerSearchRequest_ViewModel
-                                              {
-                                                  CustomerID = x.CustomerID,
-                                                  TitleCustomer = x.TitleCustomer,
-                                                  CustomerName = x.CustomerName,
-                                                  PICName = x.PICName
-                                              }).ToList();
+                                select new Req_CustomerSearchRequest_ViewModel
+                                {
+                                    CustomerID = x.CustomerID,
+                                    TitleCustomer = x.TitleCustomer,
+                                    CustomerName = x.CustomerName,
+                                    PICName = x.PICName
+                                }).ToList();
 
                     var resultData = new List<Req_CustomerSearchRequest_ViewModel>();
 
@@ -1037,11 +1037,42 @@ namespace DQCustomer.BusinessLogic
             }
             catch (Exception ex)
             {
-                    result = MessageResult(false, ex.Message);
+                result = MessageResult(false, ex.Message);
             }
 
             return result;
 
+        }
+
+        public ResultAction GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    var existing = uow.CustomerSettingRepository.GetRequestNewCustomerByGenID(customerGenID);
+
+                    // Manipulasi nilai properti "titleCustomer" dan "customerName"
+                    foreach (var item in existing)
+                    {
+                        // Split nilai "customerName" berdasarkan ", " dan simpan ke dalam array
+                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+
+                        item.TitleCustomer = customerNameParts[1];
+                        item.CustomerName = customerNameParts[0]; 
+                    }
+
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
         }
     }
 }

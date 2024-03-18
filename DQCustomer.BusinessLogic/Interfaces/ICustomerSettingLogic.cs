@@ -31,5 +31,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction GetCustomerName(string customerName);
         CpCustomerSettingSearchRequest GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName);
         ResultAction InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity);
+        ResultAction GetRequestNewCustomerByGenID(long customerGenID);
     }
 }
