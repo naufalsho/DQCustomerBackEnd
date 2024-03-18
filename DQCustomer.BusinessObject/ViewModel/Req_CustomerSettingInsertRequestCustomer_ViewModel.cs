@@ -17,5 +17,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICPhoneNumber { get; set; }
         public string PICJobTitle { get; set; }
         public string PICEmail { get; set; }
+        public int CreatedUserID { get; set; }
+        public int ModifyUserID { get; set; }
     }
 }

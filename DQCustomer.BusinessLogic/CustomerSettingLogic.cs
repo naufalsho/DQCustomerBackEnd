@@ -1020,7 +1020,9 @@ namespace DQCustomer.BusinessLogic
                         SocialMedia = objEntity.SocialMedia,
                         PICPhoneNumber = objEntity.PICPhoneNumber,
                         PICJobTitle = objEntity.PICJobTitle,
-                        PICEmail = objEntity.PICEmail
+                        PICEmail = objEntity.PICEmail,
+                        CreatedUserID = objEntity.CreatedUserID,
+                        ModifyUserID = objEntity.ModifyUserID
                     };
 
                     uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer);

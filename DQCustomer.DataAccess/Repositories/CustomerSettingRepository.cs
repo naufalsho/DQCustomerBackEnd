@@ -296,6 +296,8 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@PICPhoneNumber", objEntity.PICPhoneNumber);
             vParams.Add("@PICJobTitle", objEntity.PICJobTitle);
             vParams.Add("@PICEmail", objEntity.PICEmail);
+            vParams.Add("@CreateUserID", objEntity.CreatedUserID);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }
