@@ -348,5 +348,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("UpdateApprovalStatusNewCustomer")]
+        public IActionResult UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.UpdateApprovalStatusNewCustomer(customerGenID, objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1074,5 +1074,41 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+
+        public ResultAction UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel dataUpdate = new Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel()
+                    {
+                        ApprovalStatus = objEntity.ApprovalStatus,
+                        Remark = objEntity.Remark
+                    };
+
+                    var responseData = new
+                    {
+                        approvalStatus = dataUpdate.ApprovalStatus.ToUpper(),
+                        remark = dataUpdate.Remark
+                    };
+
+                    uow.CustomerSettingRepository.UpdateApprovalStatusNewCustomer(customerGenID, dataUpdate);
+                    result = MessageResult(true, "Insert Success!", responseData);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+
+            return result;
+        }
     }
+    
 }

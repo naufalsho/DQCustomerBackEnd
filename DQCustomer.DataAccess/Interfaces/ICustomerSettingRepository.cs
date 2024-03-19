@@ -35,6 +35,7 @@ namespace DQCustomer.DataAccess.Interfaces
         List<Req_CustomerSearchRequest_ViewModel> GetSearchRequest(string titleCustomer, string customerName, string picName);
         bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity);
         List<Req_CustomerSettingGetRequestNewCustomer_ViewModel> GetRequestNewCustomerByGenID(long customerGenID);
+        bool UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity);
 
     }
 }
