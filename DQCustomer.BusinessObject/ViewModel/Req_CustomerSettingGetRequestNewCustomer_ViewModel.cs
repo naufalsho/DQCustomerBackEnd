@@ -18,5 +18,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICJobTitle { get; set; }
         public string PICEmailAddr { get; set; }
         public string Requestor { get; set; }
+        public string CreateDate { get; set; }
     }
 }

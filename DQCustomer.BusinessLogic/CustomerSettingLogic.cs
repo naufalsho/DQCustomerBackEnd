@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -1063,6 +1064,13 @@ namespace DQCustomer.BusinessLogic
 
                         item.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
                         //item.CustomerName = customerNameParts[0]; 
+
+                        // Konversi format singkat bulan menjadi format lengkap bulan
+                        string formattedDate = item.CreateDate; 
+                        DateTime date = DateTime.ParseExact(formattedDate, "dd MMM yyyy", CultureInfo.InvariantCulture);
+                        string formattedDateFullMonth = date.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture);
+
+                        item.CreateDate = formattedDateFullMonth;
                     }
 
                     result = MessageResult(true, "Success", existing);
