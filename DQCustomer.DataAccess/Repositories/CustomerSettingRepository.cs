@@ -310,11 +310,11 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
-        public bool UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        public bool UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
         {
             _sql = "[cp].[spUpdateApprovalStatusNewCustomer]";
             var vParams = new DynamicParameters();
-            vParams.Add("@CustomerGenID", customerGenID);
+            vParams.Add("@CustomerGenID",objEntity.CustomerGenID);
             vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;

@@ -1083,7 +1083,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        public ResultAction UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
         {
             ResultAction result = new ResultAction();
             try
@@ -1094,6 +1094,7 @@ namespace DQCustomer.BusinessLogic
 
                     Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel dataUpdate = new Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel()
                     {
+                        CustomerGenID = objEntity.CustomerGenID,
                         ApprovalStatus = objEntity.ApprovalStatus,
                         Remark = objEntity.Remark
                     };
@@ -1104,7 +1105,7 @@ namespace DQCustomer.BusinessLogic
                         remark = dataUpdate.Remark
                     };
 
-                    uow.CustomerSettingRepository.UpdateApprovalStatusNewCustomer(customerGenID, dataUpdate);
+                    uow.CustomerSettingRepository.UpdateApprovalStatusNewCustomer(dataUpdate);
                     result = MessageResult(true, "Insert Success!", responseData);
 
                 }

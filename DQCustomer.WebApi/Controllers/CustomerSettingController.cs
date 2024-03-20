@@ -350,11 +350,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpPut("UpdateApprovalStatusNewCustomer")]
-        public IActionResult UpdateApprovalStatusNewCustomer(long customerGenID, Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        public IActionResult UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
         {
             try
             {
-                var result = objCustomerSettingLogic.UpdateApprovalStatusNewCustomer(customerGenID, objEntity);
+                var result = objCustomerSettingLogic.UpdateApprovalStatusNewCustomer(objEntity);
                 return Ok(result);
             }
             catch (Exception ex)
