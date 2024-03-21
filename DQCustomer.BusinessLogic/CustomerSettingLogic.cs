@@ -109,9 +109,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -127,7 +131,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -199,9 +204,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -217,7 +226,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -293,9 +303,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -311,7 +325,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -382,9 +397,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -399,7 +418,8 @@ namespace DQCustomer.BusinessLogic
                                               ModifiedDate = x.ModifiedDate,
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy
+                                              ApprovalBy = x.ApprovalBy,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var noName = (showNoName ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == false).ToList() : new List<CpCustomerSettingDashboard>();
@@ -1066,7 +1086,7 @@ namespace DQCustomer.BusinessLogic
                         //item.CustomerName = customerNameParts[0]; 
 
                         // Konversi format singkat bulan menjadi format lengkap bulan
-                        string formattedDate = item.CreateDate; 
+                        string formattedDate = item.CreateDate;
                         DateTime date = DateTime.ParseExact(formattedDate, "dd MMM yyyy", CultureInfo.InvariantCulture);
                         string formattedDateFullMonth = date.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture);
 
@@ -1119,5 +1139,5 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
     }
-    
+
 }
