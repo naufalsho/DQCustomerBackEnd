@@ -7,9 +7,13 @@ namespace DQCustomer.BusinessObject
     public class CpCustomerSettingDashboard
     {
         public long CustomerID { get; set; }
+        public long JDECustomerID { get; set; }
+        public long CustomerGenID { get; set; } 
+        public string IndustryClass { get; set; }
         public string CustomerCategory { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
+        public bool IsNew { get; set; }
         public string LastProjectName { get; set; }
         public string SalesName { get; set; }
         public bool PMOCustomer { get; set; }
@@ -26,5 +30,6 @@ namespace DQCustomer.BusinessObject
         public long SalesShareableID { get; set; }
         public long ApprovalBy { get; set; }
         public string Status { get; set; }
+        public string ApprovalStatus { get; set; }
     }
 }

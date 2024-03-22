@@ -301,5 +301,23 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }
+        public List<Req_CustomerSettingGetRequestNewCustomer_ViewModel> GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            _sql = "[cp].[spGetRequestNewCustomerByGenID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetRequestNewCustomer_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+
+        public bool UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            _sql = "[cp].[spUpdateApprovalStatusNewCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID",objEntity.CustomerGenID);
+            vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
+        }
     }
 }

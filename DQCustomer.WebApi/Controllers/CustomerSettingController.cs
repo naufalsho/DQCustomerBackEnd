@@ -305,6 +305,7 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
+        // Customer Master
         [HttpGet("GetCustomerSearchRequest")]
         public IActionResult GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName)
         {
@@ -326,6 +327,35 @@ namespace DQCustomer.WebApi.Controllers
             try
             {
                 var result = objCustomerSettingLogic.InsertRequestNewCustomer(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetRequestNewCustomerByGenID")]
+        public IActionResult GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetRequestNewCustomerByGenID(customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateApprovalStatusNewCustomer")]
+        public IActionResult UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.UpdateApprovalStatusNewCustomer(objEntity);
                 return Ok(result);
             }
             catch (Exception ex)

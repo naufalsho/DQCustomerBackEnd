@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -108,9 +109,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -126,7 +131,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -198,9 +204,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -216,7 +226,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -292,9 +303,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -310,7 +325,8 @@ namespace DQCustomer.BusinessLogic
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
                                               ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status
+                                              Status = x.Status,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -381,9 +397,13 @@ namespace DQCustomer.BusinessLogic
                                           select new CpCustomerSettingDashboard
                                           {
                                               CustomerID = x.CustomerID,
+                                              JDECustomerID = x.JDECustomerID,
+                                              CustomerGenID = x.CustomerGenID,
+                                              IndustryClass = x.IndustryClass,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
+                                              IsNew = x.IsNew,
                                               LastProjectName = (y != null) ? y.LastProjectName : null,
                                               SalesName = x.SalesName,
                                               PMOCustomer = x.PMOCustomer,
@@ -398,7 +418,8 @@ namespace DQCustomer.BusinessLogic
                                               ModifiedDate = x.ModifiedDate,
                                               RequestedBy = x.RequestedBy,
                                               SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy
+                                              ApprovalBy = x.ApprovalBy,
+                                              ApprovalStatus = x.ApprovalStatus
                                           }).ToList();
 
                 var noName = (showNoName ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == false).ToList() : new List<CpCustomerSettingDashboard>();
@@ -946,13 +967,13 @@ namespace DQCustomer.BusinessLogic
 
 
                     var data = (from x in existing
-                                              select new Req_CustomerSearchRequest_ViewModel
-                                              {
-                                                  CustomerID = x.CustomerID,
-                                                  TitleCustomer = x.TitleCustomer,
-                                                  CustomerName = x.CustomerName,
-                                                  PICName = x.PICName
-                                              }).ToList();
+                                select new Req_CustomerSearchRequest_ViewModel
+                                {
+                                    CustomerID = x.CustomerID,
+                                    TitleCustomer = x.TitleCustomer,
+                                    CustomerName = x.CustomerName,
+                                    PICName = x.PICName
+                                }).ToList();
 
                     var resultData = new List<Req_CustomerSearchRequest_ViewModel>();
 
@@ -1037,11 +1058,86 @@ namespace DQCustomer.BusinessLogic
             }
             catch (Exception ex)
             {
-                    result = MessageResult(false, ex.Message);
+                result = MessageResult(false, ex.Message);
             }
 
             return result;
 
         }
+
+        public ResultAction GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    var existing = uow.CustomerSettingRepository.GetRequestNewCustomerByGenID(customerGenID);
+
+                    // Manipulasi nilai properti "titleCustomer" dan "customerName"
+                    foreach (var item in existing)
+                    {
+                        // Split nilai "customerName" berdasarkan ", " dan simpan ke dalam array
+                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+
+                        item.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
+                        //item.CustomerName = customerNameParts[0]; 
+
+                        // Konversi format singkat bulan menjadi format lengkap bulan
+                        string formattedDate = item.CreateDate;
+                        DateTime date = DateTime.ParseExact(formattedDate, "dd MMM yyyy", CultureInfo.InvariantCulture);
+                        string formattedDateFullMonth = date.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture);
+
+                        item.CreateDate = formattedDateFullMonth;
+                    }
+
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel dataUpdate = new Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel()
+                    {
+                        CustomerGenID = objEntity.CustomerGenID,
+                        ApprovalStatus = objEntity.ApprovalStatus,
+                        Remark = objEntity.Remark
+                    };
+
+                    var responseData = new
+                    {
+                        approvalStatus = dataUpdate.ApprovalStatus.ToUpper(),
+                        remark = dataUpdate.Remark
+                    };
+
+                    uow.CustomerSettingRepository.UpdateApprovalStatusNewCustomer(dataUpdate);
+                    result = MessageResult(true, "Insert Success!", responseData);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+
+            return result;
+        }
     }
+
 }
