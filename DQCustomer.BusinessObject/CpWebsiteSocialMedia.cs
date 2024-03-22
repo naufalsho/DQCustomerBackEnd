@@ -1,0 +1,15 @@
+using DQCustomer.BusinessObject.Base;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DQCustomer.BusinessObject
+{
+    public class CpWebsiteSocialMedia : BaseEntity
+    {
+        public long? CustomerGenID { get; set; }
+        public long WebsiteSocialMediaID { get; set; }
+        public string? Type { get; set; }
+        public string? Name { get; set; }
+    }
+}

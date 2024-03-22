@@ -52,5 +52,8 @@ namespace DQCustomer.DataAccess
         public ISalesHistoryRepository SalesHistoryRepository => salesHistoryRepository ?? (salesHistoryRepository = new SalesHistoryRepository(_transaction, _context));
         public ICustomerSuccessStoryRepository customerSuccessStoryRepository;
         public ICustomerSuccessStoryRepository CustomerSuccessStoryRepository => customerSuccessStoryRepository ?? (customerSuccessStoryRepository = new CustomerSuccessStoryRepository(_transaction, _context));
-    }
+        public IWebsiteSocialMediaRepository websiteSocialMediaRepository;
+        public IWebsiteSocialMediaRepository WebsiteSocialMediaRepository => websiteSocialMediaRepository ?? (websiteSocialMediaRepository = new WebsiteSocialMediaRepository(_transaction, _context));
+
+   }
 }
