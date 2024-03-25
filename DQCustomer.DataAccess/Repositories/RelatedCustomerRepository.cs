@@ -45,5 +45,12 @@ namespace DQCustomer.DataAccess.Repositories
             var affectedRows = _context.db.Execute(_sql, param: (object)vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return affectedRows > 0;
         }
+
+        public List<CpRelatedCustomer> GetRelatedCustomerByCustomerGenID(long customerGenID)
+        {
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<CpRelatedCustomer>(c => c.CustomerGenID, Operator.Eq, customerGenID));
+            return _context.db.GetList<CpRelatedCustomer>(pg).ToList();
+        }
     }
 }
