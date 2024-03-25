@@ -14,9 +14,9 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string IndustryClass { get; set; }
         public string Website { get; set; }
         public string SocialMedia { get; set; }
-        public string PICPhoneNumber { get; set; }
+        public string PICMobilePhone { get; set; }
         public string PICJobTitle { get; set; }
-        public string PICEmail { get; set; }
+        public string PICEmailAddr { get; set; }
         public int CreatedUserID { get; set; }
         public int ModifyUserID { get; set; }
     }

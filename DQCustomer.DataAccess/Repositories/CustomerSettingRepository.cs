@@ -293,9 +293,9 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@IndustryClass", objEntity.IndustryClass);
             vParams.Add("@Website", objEntity.Website);
             vParams.Add("@SocialMedia", objEntity.SocialMedia);
-            vParams.Add("@PICPhoneNumber", objEntity.PICPhoneNumber);
+            vParams.Add("@PICMobilePhone", objEntity.PICMobilePhone);
             vParams.Add("@PICJobTitle", objEntity.PICJobTitle);
-            vParams.Add("@PICEmail", objEntity.PICEmail);
+            vParams.Add("@PICEmailAddr", objEntity.PICEmailAddr);
             vParams.Add("@CreateUserID", objEntity.CreatedUserID);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);

@@ -1043,9 +1043,9 @@ namespace DQCustomer.BusinessLogic
                         IndustryClass = objEntity.IndustryClass,
                         Website = objEntity.Website,
                         SocialMedia = objEntity.SocialMedia,
-                        PICPhoneNumber = objEntity.PICPhoneNumber,
+                        PICMobilePhone = objEntity.PICMobilePhone,
                         PICJobTitle = objEntity.PICJobTitle,
-                        PICEmail = objEntity.PICEmail,
+                        PICEmailAddr = objEntity.PICEmailAddr,
                         CreatedUserID = objEntity.CreatedUserID,
                         ModifyUserID = objEntity.ModifyUserID
                     };
