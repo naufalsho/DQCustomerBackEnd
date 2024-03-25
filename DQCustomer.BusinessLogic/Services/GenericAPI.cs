@@ -262,7 +262,7 @@ namespace DQCustomer.BusinessLogic.Services
         public string GetCustomerPICName(long customerPICID)
         {
             string result = DownloadString(string.Format("CustomerPIC/customerPICID={0}", customerPICID));
-            CustomerPIC file = JsonConvert.DeserializeObject<CustomerPIC>(result);
+            BusinessObject.Additional.CustomerPIC file = JsonConvert.DeserializeObject<BusinessObject.Additional.CustomerPIC>(result);
             if (file == null)
                 return string.Empty;
             else
@@ -285,7 +285,7 @@ namespace DQCustomer.BusinessLogic.Services
             Employee employee = JsonConvert.DeserializeObject<Employee>(result);
             return employee;
         }
-		public void UpdateCustomerPIC(CustomerPIC obj)
+		public void UpdateCustomerPIC(BusinessObject.Additional.CustomerPIC obj)
         { 
 
             var body = JsonConvert.SerializeObject(obj);
