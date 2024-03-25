@@ -52,9 +52,12 @@ namespace DQCustomer.DataAccess
         public ISalesHistoryRepository SalesHistoryRepository => salesHistoryRepository ?? (salesHistoryRepository = new SalesHistoryRepository(_transaction, _context));
         public ICustomerSuccessStoryRepository customerSuccessStoryRepository;
         public ICustomerSuccessStoryRepository CustomerSuccessStoryRepository => customerSuccessStoryRepository ?? (customerSuccessStoryRepository = new CustomerSuccessStoryRepository(_transaction, _context));
+        public IWebsiteSocialMediaRepository websiteSocialMediaRepository;
+        public IWebsiteSocialMediaRepository WebsiteSocialMediaRepository => websiteSocialMediaRepository ?? (websiteSocialMediaRepository = new WebsiteSocialMediaRepository(_transaction, _context));
         public IAddressOfficeNumberRepository addressOfficeNumberRepository;
         public IAddressOfficeNumberRepository AddressOfficeNumberRepository => addressOfficeNumberRepository ?? (addressOfficeNumberRepository = new AddressOfficeNumberRepository(_transaction, _context));
         public ICustomerPICRepository customerPICRepository;
         public ICustomerPICRepository CustomerPICRepository => customerPICRepository ?? (customerPICRepository = new CustomerPICRepository(_transaction, _context));
     }
+
 }
