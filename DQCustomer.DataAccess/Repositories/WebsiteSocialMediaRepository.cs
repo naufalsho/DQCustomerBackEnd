@@ -28,6 +28,11 @@ namespace DQCustomer.DataAccess.Repositories
             pg.Predicates.Add(Predicates.Field<CpWebsiteSocialMedia>(c => c.WebsiteSocialMediaID, Operator.Eq, Id));
             return _context.db.GetList<CpWebsiteSocialMedia>(pg).FirstOrDefault();
         }
+
+        public bool InsertWebisteSocialMedia(CpWebsiteSocialMedia objEntity) {
+            return true;
+        }
+
         public List <Req_CustomerMasterGetWebsiteSocialMediaByGenID_ViewModel> GetWebsiteSocialMediaByGenID(long customerGenID)
         {
             _sql = "[cp].[spGetWebsiteSocialMediaByGenID]";
@@ -36,5 +41,6 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<Req_CustomerMasterGetWebsiteSocialMediaByGenID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
+        
     }
 }

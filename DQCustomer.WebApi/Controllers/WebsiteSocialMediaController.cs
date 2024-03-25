@@ -19,48 +19,6 @@ namespace DQCustomer.WebApi.Controllers
             string apiGatewayURL = string.Format("{0}:{1}", apiGateway.Value.IP, apiGateway.Value.Port);
             objWebsiteSocialMediaLogic = new WebsiteSocialMediaLogic(appSettings.Value.OMSProd, apiGatewayURL);
         }
-    
-        // [HttpPost]
-        // public IActionResult InsertWebsiteSocialMedia([FromForm] Req_CustomerMasterGetWebsiteSocialMediaByGenID_ViewModel objEntity)
-        // {
-        //     try
-        //     {
-        //         var result = objWebsiteSocialMediaLogic.InsertWebsiteSocialMedia(objEntity);
-        //         return Ok(result);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return BadRequest(ex.Message);
-        //     }
-        // }
-
-        [HttpPut]
-        public IActionResult UpdateWebsiteSocialMedia(CpWebsiteSocialMedia objEntity)
-        {
-            try
-            {
-                var result = objWebsiteSocialMediaLogic.UpdateWebsiteSocialMedia(objEntity);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // [HttpDelete("{WebsiteSocialMediaID}")]
-        // public IActionResult DeleteWebsiteSocialMedia(long WebsiteSocialMediaID)
-        // {
-        //     try
-        //     {
-        //         var result = objWebsiteSocialMediaLogic.DeleteWebsiteSocialMedia(WebsiteSocialMediaID);
-        //         return Ok(result);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return BadRequest(ex.Message);
-        //     }
-        // }
 
         [HttpGet]
         public IActionResult GetWebsiteSocialMedia()
@@ -89,5 +47,49 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        public IActionResult Insert(CpWebsiteSocialMedia objEntity)
+        {
+            try
+            {
+                var result = objWebsiteSocialMediaLogic.Insert(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateWebsiteSocialMedia(CpWebsiteSocialMedia objEntity)
+        {
+            try
+            {
+                var result = objWebsiteSocialMediaLogic.UpdateWebsiteSocialMedia(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteWebsiteSocialMedia(int WebsiteSocialMediaID)
+        {
+            try
+            {
+                var result = objWebsiteSocialMediaLogic.Delete(WebsiteSocialMediaID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+   
     }
 }

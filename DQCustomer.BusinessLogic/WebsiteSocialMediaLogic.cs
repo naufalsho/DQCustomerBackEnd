@@ -75,7 +75,32 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction UpdateWebsiteSocialMedia( CpWebsiteSocialMedia objEntity)
+
+         public ResultAction Insert(CpWebsiteSocialMedia objEntity)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    objEntity.CreateDate = DateTime.Now;
+                    objEntity.ModifyDate = DateTime.Now;
+                    uow.WebsiteSocialMediaRepository.Add(objEntity);
+
+                    result = MessageResult(true, "Insert Success!");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction UpdateWebsiteSocialMedia(CpWebsiteSocialMedia objEntity)
         {
             ResultAction result = new ResultAction();
             try
@@ -93,6 +118,7 @@ namespace DQCustomer.BusinessLogic
                     data.CreateUserID = existing.CreateUserID;
                     data.CreateDate = existing.CreateDate;
                     data.ModifyDate = DateTime.Now;
+
                     uow.WebsiteSocialMediaRepository.Update(data);
                     result = MessageResult(true, "Update Success");
                 }
@@ -115,6 +141,30 @@ namespace DQCustomer.BusinessLogic
                     IUnitOfWork uow = new UnitOfWork(_context);
                     var existing = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByID(WebsiteSocialMediaID);
                     result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+          public ResultAction Delete(int WebsiteSocialMediaID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByID(WebsiteSocialMediaID);
+                    if (existing == null)
+                    {
+                        return result = MessageResult(false, "Data not found");
+                    }
+                    uow.WebsiteSocialMediaRepository.Delete(existing);
+                    result = MessageResult(true, "Delete Success");
                 }
             }
             catch (Exception ex)

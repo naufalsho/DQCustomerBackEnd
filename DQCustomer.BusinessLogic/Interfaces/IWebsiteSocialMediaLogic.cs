@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DQCustomer.BusinessObject;
+using DQCustomer.BusinessObject.ViewModel;
+
 
 namespace DQCustomer.BusinessLogic.Interfaces
 {
@@ -9,9 +11,9 @@ namespace DQCustomer.BusinessLogic.Interfaces
     {
         ResultAction GetWebsiteSocialMedia();
         ResultAction GetWebsiteSocialMediaByGenID(long customerGenID);
-        // ResultAction Insert(CpWebsiteSocialMedia model);
+        ResultAction Insert(CpWebsiteSocialMedia objEntity);
         ResultAction UpdateWebsiteSocialMedia(CpWebsiteSocialMedia objEntity);
-        // ResultAction DeleteWebsiteSocialMedia(long WebsiteSocialMediaID);
+        ResultAction Delete(int WebsiteSocialMediaID);
         ResultAction GetWebsiteSocialMediaByID(long WebsiteSocialMediaID);
 
     }
