@@ -12,5 +12,6 @@ namespace DQCustomer.DataAccess.Interfaces
         List<Req_CustomerSettingGetRelatedCustomer_ViewModel> GetRelatedCustomerByCustomerID(long customerID);
         bool DeleteRelatedCustomer(long Id);
         List<CpRelatedCustomer> GetRelatedCustomerByCustomerGenID(long customerGenID);
+        List<CpRelatedCustomer> GetRelatedCustomerByCustomerIDMoreDetails(long customerID);
     }
 }

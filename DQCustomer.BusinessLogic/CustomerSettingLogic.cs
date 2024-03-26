@@ -1,6 +1,7 @@
 ﻿using DQCustomer.BusinessLogic.Interfaces;
 using DQCustomer.BusinessLogic.Services;
 using DQCustomer.BusinessObject;
+using DQCustomer.BusinessObject.Additional;
 using DQCustomer.BusinessObject.ViewModel;
 using DQCustomer.DataAccess;
 using DQCustomer.DataAccess.Interfaces;
@@ -1136,6 +1137,57 @@ namespace DQCustomer.BusinessLogic
                 result = MessageResult(false, ex.Message);
             }
 
+            return result;
+        }
+
+        public ResultAction GetCustomerDetailsByCustID(long customerID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    var existing = uow.CustomerSettingRepository.GetCustomerDetailsByCustID(customerID);
+                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerId(customerID);
+                    var dataWebSocialMedia = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByCustomerID(customerID);
+                    var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerId(customerID);
+                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
+
+                    // Konversi data dari repository ke ViewModel
+                    var viewModelList = new List<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel>();
+                    foreach (var item in existing)
+                    {
+                        var viewModel = new Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel
+                        {
+                            CustomerID = item.CustomerID,
+                            TitleCustomer = item.TitleCustomer,
+                            CustomerName = item.CustomerName,
+                            IndustryClass = item.IndustryClass,
+                            Requestor = item.Requestor,
+                            CpAddressOfficeNumbers = dataAddresOfficeNum,
+                            CpWebsiteSocialMedias = dataWebSocialMedia,
+                            CustomerPICs = dataCustPIC,
+                            CpRelatedCustomers = dataRelatedCust
+                        };
+
+                        // Manipulasi nilai properti "titleCustomer" dan "customerName"
+                        // Masukkan logika pemisahan "customerName" ke dalam array
+                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+                        viewModel.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
+
+                        // Tambahkan ViewModel ke list
+                        viewModelList.Add(viewModel);
+                    }
+
+                    result = MessageResult(true, "Success", viewModelList);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
             return result;
         }
     }

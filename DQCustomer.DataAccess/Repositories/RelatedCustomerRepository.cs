@@ -52,5 +52,11 @@ namespace DQCustomer.DataAccess.Repositories
             pg.Predicates.Add(Predicates.Field<CpRelatedCustomer>(c => c.CustomerGenID, Operator.Eq, customerGenID));
             return _context.db.GetList<CpRelatedCustomer>(pg).ToList();
         }
+        public List<CpRelatedCustomer> GetRelatedCustomerByCustomerIDMoreDetails(long customerID)
+        {
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<CpRelatedCustomer>(c => c.CustomerID, Operator.Eq, customerID));
+            return _context.db.GetList<CpRelatedCustomer>(pg).ToList();
+        }
     }
 }

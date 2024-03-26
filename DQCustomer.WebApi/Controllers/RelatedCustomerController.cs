@@ -99,6 +99,20 @@ namespace DQCustomer.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        } 
+        
+        [HttpGet("GetRelatedCustomerByCustomerIdMoreDetails")]
+        public IActionResult GetRelatedCustomerByCustomerIDMoreDetails(long customerID)
+        {
+            try
+            {
+                var result = objRelatedCustomerLogic.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

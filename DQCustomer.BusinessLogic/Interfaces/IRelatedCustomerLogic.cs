@@ -13,5 +13,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction DeleteRelatedCustomer(long Id);
         ResultAction GetRelatedCustomerByCustomerID(long customerID);
         ResultAction GetRelatedCustomerByCustomerGenID(long customerGenID);
+        ResultAction GetRelatedCustomerByCustomerIDMoreDetails(long customerID);
     }
 }
