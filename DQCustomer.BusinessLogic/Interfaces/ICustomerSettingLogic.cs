@@ -34,5 +34,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction GetRequestNewCustomerByGenID(long customerGenID);
         ResultAction UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity);
         ResultAction GetCustomerDetailsByCustID(long customerID);
+        ResultAction GetCustomerDetailsByGenID(long customerGenID);
     }
 }

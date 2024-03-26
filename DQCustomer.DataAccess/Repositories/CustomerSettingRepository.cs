@@ -322,10 +322,18 @@ namespace DQCustomer.DataAccess.Repositories
 
         public IEnumerable<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel> GetCustomerDetailsByCustID(long customerID)
         {
-            _sql = "[cp].[spGetCustomerDetails]";
+            _sql = "[cp].[spGetCustomerDetailsByCustID]";
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerID", customerID);
             var output = _context.db.Query<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;     
+        }
+        public IEnumerable<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel> GetCustomerDetailsByGenID(long customerGenID)
+        {
+            _sql = "[cp].[spGetCustomerDetailsByGenID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;     
         }
     }

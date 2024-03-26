@@ -1190,6 +1190,56 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+        public ResultAction GetCustomerDetailsByGenID(long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    var existing = uow.CustomerSettingRepository.GetCustomerDetailsByGenID(customerGenID);
+                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerGenId(customerGenID);
+                    var dataWebSocialMedia = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByGenID(customerGenID);
+                    var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(customerGenID);
+                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerGenID(customerGenID);
+
+                    // Konversi data dari repository ke ViewModel
+                    var viewModelList = new List<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel>();
+                    foreach (var item in existing)
+                    {
+                        var viewModel = new Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel
+                        {
+                            CustomerID = item.CustomerID,
+                            TitleCustomer = item.TitleCustomer,
+                            CustomerName = item.CustomerName,
+                            IndustryClass = item.IndustryClass,
+                            Requestor = item.Requestor,
+                            CpAddressOfficeNumbers = dataAddresOfficeNum,
+                            CpWebsiteSocialMedias = dataWebSocialMedia,
+                            CustomerPICs = dataCustPIC,
+                            CpRelatedCustomers = dataRelatedCust
+                        };
+
+                        // Manipulasi nilai properti "titleCustomer" dan "customerName"
+                        // Masukkan logika pemisahan "customerName" ke dalam array
+                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+                        viewModel.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
+
+                        // Tambahkan ViewModel ke list
+                        viewModelList.Add(viewModel);
+                    }
+
+                    result = MessageResult(true, "Success", viewModelList);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
     }
 
 }
