@@ -39,5 +39,13 @@ namespace DQCustomer.DataAccess.Repositories
             pg.Predicates.Add(Predicates.Field<CustomerPIC>(c => c.CustomerGenID, Operator.Eq, customerGenId));
             return _context.db.GetList<CustomerPIC>(pg).ToList();
         }
+        public List<Req_CustomerPICGetByCustomerIDMoreDetails> GetCustomerPICByCustomerId(long customerID)
+        {
+            _sql = "[cp].[spGetCustomerPICByCustomerIdMoreDetails]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            var output = _context.db.Query<Req_CustomerPICGetByCustomerIDMoreDetails>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
     }
 }

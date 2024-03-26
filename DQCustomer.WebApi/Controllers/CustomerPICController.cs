@@ -95,5 +95,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        [HttpGet("GetCustomerPICByCustomerId")]
+        public IActionResult GetCustomerByCustomerId(long customerId)
+        {
+            try
+            {
+                var result = objCustomerPICLogic.GetCustomerPICByCustomerId(customerId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

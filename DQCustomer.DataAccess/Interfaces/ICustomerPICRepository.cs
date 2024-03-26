@@ -11,5 +11,6 @@ namespace DQCustomer.DataAccess.Interfaces
         bool InsertCustomerPIC(CustomerPIC objEntity);
         CustomerPIC GetCustomerPICById(long Id);
         List<CustomerPIC> GetCustomerPICByCustomerGenId(long customerGenId);
+        List<Req_CustomerPICGetByCustomerIDMoreDetails> GetCustomerPICByCustomerId(long customerId);
     }
 }

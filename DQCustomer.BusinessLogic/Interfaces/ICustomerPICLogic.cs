@@ -13,5 +13,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction Update(long Id, CustomerPIC objEntity);
         ResultAction Delete(long Id);
         ResultAction GetCustomerPICByCustomerGenId(long customerGenId);
+        ResultAction GetCustomerPICByCustomerId(long customerId);
     }
 }

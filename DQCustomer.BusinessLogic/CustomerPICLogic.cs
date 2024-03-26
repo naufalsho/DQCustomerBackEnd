@@ -160,6 +160,25 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+        
+        public ResultAction GetCustomerPICByCustomerId(long customerId)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.CustomerPICRepository.GetCustomerPICByCustomerId(customerId);
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
     }
 
 }
