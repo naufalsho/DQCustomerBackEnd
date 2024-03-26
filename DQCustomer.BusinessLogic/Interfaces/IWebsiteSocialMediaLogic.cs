@@ -15,6 +15,7 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction UpdateWebsiteSocialMedia(CpWebsiteSocialMedia objEntity);
         ResultAction Delete(int WebsiteSocialMediaID);
         ResultAction GetWebsiteSocialMediaByID(long WebsiteSocialMediaID);
+        ResultAction GetWebsiteSocialMediaByCustomerID(long customerID);
 
     }
 }

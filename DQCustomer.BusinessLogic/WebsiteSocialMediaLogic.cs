@@ -74,6 +74,25 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+        
+        public ResultAction GetWebsiteSocialMediaByCustomerID(long customerID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByCustomerID(customerID);
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
 
 
          public ResultAction Insert(CpWebsiteSocialMedia objEntity)

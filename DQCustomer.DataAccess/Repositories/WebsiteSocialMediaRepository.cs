@@ -42,5 +42,12 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
         
+        public List <CpWebsiteSocialMedia> GetWebsiteSocialMediaByCustomerID(long customerID)
+        {
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<CpWebsiteSocialMedia>(c => c.WebsiteSocialMediaID, Operator.Eq, customerID));
+            return _context.db.GetList<CpWebsiteSocialMedia>(pg).ToList();
+        }
+        
     }
 }

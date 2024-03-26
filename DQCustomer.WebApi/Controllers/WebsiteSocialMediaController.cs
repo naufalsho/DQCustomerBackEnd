@@ -46,6 +46,20 @@ namespace DQCustomer.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        } 
+        
+        [HttpGet("GetWebsiteSocialMediaByCustomerID")]
+        public IActionResult GetWebsiteSocialMediaByCustomerID(long customerID)
+        {
+            try
+            {
+                var result = objWebsiteSocialMediaLogic.GetWebsiteSocialMediaByCustomerID(customerID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]

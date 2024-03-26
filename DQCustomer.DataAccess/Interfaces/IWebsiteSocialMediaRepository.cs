@@ -10,6 +10,7 @@ namespace DQCustomer.DataAccess.Interfaces
     {
         bool InsertWebisteSocialMedia(CpWebsiteSocialMedia objEntity);
         CpWebsiteSocialMedia GetWebsiteSocialMediaByID(long Id);
-        List<Req_CustomerMasterGetWebsiteSocialMediaByGenID_ViewModel> GetWebsiteSocialMediaByGenID(long CustomerGenID);  
+        List<Req_CustomerMasterGetWebsiteSocialMediaByGenID_ViewModel> GetWebsiteSocialMediaByGenID(long CustomerGenID);
+        List<CpWebsiteSocialMedia> GetWebsiteSocialMediaByCustomerID(long CustomerID);  
     }
 }
