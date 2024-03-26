@@ -83,11 +83,25 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetAddressOfficeNumberByCustomerGenId")]
-        public IActionResult GetAddressOfficeNumberByCustomerGenId(int customerGenId)
+        public IActionResult GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
             try
             {
                 var result = objAddressOfficeNumberLogic.GetAddressOfficeNumberByCustomerGenId(customerGenId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetAddressOfficeNumberByCustomerId")]
+        public IActionResult GetAddressOfficeNumberByCustomerId(long customerId)
+        {
+            try
+            {
+                var result = objAddressOfficeNumberLogic.GetAddressOfficeNumberByCustomerId(customerId);
                 return Ok(result);
             }
             catch (Exception ex)

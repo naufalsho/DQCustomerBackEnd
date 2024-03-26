@@ -26,17 +26,24 @@ namespace DQCustomer.DataAccess.Repositories
             return true;
         }
 
-        public CpAddressOfficeNumber GetAddressOfficeNumberById(int Id)
+        public CpAddressOfficeNumber GetAddressOfficeNumberById(long Id)
         {
             var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
             pg.Predicates.Add(Predicates.Field<CpAddressOfficeNumber>(c => c.AddressOfficeNumberID, Operator.Eq, Id));
             return _context.db.GetList<CpAddressOfficeNumber>(pg).FirstOrDefault();
         }
 
-        public List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(int customerGenId)
+        public List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
             var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
             pg.Predicates.Add(Predicates.Field<CpAddressOfficeNumber>(c => c.CustomerGenID, Operator.Eq, customerGenId));
+            return _context.db.GetList<CpAddressOfficeNumber>(pg).ToList();
+        }
+        
+        public List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerId(long customerId)
+        {
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<CpAddressOfficeNumber>(c => c.CustomerGenID, Operator.Eq, customerId));
             return _context.db.GetList<CpAddressOfficeNumber>(pg).ToList();
         }
     }

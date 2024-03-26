@@ -10,8 +10,9 @@ namespace DQCustomer.BusinessLogic.Interfaces
     {
         ResultAction GetAddressOfficeNumber();
         ResultAction Insert(CpAddressOfficeNumber objEntity);
-        ResultAction Update(int Id, CpAddressOfficeNumber objEntity);
-        ResultAction Delete(int Id);
-        ResultAction GetAddressOfficeNumberByCustomerGenId(int customerGenId);
+        ResultAction Update(long Id, CpAddressOfficeNumber objEntity);
+        ResultAction Delete(long Id);
+        ResultAction GetAddressOfficeNumberByCustomerGenId(long customerGenId);
+        ResultAction GetAddressOfficeNumberByCustomerId(long customerId);
     }
 }

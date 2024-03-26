@@ -9,7 +9,8 @@ namespace DQCustomer.DataAccess.Interfaces
     public interface IAddressOfficeNumberRepository : IRepository<CpAddressOfficeNumber>
     {
         bool InsertAddressOfficeNumber(CpAddressOfficeNumber objEntity);
-        CpAddressOfficeNumber GetAddressOfficeNumberById(int Id);
-        List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(int customerGenId);
+        CpAddressOfficeNumber GetAddressOfficeNumberById(long Id);
+        List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(long customerGenId);
+        List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerId(long customerId);
     }
 }

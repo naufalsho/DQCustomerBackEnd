@@ -7,8 +7,9 @@ namespace DQCustomer.BusinessObject
 {
     public class CpAddressOfficeNumber : BaseEntity
     {
-        public int? AddressOfficeNumberID { get; set; }
-        public int? CustomerGenID { get; set; }
+        public long AddressOfficeNumberID { get; set; }
+        public long? CustomerGenID { get; set; }
+        public long? CustomerID { get; set; }
         public string? FullAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public string? AlternateNumber {get; set;}

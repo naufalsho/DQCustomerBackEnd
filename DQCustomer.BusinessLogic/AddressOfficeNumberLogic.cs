@@ -87,7 +87,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction Update(int Id, CpAddressOfficeNumber objEntity)
+        public ResultAction Update(long Id, CpAddressOfficeNumber objEntity)
         {
             ResultAction result = new ResultAction();
             try
@@ -118,7 +118,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction Delete(int Id)
+        public ResultAction Delete(long Id)
         {
             ResultAction result = new ResultAction();
             try
@@ -142,7 +142,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction GetAddressOfficeNumberByCustomerGenId(int customerGenId)
+        public ResultAction GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
             ResultAction result = new ResultAction();
             try
@@ -151,6 +151,25 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
                     var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerGenId(customerGenId);
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction GetAddressOfficeNumberByCustomerId(long customerId)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerId(customerId);
                     result = MessageResult(true, "Success", existing);
                 }
             }
