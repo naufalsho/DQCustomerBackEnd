@@ -10,6 +10,7 @@ namespace DQCustomer.BusinessObject
         public long AddressOfficeNumberID { get; set; }
         public long? CustomerGenID { get; set; }
         public long? CustomerID { get; set; }
+        public string? Type { get; set; }
         public string? FullAddress { get; set; }
         public string? PhoneNumber { get; set; }
         public string? AlternateNumber {get; set;}
