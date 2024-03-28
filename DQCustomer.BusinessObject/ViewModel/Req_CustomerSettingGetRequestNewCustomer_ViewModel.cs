@@ -6,6 +6,8 @@ namespace DQCustomer.BusinessObject.ViewModel
 {
     public class Req_CustomerSettingGetRequestNewCustomer_ViewModel
     {
+        public long CustomerGenID { get; set; }
+        public int CustomerID { get; set; }
         public string TitleCustomer { get; set; }
         public string CustomerName { get; set; }
         public string PICName { get; set; }
@@ -19,5 +21,8 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICEmailAddr { get; set; }
         public string Requestor { get; set; }
         public string CreateDate { get; set; }
+        public string IsNew { get; set; }
+        public string ApprovalStatus { get; set; }
+
     }
 }
