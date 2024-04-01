@@ -298,6 +298,7 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@PICEmailAddr", objEntity.PICEmailAddr);
             vParams.Add("@CreateUserID", objEntity.CreatedUserID);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+            vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }

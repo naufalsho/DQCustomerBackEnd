@@ -19,5 +19,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICEmailAddr { get; set; }
         public int CreatedUserID { get; set; }
         public int ModifyUserID { get; set; }
+        public string ApprovalStatus { get; set; }
     }
 }

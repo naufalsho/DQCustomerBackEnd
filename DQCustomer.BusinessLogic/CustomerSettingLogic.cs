@@ -1048,7 +1048,8 @@ namespace DQCustomer.BusinessLogic
                         PICJobTitle = objEntity.PICJobTitle,
                         PICEmailAddr = objEntity.PICEmailAddr,
                         CreatedUserID = objEntity.CreatedUserID,
-                        ModifyUserID = objEntity.ModifyUserID
+                        ModifyUserID = objEntity.ModifyUserID,
+                        ApprovalStatus = objEntity.ApprovalStatus
                     };
 
                     uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer);
