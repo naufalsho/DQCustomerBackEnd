@@ -1170,7 +1170,11 @@ namespace DQCustomer.BusinessLogic
                             CpAddressOfficeNumbers = dataAddresOfficeNum,
                             CpWebsiteSocialMedias = dataWebSocialMedia,
                             CustomerPICs = dataCustPIC,
-                            CpRelatedCustomers = dataRelatedCust
+                            CpRelatedCustomers = dataRelatedCust,
+                            CreateDate = item.CreateDate,
+                            CreateUserID = item.CreateUserID,
+                            ModifyDate = item.ModifyDate,
+                            ModifyUserID = item.ModifyUserID
                         };
 
                         // Manipulasi nilai properti "titleCustomer" dan "customerName"
