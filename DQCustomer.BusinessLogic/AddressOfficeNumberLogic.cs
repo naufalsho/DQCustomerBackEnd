@@ -72,6 +72,7 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
+                    objEntity.Type = objEntity.Type.ToUpper();
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
                     uow.AddressOfficeNumberRepository.Add(objEntity);

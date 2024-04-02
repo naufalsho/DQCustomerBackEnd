@@ -35,16 +35,22 @@ namespace DQCustomer.DataAccess.Repositories
 
         public List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpAddressOfficeNumber>(c => c.CustomerGenID, Operator.Eq, customerGenId));
-            return _context.db.GetList<CpAddressOfficeNumber>(pg).ToList();
+            _sql = "[cp].[spGetAddressOfficeNumberById]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenId);
+            vParams.Add("@CustomerID", null);
+            var output = _context.db.Query<CpAddressOfficeNumber>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
         }
         
         public List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerId(long customerId)
         {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpAddressOfficeNumber>(c => c.CustomerGenID, Operator.Eq, customerId));
-            return _context.db.GetList<CpAddressOfficeNumber>(pg).ToList();
+            _sql = "[cp].[spGetAddressOfficeNumberById]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", null);
+            vParams.Add("@CustomerID", customerId);
+            var output = _context.db.Query<CpAddressOfficeNumber>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
         }
     }
 }
