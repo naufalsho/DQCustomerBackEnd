@@ -337,5 +337,17 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;     
         }
+
+        public bool UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity)
+        {
+            _sql = "[cp].[spUpdateIndustryClassByID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@CustomerGenID", customerGenID);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
+        }
+
     }
 }

@@ -72,10 +72,16 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
+                    var existingCustGenID = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerGenId((long)objEntity.CustomerGenID);
+                    var existingCustID = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerId((long)objEntity.CustomerID);
+
                     objEntity.Type = objEntity.Type.ToUpper();
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
-                    uow.AddressOfficeNumberRepository.Add(objEntity);
+                    if(existingCustGenID != null & existingCustID != null) 
+                    {
+                        uow.AddressOfficeNumberRepository.Add(objEntity);
+                    }
 
                     result = MessageResult(true, "Insert Success!");
 

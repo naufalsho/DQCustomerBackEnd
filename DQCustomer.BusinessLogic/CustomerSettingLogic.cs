@@ -1245,6 +1245,34 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+
+        public ResultAction UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    Req_CustomerSettingUpdateIndustryClass_ViewModel dataUpdate = new Req_CustomerSettingUpdateIndustryClass_ViewModel()
+                    {
+                        IndustryClass = objEntity.IndustryClass
+                    };
+
+                    uow.CustomerSettingRepository.UpdateIndustryClassByID(customerID, customerGenID, dataUpdate);
+                    result = MessageResult(true, "Update Success!");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+
+            return result;
+        }
     }
 
 }

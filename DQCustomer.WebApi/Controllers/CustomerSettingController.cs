@@ -391,5 +391,20 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPut("UpdateIndustryClassByID")]
+        public IActionResult UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.UpdateIndustryClassByID(customerID, customerGenID, objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
