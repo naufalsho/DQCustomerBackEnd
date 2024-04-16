@@ -85,7 +85,7 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? isNew = null)
         {
             _sql = "[cp].[spGetCustomerSettingAllAccounts]";
             var vParams = new DynamicParameters();
@@ -94,6 +94,7 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
+            vParams.Add("@IsNew", isNew);
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;

@@ -122,11 +122,11 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpGet("GetCustomerSettingAllAccount")]
-        public IActionResult GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public IActionResult GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingAllAccount(page, pageSize, column, sorting, search, salesID, myAccount, pmoCustomer, blacklist, holdshipment, showNoName, showNamed, showShareable);
+                var result = objCustomerSettingLogic.GetCustomerSettingAllAccount(page, pageSize, column, sorting, search, salesID, myAccount, pmoCustomer, blacklist, holdshipment, showNoName, showNamed, showShareable, isNew);
                 return Ok(result);
             }
             catch (Exception ex)
