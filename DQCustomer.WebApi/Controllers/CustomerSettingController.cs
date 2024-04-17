@@ -307,11 +307,11 @@ namespace DQCustomer.WebApi.Controllers
 
         // Customer Master
         [HttpGet("GetCustomerSearchRequest")]
-        public IActionResult GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName)
+        public IActionResult GetSearchRequest(int page, int pageSize, string column, string sorting, string customerName, string picName)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetSearchRequest(page, pageSize, column, sorting, titleCustomer, customerName, picName);
+                var result = objCustomerSettingLogic.GetSearchRequest(page, pageSize, column, sorting, customerName, picName);
                 return Ok(result);
             }
             catch (Exception ex)

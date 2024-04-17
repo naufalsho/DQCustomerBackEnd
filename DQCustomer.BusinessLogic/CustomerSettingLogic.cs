@@ -930,7 +930,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingSearchRequest GetSearchRequest(int page, int pageSize, string column, string sorting, string titleCustomer, string customerName, string picName)
+        public CpCustomerSettingSearchRequest GetSearchRequest(int page, int pageSize, string column, string sorting, string customerName, string picName)
         {
             //ResultAction result = new ResultAction();
             //try
@@ -964,14 +964,13 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    var existing = uow.CustomerSettingRepository.GetSearchRequest(titleCustomer, customerName, picName);
+                    var existing = uow.CustomerSettingRepository.GetSearchRequest( customerName, picName);
 
 
                     var data = (from x in existing
                                 select new Req_CustomerSearchRequest_ViewModel
                                 {
                                     CustomerID = x.CustomerID,
-                                    TitleCustomer = x.TitleCustomer,
                                     CustomerName = x.CustomerName,
                                     PICName = x.PICName
                                 }).ToList();

@@ -6,7 +6,6 @@ namespace DQCustomer.BusinessObject.ViewModel
     public class Req_CustomerSearchRequest_ViewModel
     {
         public long CustomerID { get; set; }
-        public string TitleCustomer { get; set; }
         public string CustomerName { get; set; }
         public string PICName { get; set; }
         public bool Blacklist { get; set; }
