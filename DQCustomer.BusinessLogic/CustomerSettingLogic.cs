@@ -1035,7 +1035,6 @@ namespace DQCustomer.BusinessLogic
 
                     Req_CustomerSettingInsertRequestCustomer_ViewModel newCustomer = new Req_CustomerSettingInsertRequestCustomer_ViewModel()
                     {
-                        TitleCustomer = objEntity.TitleCustomer,
                         CustomerName = objEntity.CustomerName,
                         PICName = objEntity.PICName,
                         CustomerAddress = objEntity.CustomerAddress,
@@ -1048,7 +1047,15 @@ namespace DQCustomer.BusinessLogic
                         PICEmailAddr = objEntity.PICEmailAddr,
                         CreatedUserID = objEntity.CreatedUserID,
                         ModifyUserID = objEntity.ModifyUserID,
-                        ApprovalStatus = objEntity.ApprovalStatus
+                        ApprovalStatus = objEntity.ApprovalStatus,
+                        CustomerBusinessName = objEntity.CustomerBusinessName,
+                        HoldingCompName = objEntity.HoldingCompName,
+                        City = objEntity.City,
+                        Country = objEntity.Country,
+                        ZipCode = objEntity.ZipCode,
+                        NIB = objEntity.NIB,
+                        NPWPNumber = objEntity.NPWPNumber,
+                        NPWPName = objEntity.NPWPName
                     };
 
                     uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer);
