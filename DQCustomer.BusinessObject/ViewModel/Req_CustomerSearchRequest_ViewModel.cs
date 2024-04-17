@@ -9,5 +9,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string TitleCustomer { get; set; }
         public string CustomerName { get; set; }
         public string PICName { get; set; }
+        public bool Blacklist { get; set; }
+        public bool Holdshipment { get; set; }
     }
 }
