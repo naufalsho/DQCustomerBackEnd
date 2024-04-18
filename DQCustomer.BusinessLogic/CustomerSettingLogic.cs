@@ -972,7 +972,10 @@ namespace DQCustomer.BusinessLogic
                                 {
                                     CustomerID = x.CustomerID,
                                     CustomerName = x.CustomerName,
-                                    PICName = x.PICName
+                                    PICName = x.PICName,
+                                    Blacklist = x.Blacklist,
+                                    Holdshipment = x.Holdshipment,
+                                    Similarity = x.Similarity
                                 }).ToList();
 
                     var resultData = new List<Req_CustomerSearchRequest_ViewModel>();

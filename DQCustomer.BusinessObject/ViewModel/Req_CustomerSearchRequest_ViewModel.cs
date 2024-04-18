@@ -10,5 +10,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICName { get; set; }
         public bool Blacklist { get; set; }
         public bool Holdshipment { get; set; }
+        public string Similarity { get; set; }
     }
 }
