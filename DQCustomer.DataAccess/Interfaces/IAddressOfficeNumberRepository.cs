@@ -12,5 +12,6 @@ namespace DQCustomer.DataAccess.Interfaces
         CpAddressOfficeNumber GetAddressOfficeNumberById(long Id);
         List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerGenId(long customerGenId);
         List<CpAddressOfficeNumber> GetAddressOfficeNumberByCustomerId(long customerId);
+        List<CpAddressOfficeNumber> GetAddressOfficeNumberById(long customerId, long customerGenId);
     }
 }

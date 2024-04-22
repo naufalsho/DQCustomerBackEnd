@@ -38,7 +38,7 @@ namespace DQCustomer.DataAccess.Repositories
             _sql = "[cp].[spGetAddressOfficeNumberById]";
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerGenID", customerGenId);
-            vParams.Add("@CustomerID", null);
+            vParams.Add("@CustomerID", 0);
             var output = _context.db.Query<CpAddressOfficeNumber>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
@@ -47,7 +47,17 @@ namespace DQCustomer.DataAccess.Repositories
         {
             _sql = "[cp].[spGetAddressOfficeNumberById]";
             var vParams = new DynamicParameters();
-            vParams.Add("@CustomerGenID", null);
+            vParams.Add("@CustomerGenID", 0);
+            vParams.Add("@CustomerID", customerId);
+            var output = _context.db.Query<CpAddressOfficeNumber>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+        
+        public List<CpAddressOfficeNumber> GetAddressOfficeNumberById(long customerId, long customerGenId)
+        {   
+            _sql = "[cp].[spGetAddressOfficeNumberById]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenId);
             vParams.Add("@CustomerID", customerId);
             var output = _context.db.Query<CpAddressOfficeNumber>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;

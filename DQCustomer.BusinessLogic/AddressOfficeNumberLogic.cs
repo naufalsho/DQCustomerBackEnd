@@ -186,6 +186,25 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+
+        public ResultAction GetAddressOfficeNumberById(long customerId, long customerGenId)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(customerId, customerGenId);
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
     }
 
 }

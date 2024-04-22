@@ -109,5 +109,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetAddressOfficeNumberById")]
+        public IActionResult GetAddressOfficeNumberById(long customerId, long customerGenId)
+        {
+            try
+            {
+                var result = objAddressOfficeNumberLogic.GetAddressOfficeNumberById(customerId, customerGenId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -1160,8 +1160,8 @@ namespace DQCustomer.BusinessLogic
                     IUnitOfWork uow = new UnitOfWork(_context);
 
                     var existing = uow.CustomerSettingRepository.GetCustomerDetailsByCustID(customerID);
-                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerId(customerID);
-                    var dataWebSocialMedia = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByCustomerID(customerID);
+                    //params address = (CustomerID, CustomerGenID)
+                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(customerID, 0);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerId(customerID);
                     var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
 
@@ -1172,12 +1172,10 @@ namespace DQCustomer.BusinessLogic
                         var viewModel = new Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel
                         {
                             CustomerID = item.CustomerID,
-                            TitleCustomer = item.TitleCustomer,
                             CustomerName = item.CustomerName,
                             IndustryClass = item.IndustryClass,
                             Requestor = item.Requestor,
                             CpAddressOfficeNumbers = dataAddresOfficeNum,
-                            CpWebsiteSocialMedias = dataWebSocialMedia,
                             CustomerPICs = dataCustPIC,
                             CpRelatedCustomers = dataRelatedCust,
                             CreateDate = item.CreateDate,
@@ -1185,11 +1183,6 @@ namespace DQCustomer.BusinessLogic
                             ModifyDate = item.ModifyDate,
                             ModifyUserID = item.ModifyUserID
                         };
-
-                        // Manipulasi nilai properti "titleCustomer" dan "customerName"
-                        // Masukkan logika pemisahan "customerName" ke dalam array
-                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
-                        viewModel.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
 
                         // Tambahkan ViewModel ke list
                         viewModelList.Add(viewModel);
@@ -1214,8 +1207,8 @@ namespace DQCustomer.BusinessLogic
                     IUnitOfWork uow = new UnitOfWork(_context);
 
                     var existing = uow.CustomerSettingRepository.GetCustomerDetailsByGenID(customerGenID);
-                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerGenId(customerGenID);
-                    var dataWebSocialMedia = uow.WebsiteSocialMediaRepository.GetWebsiteSocialMediaByGenID(customerGenID);
+                    //params address = (CustomerID, CustomerGenID)
+                    var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(0, customerGenID);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(customerGenID);
                     var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerGenID(customerGenID);
 
@@ -1225,21 +1218,18 @@ namespace DQCustomer.BusinessLogic
                     {
                         var viewModel = new Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel
                         {
-                            CustomerID = item.CustomerID,
-                            TitleCustomer = item.TitleCustomer,
+                            CustomerGenID = item.CustomerGenID,
                             CustomerName = item.CustomerName,
                             IndustryClass = item.IndustryClass,
                             Requestor = item.Requestor,
                             CpAddressOfficeNumbers = dataAddresOfficeNum,
-                            CpWebsiteSocialMedias = dataWebSocialMedia,
                             CustomerPICs = dataCustPIC,
-                            CpRelatedCustomers = dataRelatedCust
+                            CpRelatedCustomers = dataRelatedCust,
+                            CreateDate = item.CreateDate,
+                            CreateUserID = item.CreateUserID,
+                            ModifyDate = item.ModifyDate,
+                            ModifyUserID = item.ModifyUserID
                         };
-
-                        // Manipulasi nilai properti "titleCustomer" dan "customerName"
-                        // Masukkan logika pemisahan "customerName" ke dalam array
-                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
-                        viewModel.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
 
                         // Tambahkan ViewModel ke list
                         viewModelList.Add(viewModel);

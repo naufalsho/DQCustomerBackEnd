@@ -14,5 +14,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction Delete(long Id);
         ResultAction GetAddressOfficeNumberByCustomerGenId(long customerGenId);
         ResultAction GetAddressOfficeNumberByCustomerId(long customerId);
+        ResultAction GetAddressOfficeNumberById(long customerId, long customerGenId);
     }
 }

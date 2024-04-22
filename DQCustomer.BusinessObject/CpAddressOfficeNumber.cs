@@ -15,5 +15,8 @@ namespace DQCustomer.BusinessObject
         public string? PhoneNumber { get; set; }
         public string? AlternateNumber {get; set;}
         public string? FaxNumber { get; set; }
+        public string? Country { get; set; }
+        public string? City { get; set; }
+        public string? ZipCode { get; set; }
     }
 }
