@@ -24,6 +24,7 @@ namespace DQCustomer.DataAccess.Interfaces
         IWebsiteSocialMediaRepository WebsiteSocialMediaRepository {get;}
         IAddressOfficeNumberRepository AddressOfficeNumberRepository { get; }
         ICustomerPICRepository CustomerPICRepository { get; }
+        ICustomerCardFileRepository CustomerCardFileRepository { get; }
 
     }
 }

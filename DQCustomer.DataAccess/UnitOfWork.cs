@@ -58,6 +58,8 @@ namespace DQCustomer.DataAccess
         public IAddressOfficeNumberRepository AddressOfficeNumberRepository => addressOfficeNumberRepository ?? (addressOfficeNumberRepository = new AddressOfficeNumberRepository(_transaction, _context));
         public ICustomerPICRepository customerPICRepository;
         public ICustomerPICRepository CustomerPICRepository => customerPICRepository ?? (customerPICRepository = new CustomerPICRepository(_transaction, _context));
+        public ICustomerCardFileRepository customerCardFileRepository;
+        public ICustomerCardFileRepository CustomerCardFileRepository => customerCardFileRepository ?? (customerCardFileRepository = new CustomerCardFileRepository(_transaction, _context));
     }
 
 }
