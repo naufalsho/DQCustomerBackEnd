@@ -72,13 +72,12 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    var existingCustGenID = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerGenId((long)objEntity.CustomerGenID);
-                    var existingCustID = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberByCustomerId((long)objEntity.CustomerID);
+                    var existingID = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById((long)objEntity.CustomerID, (long)objEntity.CustomerGenID);
 
                     objEntity.Type = objEntity.Type.ToUpper();
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
-                    if(existingCustGenID != null & existingCustID != null) 
+                    if(existingID != null) 
                     {
                         uow.AddressOfficeNumberRepository.Add(objEntity);
                     }
