@@ -148,6 +148,30 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
+        public ResultAction DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(Id);
+                    if (existing == null)
+                    {
+                        return result = MessageResult(false, "Data not found");
+                    }
+                    uow.AddressOfficeNumberRepository.DeleteAddressOfficeNumberByID(Id, customerID, customerGenID);
+                    result = MessageResult(true, "Delete Success");
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
         public ResultAction GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
             ResultAction result = new ResultAction();

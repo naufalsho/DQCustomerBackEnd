@@ -22,8 +22,16 @@ namespace DQCustomer.DataAccess.Repositories
             this._transaction = transaction;
         }
 
-        public bool InsertAddressOfficeNumber(CpAddressOfficeNumber objEntity) {
-            return true;
+        public bool DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID)
+        {
+            _sql = "[cp].[spDeleteAddressOfficeNumberById]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@AddressOfficeNumberID", Id);
+            vParams.Add("@CustomerGenID", customerGenID);
+            vParams.Add("@CustomerID", customerID);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
         }
 
         public CpAddressOfficeNumber GetAddressOfficeNumberById(long Id)

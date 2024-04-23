@@ -82,6 +82,20 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
+        [HttpDelete("DeleteByID/{AddressOfficeNumberID}")]
+        public IActionResult DeleteAddressOfficeNumberByID(int AddressOfficeNumberID, long customerID, long customerGenID)
+        {
+            try
+            {
+                var result = objAddressOfficeNumberLogic.DeleteAddressOfficeNumberByID(AddressOfficeNumberID, customerID, customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("GetAddressOfficeNumberByCustomerGenId/{customerGenId}")]
         public IActionResult GetAddressOfficeNumberByCustomerGenId(long customerGenId)
         {
