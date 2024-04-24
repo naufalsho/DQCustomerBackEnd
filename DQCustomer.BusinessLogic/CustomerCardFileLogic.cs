@@ -7,6 +7,7 @@ using System.Text;
 using DQCustomer.BusinessLogic.Interfaces;
 using DQCustomer.BusinessLogic.Services;
 using DQCustomer.BusinessObject;
+using DQCustomer.BusinessObject.Additional;
 using DQCustomer.BusinessObject.ViewModel;
 using DQCustomer.DataAccess;
 using DQCustomer.DataAccess.Interfaces;
@@ -40,110 +41,6 @@ namespace DQCustomer.BusinessLogic
             return result;
 
         }
-        public ResultAction DeleteCustomerCardFile(long Id)
-        {
-            ResultAction result = new ResultAction();
-            try
-            {
-                using (_context)
-                {
-                    IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.RelatedFileRepository.GetRelatedFileById(Id);
-                    if (existing == null)
-                    {
-                        return result = MessageResult(false, "Data not found");
-                    }
-                    uow.RelatedFileRepository.Delete(existing);
-                    result = MessageResult(true, "Delete Success");
-                }
-            }
-            catch (Exception ex)
-            {
-                result = MessageResult(false, ex.Message);
-            }
-            return result;
-        }
-
-        
-        public ResultAction InsertCustomerCardFile(Req_CustomerSettingInsertRelatedFile_ViewModel objEntity)
-        {
-            ResultAction result = new ResultAction();
-
-            try
-            {
-                using (_context)
-                {
-                    IUnitOfWork uow = new UnitOfWork(_context);
-
-                    //var driveLetter = "Z:";
-                    //var pathFolder = Path.Combine(driveLetter, "BHP\\DataQuality\\CustomerProfileRelated");
-                    //var pathFolder = "Z:";
-
-                    var pathFolder = uow.RelatedFileRepository.PathCustomerProfileRelated();
-                    if (pathFolder == null)
-                    {
-                        return MessageResult(false, "Path not found!");
-                    }
-                    var setName = objEntity.DocumentName;
-                    var fileName = objEntity.File.FileName;
-                    var documentType = Path.GetExtension(fileName);
-
-                    var filePath = Path.Combine(pathFolder, setName + documentType);
-
-                    var existing = uow.RelatedFileRepository.GetRelatedFileByDocumentPath(filePath);
-                    string newFilePath = null;
-
-                    if (existing != null)
-                    {
-                        int number = 1;
-
-                        while (true)
-                        {
-                            var newFileName = $"{setName}({number})";
-                            newFilePath = Path.Combine(pathFolder, newFileName + documentType);
-
-                            var newExisting = uow.RelatedFileRepository.GetRelatedFileByDocumentPath(newFilePath);
-
-                            if (newExisting == null)
-                            {
-                                fileName = newFileName;
-                                filePath = newFilePath; // Update filePath with the new file path
-                                break;
-                            }
-                            number++;
-                        }
-                    }
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                    {
-                        objEntity.File.CopyTo(fileStream);
-                    }
-
-                    var insertModel = new CpRelatedFile
-                    {
-                        RFileID = 0,
-                        CustomerID = objEntity.CustomerID,
-                        DocumentName = setName + documentType,
-                        DocumentType = objEntity.DocumentType,
-                        DocumentPath = filePath,
-                        CreateDate = DateTime.Now,
-                        CreateUserID = objEntity.CreateUserID,
-                        ModifyDate = DateTime.Now,
-                        ModifyUserID = objEntity.ModifyUserID
-                    };
-
-                    uow.RelatedFileRepository.Add(insertModel);
-
-                    result = MessageResult(true, "Insert Data Success!");
-                }
-            }
-            catch (Exception ex)
-            {
-                result = MessageResult(false, ex.Message);
-            }
-            return result;
-        }
-
         public ResultAction GetCustomerCardFileByCustomerGenID(long customerGenID)
         {
             ResultAction result = new ResultAction();
@@ -152,8 +49,22 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
-                    result = MessageResult(true, "Success", existing);
+                    var existing = uow.CustomerSettingRepository.GetCustomerDetailsByGenID(customerGenID);
+
+                    if (existing.Count() == 0)
+                    {
+                        return MessageResult(false, "ID not found!");
+                    }
+
+                    var responseData = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
+
+                    if (responseData.Count() == 0)
+                    {
+                        return MessageResult(false, "Data not found!");
+                    }
+
+
+                    result = MessageResult(true, "Success", responseData);
                 }
             }
             catch (Exception ex)
@@ -161,6 +72,54 @@ namespace DQCustomer.BusinessLogic
                 result = MessageResult(false, ex.Message);
             }
             return result;
+        }
+
+        public ResultAction InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity)
+        {
+            ResultAction result = new ResultAction();
+
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+
+                    // Mendapatkan ekstensi dari file
+                    byte[] imageFile;
+                    string extension = objEntity.File.ContentType;
+
+                    var existing = uow.CustomerSettingRepository.GetCustomerDetailsByGenID(objEntity.CustomerGenID);
+                    if (existing != null)
+                    {
+
+                        // Mengonversi file stream menjadi nilai hexadesimal
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            objEntity.File.CopyTo(memoryStream);
+                            imageFile = memoryStream.ToArray();
+                        }
+
+                        var insertModel = new Req_CustomerCardFileInsert_ViewModel()
+                        {
+                            CustomerGenID = objEntity.CustomerGenID,
+                            LastModifyUserID = objEntity.LastModifyUserID
+                        };
+
+                        uow.CustomerCardFileRepository.InsertCustomerCardFile(insertModel, extension, imageFile);
+                        result = MessageResult(true, "Insert Success!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction DeleteCustomerCardFile(long customerCardID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

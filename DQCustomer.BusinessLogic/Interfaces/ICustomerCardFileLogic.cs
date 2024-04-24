@@ -8,8 +8,8 @@ namespace DQCustomer.BusinessLogic.Interfaces
 {
     public interface ICustomerCardFileLogic
     {
-        ResultAction InsertCustomerCardFile(Req_CustomerSettingInsertRelatedFile_ViewModel objEntity);
-        ResultAction DeleteCustomerCardFile(long Id);
         ResultAction GetCustomerCardFileByCustomerGenID(long customerGenID);
+        ResultAction InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity);
+        ResultAction DeleteCustomerCardFile(long customerCardID);
     }
 }

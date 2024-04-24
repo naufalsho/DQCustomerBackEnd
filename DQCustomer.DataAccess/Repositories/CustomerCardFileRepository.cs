@@ -25,30 +25,35 @@ namespace DQCustomer.DataAccess.Repositories
 
         public List<Req_CustomerCardFileGetByCustomerGenID_ViewModel> GetCustomerCardFileByCustomerGenID(long customerGenID)
         {
-            _sql = "[cp].[spGetCustomerCardFileByCustomerGenId]";
+            _sql = "[cp].[spGetCustomerCardFileByCustomerGenID]";
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerGenID", customerGenID);
             var output = _context.db.Query<Req_CustomerCardFileGetByCustomerGenID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
 
-        public CpRelatedFile GetRelatedFileById(long Id)
+        public bool InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity, string extension, byte[] imageFile)
         {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpRelatedFile>(c => c.RFileID, Operator.Eq, Id));
-            return _context.db.GetList<CpRelatedFile>(pg).FirstOrDefault();
+            _sql = "[cp].[spInsertCustomerCardFileByGenID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", objEntity.CustomerGenID);
+            vParams.Add("@ImageFile", imageFile);
+            vParams.Add("@Extension", extension);
+            vParams.Add("@LastModifyUserID", objEntity.LastModifyUserID);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
         }
-        public CpRelatedFile GetRelatedFileByDocumentPath(string documentPath)
+        
+        public bool DeleteCustomerCardFile(long CustomerCardID)
         {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpRelatedFile>(c => c.DocumentPath, Operator.Eq, documentPath));
-            return _context.db.GetList<CpRelatedFile>(pg).FirstOrDefault();
+            _sql = "[cp].[spInsertRequestNewCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerCardID", CustomerCardID);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1 ? true : false;
         }
-        public string PathCustomerProfileRelated()
-        {
-            _sql = "[cp].[spGetPathCustomerProfileRelated]";
-            var output = _context.db.Query<string>(_sql, param: null, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).FirstOrDefault();
-            return output;
-        }
+
     }
 }

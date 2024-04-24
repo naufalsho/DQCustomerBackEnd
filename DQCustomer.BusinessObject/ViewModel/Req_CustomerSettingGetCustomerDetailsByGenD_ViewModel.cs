@@ -11,7 +11,18 @@ namespace DQCustomer.BusinessObject.ViewModel
         public long CustomerGenID { get; set; }
         public string CustomerName { get; set; }
         public string IndustryClass { get; set; }
+        public string CustomerBusinessName { get; set; }
+        public string HoldingCompName { get; set; }
+        public string Addr1 { get; set; }
+        public string Country { get; set; }
+        public string ZipCode { get; set; }
+        public string NIB { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Website { get; set; }
+        public string CoorporateEmail { get; set; }
+        public string NPWPNumber { get; set; }
         public string Requestor { get; set; }
+        public List<Req_CustomerCardFileGetByCustomerGenID_ViewModel> req_CustomerCardFileGetByCustomerGenID_ViewModels { get; set; }
         public List<CpAddressOfficeNumber> CpAddressOfficeNumbers { get; set; }
         public List<CustomerPIC> CustomerPICs { get; set; }
         public List<CpRelatedCustomer> CpRelatedCustomers { get; set; }

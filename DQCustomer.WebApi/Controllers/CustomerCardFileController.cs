@@ -14,11 +14,11 @@ namespace DQCustomer.WebApi.Controllers
     [ApiController]
     public class CustomerCardFileController : ControllerBase
     {
-        private ICustomerCardFileLogic objRelatedFileLogic;
+        private ICustomerCardFileLogic objCustomerCardFileLogic;
         public CustomerCardFileController(IOptions<DatabaseConfiguration> appSettings, IOptions<ApiGatewayConfig> apiGateway)
         {
             string apiGatewayURL = string.Format("{0}:{1}", apiGateway.Value.IP, apiGateway.Value.Port);
-            objRelatedFileLogic = new CustomerCardFileLogic(appSettings.Value.OMSProd, apiGatewayURL);
+            objCustomerCardFileLogic = new CustomerCardFileLogic(appSettings.Value.OMSProd, apiGatewayURL);
         }
         //[HttpGet]
         //public IActionResult GetRelatedFile()
@@ -77,7 +77,35 @@ namespace DQCustomer.WebApi.Controllers
         {
             try
             {
-                var result = objRelatedFileLogic.GetCustomerCardFileByCustomerGenID(customerGenID);
+                var result = objCustomerCardFileLogic.GetCustomerCardFileByCustomerGenID(customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult InsertCustomerCardFile([FromForm] Req_CustomerCardFileInsert_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerCardFileLogic.InsertCustomerCardFile(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{customerCardID}")]
+        public IActionResult DeleteCustomerCardFile(long customerCardID)
+        {
+            try
+            {
+                var result = objCustomerCardFileLogic.DeleteCustomerCardFile(customerCardID);
                 return Ok(result);
             }
             catch (Exception ex)

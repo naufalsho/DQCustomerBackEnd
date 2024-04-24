@@ -9,9 +9,8 @@ namespace DQCustomer.DataAccess.Interfaces
 {
     public interface ICustomerCardFileRepository : IRepository<FileCustomerCard>
     {
-        CpRelatedFile GetRelatedFileById(long Id);
         List<Req_CustomerCardFileGetByCustomerGenID_ViewModel> GetCustomerCardFileByCustomerGenID(long customerGenID);
-        CpRelatedFile GetRelatedFileByDocumentPath(string documentPath);
-        string PathCustomerProfileRelated();
+        public bool InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity, string extension, byte[] imageFile);
+        public bool DeleteCustomerCardFile(long CustomerCardID);
     }
 }

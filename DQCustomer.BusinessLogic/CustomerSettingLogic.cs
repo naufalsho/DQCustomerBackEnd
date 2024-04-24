@@ -1211,6 +1211,7 @@ namespace DQCustomer.BusinessLogic
                     var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(0, customerGenID);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(customerGenID);
                     var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerGenID(customerGenID);
+                    var dataImageFile = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
 
                     // Konversi data dari repository ke ViewModel
                     var viewModelList = new List<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel>();
@@ -1221,14 +1222,25 @@ namespace DQCustomer.BusinessLogic
                             CustomerGenID = item.CustomerGenID,
                             CustomerName = item.CustomerName,
                             IndustryClass = item.IndustryClass,
+                            CustomerBusinessName = item.CustomerBusinessName,
+                            HoldingCompName = item.HoldingCompName,
+                            Addr1 = item.Addr1,
+                            Country = item.Country,
+                            ZipCode = item.ZipCode,
+                            NIB = item.NIB,
+                            PhoneNumber = item.PhoneNumber,
+                            Website = item.Website,
+                            CoorporateEmail = item.CoorporateEmail,
+                            NPWPNumber = item.NPWPNumber,
                             Requestor = item.Requestor,
-                            CpAddressOfficeNumbers = dataAddresOfficeNum,
-                            CustomerPICs = dataCustPIC,
-                            CpRelatedCustomers = dataRelatedCust,
                             CreateDate = item.CreateDate,
                             CreateUserID = item.CreateUserID,
                             ModifyDate = item.ModifyDate,
-                            ModifyUserID = item.ModifyUserID
+                            ModifyUserID = item.ModifyUserID,
+                            CpAddressOfficeNumbers = dataAddresOfficeNum,
+                            CustomerPICs = dataCustPIC,
+                            CpRelatedCustomers = dataRelatedCust,
+                            req_CustomerCardFileGetByCustomerGenID_ViewModels = dataImageFile
                         };
 
                         // Tambahkan ViewModel ke list
