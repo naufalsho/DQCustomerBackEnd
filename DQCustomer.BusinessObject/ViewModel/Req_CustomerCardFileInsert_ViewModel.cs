@@ -12,7 +12,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public long CustomerGenID { get; set; }
         //public byte[] ImageFile { get; set; }
         //public string Extension { get; set; }
-        public string LastModifyUserID { get; set; }
+        public int LastModifyUserID { get; set; }
         public IFormFile File { get; set; }
     }
 }

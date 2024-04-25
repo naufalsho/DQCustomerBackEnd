@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -964,7 +965,7 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    var existing = uow.CustomerSettingRepository.GetSearchRequest( customerName, picName);
+                    var existing = uow.CustomerSettingRepository.GetSearchRequest(customerName, picName);
 
 
                     var data = (from x in existing
@@ -1036,32 +1037,44 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
+                    // Mendapatkan ekstensi dari file
+                    byte[] imageFile;
+                    string extension = objEntity.File.ContentType;
+
+                    // Mengonversi file stream menjadi nilai hexadesimal
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        objEntity.File.CopyTo(memoryStream);
+                        imageFile = memoryStream.ToArray();
+                    }
+
+
                     Req_CustomerSettingInsertRequestCustomer_ViewModel newCustomer = new Req_CustomerSettingInsertRequestCustomer_ViewModel()
                     {
                         CustomerName = objEntity.CustomerName,
-                        PICName = objEntity.PICName,
-                        CustomerAddress = objEntity.CustomerAddress,
+                        CustomerBusinessName = objEntity.CustomerBusinessName,
+                        HoldingCompName = objEntity.HoldingCompName,
                         PhoneNumber = objEntity.PhoneNumber,
                         IndustryClass = objEntity.IndustryClass,
                         Website = objEntity.Website,
-                        SocialMedia = objEntity.SocialMedia,
+                        CustomerAddress = objEntity.CustomerAddress,
+                        City = objEntity.City,
+                        Country = objEntity.Country,
+                        ZipCode = objEntity.ZipCode,
+                        CoorporateEmail = objEntity.CoorporateEmail,
+                        NIB = objEntity.NIB,
+                        NPWPNumber = objEntity.NPWPNumber,
+                        PICName = objEntity.PICName,
                         PICMobilePhone = objEntity.PICMobilePhone,
                         PICJobTitle = objEntity.PICJobTitle,
                         PICEmailAddr = objEntity.PICEmailAddr,
                         CreatedUserID = objEntity.CreatedUserID,
                         ModifyUserID = objEntity.ModifyUserID,
                         ApprovalStatus = objEntity.ApprovalStatus,
-                        CustomerBusinessName = objEntity.CustomerBusinessName,
-                        HoldingCompName = objEntity.HoldingCompName,
-                        City = objEntity.City,
-                        Country = objEntity.Country,
-                        ZipCode = objEntity.ZipCode,
-                        NIB = objEntity.NIB,
-                        NPWPNumber = objEntity.NPWPNumber,
-                        NPWPName = objEntity.NPWPName
+                        File = objEntity.File
                     };
 
-                    uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer);
+                    uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer, extension, imageFile);
                     result = MessageResult(true, "Insert Success!");
 
                 }

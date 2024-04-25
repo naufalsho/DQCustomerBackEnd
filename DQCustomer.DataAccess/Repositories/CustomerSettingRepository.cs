@@ -282,31 +282,32 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
-        public bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        public bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity, string extension, byte[] imageFile)
         {
             _sql = "[cp].[spInsertRequestNewCustomer]";
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerName", objEntity.CustomerName);
-            vParams.Add("@PICName", objEntity.PICName);
-            vParams.Add("@CustomerAddress", objEntity.CustomerAddress);
+            vParams.Add("@CustomerBusinessName", objEntity.CustomerBusinessName);
+            vParams.Add("@HoldingCompName", objEntity.HoldingCompName);
             vParams.Add("@PhoneNumber", objEntity.PhoneNumber);
             vParams.Add("@IndustryClass", objEntity.IndustryClass);
             vParams.Add("@Website", objEntity.Website);
-            vParams.Add("@SocialMedia", objEntity.SocialMedia);
+            vParams.Add("@CustomerAddress", objEntity.CustomerAddress);
+            vParams.Add("@City", objEntity.City);
+            vParams.Add("@Country", objEntity.Country);
+            vParams.Add("@ZipCode", objEntity.ZipCode);
+            vParams.Add("@CoorporateEmail", objEntity.CoorporateEmail);
+            vParams.Add("@NIB", objEntity.NIB);
+            vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
+            vParams.Add("@PICName", objEntity.PICName);
             vParams.Add("@PICMobilePhone", objEntity.PICMobilePhone);
             vParams.Add("@PICJobTitle", objEntity.PICJobTitle);
             vParams.Add("@PICEmailAddr", objEntity.PICEmailAddr);
             vParams.Add("@CreateUserID", objEntity.CreatedUserID);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
-            vParams.Add("@CustomerBusinessName", objEntity.CustomerBusinessName);
-            vParams.Add("@HoldingCompName", objEntity.HoldingCompName);
-            vParams.Add("@City", objEntity.City);
-            vParams.Add("@Country", objEntity.Country);
-            vParams.Add("@ZipCode", objEntity.ZipCode);
-            vParams.Add("@NIB", objEntity.NIB);
-            vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
-            vParams.Add("@NPWPName", objEntity.NPWPName);
+            vParams.Add("@ImageFile", imageFile);
+            vParams.Add("@Extension", extension);
 
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;

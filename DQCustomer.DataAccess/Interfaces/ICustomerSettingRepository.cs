@@ -33,7 +33,7 @@ namespace DQCustomer.DataAccess.Interfaces
         void SendEmailReqCustomerSetting(long customerID, long reqSalesID, long approverID);
         void SendEmailApproveRejectCustomerSetting(long customerID, long reqSalesID, bool isApprove, string description, int? modifyUserID);
         List<Req_CustomerSearchRequest_ViewModel> GetSearchRequest(string customerName, string picName);
-        bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity);
+        bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity, string extension, byte[] imageFile);
         List<Req_CustomerSettingGetRequestNewCustomer_ViewModel> GetRequestNewCustomerByGenID(long customerGenID);
         bool UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity);
         IEnumerable<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel> GetCustomerDetailsByCustID(long customerID);

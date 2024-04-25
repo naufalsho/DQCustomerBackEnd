@@ -322,7 +322,7 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpPost("InsertRequestNewCustomer")]
-        public IActionResult InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        public IActionResult InsertRequestNewCustomer([FromForm] Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
         {
             try
             {
