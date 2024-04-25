@@ -1262,6 +1262,7 @@ namespace DQCustomer.BusinessLogic
                             CustomerBusinessName = item.CustomerBusinessName,
                             HoldingCompName = item.HoldingCompName,
                             CustomerAddress = item.CustomerAddress,
+                            City= item.City,
                             Country = item.Country,
                             ZipCode = item.ZipCode,
                             NIB = item.NIB,

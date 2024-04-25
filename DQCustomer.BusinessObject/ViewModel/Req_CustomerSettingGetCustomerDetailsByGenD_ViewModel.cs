@@ -15,6 +15,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string CustomerBusinessName { get; set; }
         public string HoldingCompName { get; set; }
         public string CustomerAddress { get; set; }
+        public string City { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string NIB { get; set; }
