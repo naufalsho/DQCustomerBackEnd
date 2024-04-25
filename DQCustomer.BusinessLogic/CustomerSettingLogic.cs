@@ -1086,25 +1086,48 @@ namespace DQCustomer.BusinessLogic
                     IUnitOfWork uow = new UnitOfWork(_context);
 
                     var existing = uow.CustomerSettingRepository.GetRequestNewCustomerByGenID(customerGenID);
+                    var dataImageFile = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
 
-                    // Manipulasi nilai properti "titleCustomer" dan "customerName"
+                    // Konversi data dari repository ke ViewModel
+                    var viewModelList = new List<Req_CustomerSettingGetRequestNewCustomer_ViewModel>();
                     foreach (var item in existing)
                     {
-                        // Split nilai "customerName" berdasarkan ", " dan simpan ke dalam array
-                        string[] customerNameParts = item.CustomerName.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+                        var viewModel = new Req_CustomerSettingGetRequestNewCustomer_ViewModel
+                        {
+                            CustomerGenID = item.CustomerGenID,
+                            CustomerID = item.CustomerID,
+                            CustomerName = item.CustomerName,
+                            IndustryClass = item.IndustryClass,
+                            CustomerBusinessName = item.CustomerBusinessName,
+                            HoldingCompName = item.HoldingCompName,
+                            CustomerAddress = item.CustomerAddress,
+                            Country = item.Country,
+                            ZipCode = item.ZipCode,
+                            NIB = item.NIB,
+                            PhoneNumber = item.PhoneNumber,
+                            Website = item.Website,
+                            CoorporateEmail = item.CoorporateEmail,
+                            NPWPNumber = item.NPWPNumber,
+                            Requestor = item.Requestor,
+                            CreateDate = item.CreateDate,
+                            CreateUserID = item.CreateUserID,
+                            ModifyDate = item.ModifyDate,
+                            ModifyUserID = item.ModifyUserID,
+                            PICName = item.PICName,
+                            PICJobTitle = item.PICJobTitle,
+                            PICEmailAddr = item.PICEmailAddr,
+                            PICMobilePhone = item.PICMobilePhone,
+                            req_CustomerCardFileGetByCustomerGenID_ViewModels = dataImageFile,
+                            IsNew = item.IsNew,
+                            ApprovalStatus = item.ApprovalStatus,
+                        };
 
-                        item.TitleCustomer = customerNameParts[customerNameParts.Length - 1];
-                        //item.CustomerName = customerNameParts[0]; 
-
-                        // Konversi format singkat bulan menjadi format lengkap bulan
-                        string formattedDate = item.CreateDate;
-                        DateTime date = DateTime.ParseExact(formattedDate, "dd MMM yyyy", CultureInfo.InvariantCulture);
-                        string formattedDateFullMonth = date.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture);
-
-                        item.CreateDate = formattedDateFullMonth;
+                        // Tambahkan ViewModel ke list
+                        viewModelList.Add(viewModel);
                     }
 
-                    result = MessageResult(true, "Success", existing);
+                    result = MessageResult(true, "Success", viewModelList);
+
                 }
             }
             catch (Exception ex)
@@ -1220,11 +1243,12 @@ namespace DQCustomer.BusinessLogic
                         var viewModel = new Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel
                         {
                             CustomerGenID = item.CustomerGenID,
+                            CustomerID = item.CustomerID,
                             CustomerName = item.CustomerName,
                             IndustryClass = item.IndustryClass,
                             CustomerBusinessName = item.CustomerBusinessName,
                             HoldingCompName = item.HoldingCompName,
-                            Addr1 = item.Addr1,
+                            CustomerAddress = item.CustomerAddress,
                             Country = item.Country,
                             ZipCode = item.ZipCode,
                             NIB = item.NIB,

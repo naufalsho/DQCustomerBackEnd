@@ -9,11 +9,12 @@ namespace DQCustomer.BusinessObject.ViewModel
     public class Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel : BaseEntity
     {
         public long CustomerGenID { get; set; }
+        public long CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string IndustryClass { get; set; }
         public string CustomerBusinessName { get; set; }
         public string HoldingCompName { get; set; }
-        public string Addr1 { get; set; }
+        public string CustomerAddress { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string NIB { get; set; }
