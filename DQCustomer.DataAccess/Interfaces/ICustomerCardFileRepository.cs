@@ -11,6 +11,6 @@ namespace DQCustomer.DataAccess.Interfaces
     {
         List<Req_CustomerCardFileGetByCustomerGenID_ViewModel> GetCustomerCardFileByCustomerGenID(long customerGenID);
         public bool InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity, string extension, byte[] imageFile);
-        public bool DeleteCustomerCardFile(long CustomerCardID);
+        public FileCustomerCard GetByCustomerCardID(Guid customerCardID);
     }
 }

@@ -10,6 +10,7 @@ namespace DQCustomer.BusinessLogic.Interfaces
     {
         ResultAction GetCustomerCardFileByCustomerGenID(long customerGenID);
         ResultAction InsertCustomerCardFile(Req_CustomerCardFileInsert_ViewModel objEntity);
-        ResultAction DeleteCustomerCardFile(long customerCardID);
+        ResultAction GetByCustomerCardID(Guid customerCardID);
+        ResultAction Delete(Guid customerCardID);
     }
 }

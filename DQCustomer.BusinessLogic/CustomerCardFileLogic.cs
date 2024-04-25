@@ -117,9 +117,51 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction DeleteCustomerCardFile(long customerCardID)
+        public ResultAction GetByCustomerCardID(Guid customerCardID)
         {
-            throw new NotImplementedException();
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.CustomerCardFileRepository.GetByCustomerCardID(customerCardID); 
+                    if (existing == null) 
+                    {
+                        return result = MessageResult(false, "Data not found");
+                    }
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction Delete(Guid customerCardID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.CustomerCardFileRepository.GetByCustomerCardID(customerCardID);
+                    if (existing == null)
+                    {
+                        return result = MessageResult(false, "Data not found");
+                    }
+                    uow.CustomerCardFileRepository.Delete(existing);
+                    result = MessageResult(true, "Delete Success");
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
         }
     }
 }

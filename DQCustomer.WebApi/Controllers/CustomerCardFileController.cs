@@ -20,58 +20,7 @@ namespace DQCustomer.WebApi.Controllers
             string apiGatewayURL = string.Format("{0}:{1}", apiGateway.Value.IP, apiGateway.Value.Port);
             objCustomerCardFileLogic = new CustomerCardFileLogic(appSettings.Value.OMSProd, apiGatewayURL);
         }
-        //[HttpGet]
-        //public IActionResult GetRelatedFile()
-        //{
-        //    try
-        //    {
-        //        var result = objRelatedFileLogic.GetRelatedFile();
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        //[HttpPost]
-        //public IActionResult InsertRelatedFile([FromForm] Req_CustomerSettingInsertRelatedFile_ViewModel objEntity)
-        //{
-        //    try
-        //    {
-        //        var result = objRelatedFileLogic.InsertRelatedFile(objEntity);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        //[HttpPut("{RelatedFileID}")]
-        //public IActionResult UpdateRelatedFile(long RelatedFileID, CpRelatedFile objEntity)
-        //{
-        //    try
-        //    {
-        //        var result = objRelatedFileLogic.UpdateRelatedFile(RelatedFileID, objEntity);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        //[HttpDelete("{RelatedFileID}")]
-        //public IActionResult DeleteRelatedFile(long RelatedFileID)
-        //{
-        //    try
-        //    {
-        //        var result = objRelatedFileLogic.DeleteRelatedFile(RelatedFileID);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        
         [HttpGet("GetCustomerCardFileByCustomerGenID")]
         public IActionResult GetCustomerCardFileByCustomerGenID(long customerGenID)
         {
@@ -100,12 +49,28 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
-        [HttpDelete("{customerCardID}")]
-        public IActionResult DeleteCustomerCardFile(long customerCardID)
+
+        [HttpGet("{customerCardID}")]
+        public IActionResult GetByCustomerCardID(Guid customerCardID)
         {
             try
             {
-                var result = objCustomerCardFileLogic.DeleteCustomerCardFile(customerCardID);
+                var result = objCustomerCardFileLogic.GetByCustomerCardID(customerCardID);
+        
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{customerCardID}")]
+        public IActionResult DeleteCustomerCard(Guid customerCardID)
+        {
+            try
+            {
+                var result = objCustomerCardFileLogic.Delete(customerCardID);
                 return Ok(result);
             }
             catch (Exception ex)

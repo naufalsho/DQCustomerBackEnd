@@ -45,15 +45,11 @@ namespace DQCustomer.DataAccess.Repositories
             return output == 1 ? true : false;
         }
         
-        public bool DeleteCustomerCardFile(long CustomerCardID)
+        public FileCustomerCard GetByCustomerCardID(Guid customerCardID)
         {
-            _sql = "[cp].[spInsertRequestNewCustomer]";
-            var vParams = new DynamicParameters();
-            vParams.Add("@CustomerCardID", CustomerCardID);
-
-            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
-            return output == 1 ? true : false;
+            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Field<FileCustomerCard>(c => c.CustomerCardID, Operator.Eq, customerCardID));
+            return _context.db.GetList<FileCustomerCard>(pg).FirstOrDefault();
         }
-
     }
 }
