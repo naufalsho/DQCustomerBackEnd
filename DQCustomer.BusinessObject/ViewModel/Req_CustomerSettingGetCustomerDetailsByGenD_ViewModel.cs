@@ -27,6 +27,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public List<Req_CustomerCardFileGetByCustomerGenID_ViewModel> req_CustomerCardFileGetByCustomerGenID_ViewModels { get; set; }
         public List<CpAddressOfficeNumber> CpAddressOfficeNumbers { get; set; }
         public List<CustomerPIC> CustomerPICs { get; set; }
-        public List<CpRelatedCustomer> CpRelatedCustomers { get; set; }
+        public List<Req_CustomerSettingGetRelatedCustomerMoreDetailByID_ViewModel> CpRelatedCustomers { get; set; }
     }
 }

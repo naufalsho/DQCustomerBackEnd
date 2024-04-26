@@ -154,7 +154,8 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
-        public ResultAction GetRelatedCustomerByCustomerGenID(long customerGenID)
+
+        public ResultAction GetRelatedCustomerMoreDetailsByID(long customerID, long customerGenID)
         {
             ResultAction result = new ResultAction();
             try
@@ -162,26 +163,7 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerGenID(customerGenID);
-                    result = MessageResult(true, "Success", existing);
-                }
-            }
-            catch (Exception ex)
-            {
-                result = MessageResult(false, ex.Message);
-            }
-            return result;
-        }
-        
-        public ResultAction GetRelatedCustomerByCustomerIDMoreDetails(long customerID)
-        {
-            ResultAction result = new ResultAction();
-            try
-            {
-                using (_context)
-                {
-                    IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
+                    var existing = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(customerID, customerGenID);
                     result = MessageResult(true, "Success", existing);
                 }
             }

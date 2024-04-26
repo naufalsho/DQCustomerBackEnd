@@ -87,26 +87,13 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
-        [HttpGet("GetRelatedCustomerByCustomerGenId")]
-        public IActionResult GetRelatedCustomerByCustomerGenID(long customerGenID)
-        {
-            try
-            {
-                var result = objRelatedCustomerLogic.GetRelatedCustomerByCustomerGenID(customerGenID);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        } 
         
-        [HttpGet("GetRelatedCustomerByCustomerIdMoreDetails")]
-        public IActionResult GetRelatedCustomerByCustomerIDMoreDetails(long customerID)
+        [HttpGet("GetRelatedCustomerMoreDetailsByID")]
+        public IActionResult GetRelatedCustomerMoreDetailsByID(long customerID, long customerGenID)
         {
             try
             {
-                var result = objRelatedCustomerLogic.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
+                var result = objRelatedCustomerLogic.GetRelatedCustomerMoreDetailsByID(customerID, customerGenID);
                 return Ok(result);
             }
             catch (Exception ex)

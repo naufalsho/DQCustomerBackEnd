@@ -1199,7 +1199,8 @@ namespace DQCustomer.BusinessLogic
                     //params address = (CustomerID, CustomerGenID)
                     var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(customerID, 0);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerId(customerID);
-                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerIDMoreDetails(customerID);
+                    //params related = (CustomerID, CustomerGenID)
+                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(customerID, 0);
                     var dataImageFile = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(existing.First().CustomerGenID);
 
                     // Konversi data dari repository ke ViewModel
@@ -1260,7 +1261,8 @@ namespace DQCustomer.BusinessLogic
                     //params address = (CustomerID, CustomerGenID)
                     var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(0, customerGenID);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(customerGenID);
-                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerByCustomerGenID(customerGenID);
+                    //params related = (CustomerID, CustomerGenID)
+                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(0,customerGenID);
                     var dataImageFile = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
 
                     // Konversi data dari repository ke ViewModel

@@ -46,17 +46,14 @@ namespace DQCustomer.DataAccess.Repositories
             return affectedRows > 0;
         }
 
-        public List<CpRelatedCustomer> GetRelatedCustomerByCustomerGenID(long customerGenID)
+        public List<Req_CustomerSettingGetRelatedCustomerMoreDetailByID_ViewModel> GetRelatedCustomerMoreDetailsByID(long customerID, long customerGenID)
         {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpRelatedCustomer>(c => c.CustomerGenID, Operator.Eq, customerGenID));
-            return _context.db.GetList<CpRelatedCustomer>(pg).ToList();
-        }
-        public List<CpRelatedCustomer> GetRelatedCustomerByCustomerIDMoreDetails(long customerID)
-        {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Field<CpRelatedCustomer>(c => c.CustomerID, Operator.Eq, customerID));
-            return _context.db.GetList<CpRelatedCustomer>(pg).ToList();
+            _sql = "[cp].[spGetRelatedCustomerMoreDetailByID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetRelatedCustomerMoreDetailByID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
         }
     }
 }
