@@ -10,7 +10,7 @@ namespace DQCustomer.BusinessObject.ViewModel
     public class Req_CustomerSettingGetIndustryClass_ViewModel
     {
         public string IndustryClassID { get; set; }
-        public string IndustryClassName { get; set; }
+        public string IndustryClass { get; set; }
     }   
 }
 
