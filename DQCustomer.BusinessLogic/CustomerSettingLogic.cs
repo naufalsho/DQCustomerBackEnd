@@ -484,6 +484,12 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
+                    // Cek apakah sales di business unit yang sama dengan customer
+                    var compare = uow.CustomerSettingRepository.CompareSalesDepartmentToBusinessUnit(objEntity.SalesID, objEntity.CustomerID);
+                    if(!compare) {
+                        return result = MessageResult(false, "Sales is not in the same business unit with this customer");
+                    }
+
                     var existing = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(objEntity.CustomerID);
                     var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
                     if (alreadyAssign != null)

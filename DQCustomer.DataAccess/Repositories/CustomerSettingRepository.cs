@@ -359,5 +359,18 @@ namespace DQCustomer.DataAccess.Repositories
             return output == 1 ? true : false;
         }
 
+        public bool CompareSalesDepartmentToBusinessUnit(long salesID, long customerID) {
+            _sql = "[cp].[spCompareSalesDepartmentToBU]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@SalesID", salesID);
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@IsFound", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            bool isFound = vParams.Get<bool>("@IsFound");
+
+            return isFound;
+        }
+
     }
 }
