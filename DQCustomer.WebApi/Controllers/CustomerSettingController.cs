@@ -406,5 +406,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetIndustryClass")]
+        public IActionResult GetIndustryClass()
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetIndustryClass();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

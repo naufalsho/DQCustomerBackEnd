@@ -39,6 +39,7 @@ namespace DQCustomer.DataAccess.Interfaces
         IEnumerable<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel> GetCustomerDetailsByCustID(long customerID);
         IEnumerable<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel> GetCustomerDetailsByGenID(long customerGenID);
         bool UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity);
+        List<Req_CustomerSettingGetIndustryClass_ViewModel> GetIndustryClass();
 
     }
 }
