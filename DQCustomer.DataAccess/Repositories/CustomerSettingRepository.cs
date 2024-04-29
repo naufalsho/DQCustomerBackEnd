@@ -359,6 +359,13 @@ namespace DQCustomer.DataAccess.Repositories
             return output == 1 ? true : false;
         }
 
+        public List<Req_CustomerSettingGetIndustryClass_ViewModel> GetIndustryClass()
+        {
+            _sql = "[cp].[spGetListIndustryClass]";
+            var vParams = new DynamicParameters();
+            var output = _context.db.Query<Req_CustomerSettingGetIndustryClass_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
         public bool CompareSalesDepartmentToBusinessUnit(long salesID, long customerID) {
             _sql = "[cp].[spCompareSalesDepartmentToBU]";
             var vParams = new DynamicParameters();
