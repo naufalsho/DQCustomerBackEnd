@@ -113,7 +113,9 @@ namespace DQCustomer.BusinessLogic
                                               CustomerID = x.CustomerID,
                                               JDECustomerID = x.JDECustomerID,
                                               CustomerGenID = x.CustomerGenID,
+                                              IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
+                                              IndustryClassBusiness = x.IndustryClassBusiness,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -208,7 +210,9 @@ namespace DQCustomer.BusinessLogic
                                               CustomerID = x.CustomerID,
                                               JDECustomerID = x.JDECustomerID,
                                               CustomerGenID = x.CustomerGenID,
+                                              IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
+                                              IndustryClassBusiness = x.IndustryClassBusiness,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -307,7 +311,9 @@ namespace DQCustomer.BusinessLogic
                                               CustomerID = x.CustomerID,
                                               JDECustomerID = x.JDECustomerID,
                                               CustomerGenID = x.CustomerGenID,
+                                              IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
+                                              IndustryClassBusiness = x.IndustryClassBusiness,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -401,7 +407,9 @@ namespace DQCustomer.BusinessLogic
                                               CustomerID = x.CustomerID,
                                               JDECustomerID = x.JDECustomerID,
                                               CustomerGenID = x.CustomerGenID,
+                                              IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
+                                              IndustryClassBusiness = x.IndustryClassBusiness,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -780,7 +788,12 @@ namespace DQCustomer.BusinessLogic
                     }
                     Req_CustomerSettingCustomerDataEnvelope_ViewModel envelope = new Req_CustomerSettingCustomerDataEnvelope_ViewModel();
                     envelope.AccountStatus = existing.AccountStatus;
+                    envelope.JDECustomerID = existing.JDECustomerID;
                     envelope.CustomerID = existing.CustomerID;
+                    envelope.CustomerGenID = existing.CustomerGenID;
+                    envelope.IndustryClassID = existing.IndustryClassID;
+                    envelope.IndustryClass = existing.IndustryClass;
+                    envelope.IndustryClassBusiness = existing.IndustryClassBusiness;
                     envelope.CustomerName = existing.CustomerName;
                     envelope.AvgAR = existing.AvgAR;
                     envelope.PMOCustomer = existing.PMOCustomer;
