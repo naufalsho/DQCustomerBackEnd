@@ -135,11 +135,11 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpPut("ApproveCustomerSetting")]
-        public IActionResult Update(long customerID, long salesID, bool isApprove, int modifyUserID, string description)
+        public IActionResult Update(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy,  string? description, int? modifyUserID)
         {
             try
             {
-                var result = objCustomerSettingLogic.ApproveCustomerSetting(customerID, salesID, isApprove, description, modifyUserID);
+                var result = objCustomerSettingLogic.ApproveCustomerSetting(customerID, salesID, isApprove, directorateApprovedBy, adminApprovedBy, description, modifyUserID);
                 return Ok(result);
             }
             catch (Exception ex)

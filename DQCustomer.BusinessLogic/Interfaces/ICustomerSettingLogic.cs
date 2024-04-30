@@ -15,7 +15,7 @@ namespace DQCustomer.BusinessLogic.Interfaces
         CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null);
         CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null);
         ResultAction Insert(CpCustomerSetting objEntity);
-        ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, string description, int? modifyUserID);
+        ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy,  string? description, int? modifyUserID);
         ResultAction ReleaseAccount(long customerID, long salesID, int? modifyUserID);
         ResultAction GetCustomerPICByCustomerID(long customerID);
         ResultAction GetBrandSummary(long customerID);

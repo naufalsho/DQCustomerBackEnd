@@ -366,7 +366,7 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<Req_CustomerSettingGetIndustryClass_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
-        public bool CompareSalesDepartmentToBusinessUnit(long salesID, long customerID) {
+        public Nullable<bool> CompareSalesDepartmentToBusinessUnit(long salesID, long customerID) {
             _sql = "[cp].[spCompareSalesDepartmentToBU]";
             var vParams = new DynamicParameters();
             vParams.Add("@SalesID", salesID);
@@ -374,7 +374,7 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@IsFound", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
             _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
-            bool isFound = vParams.Get<bool>("@IsFound");
+            Nullable<bool> isFound = vParams.Get<Nullable<bool>>("@IsFound");
 
             return isFound;
         }

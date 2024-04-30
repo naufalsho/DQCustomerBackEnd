@@ -14,6 +14,9 @@ namespace DQCustomer.BusinessObject
         public string Description { get; set; }
         public long RequestedBy { get; set; }
         public DateTime RequestedDate { get; set; }
-        public long ApprovalBy { get; set; }
+        public bool? IsApprovedByDirectorate { get; set; }
+        public long? DirectorateApprovedBy { get; set; }
+        public bool? IsApprovedByAdmin { get; set; }
+        public long? ApprovalBy { get; set; }
     }
 }
