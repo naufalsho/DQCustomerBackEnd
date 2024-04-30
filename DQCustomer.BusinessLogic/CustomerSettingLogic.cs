@@ -492,18 +492,6 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    // Cek apakah sales di business unit yang sama dengan customer
-                    var compare = uow.CustomerSettingRepository.CompareSalesDepartmentToBusinessUnit(objEntity.SalesID, objEntity.CustomerID);
-                    if(!compare) {
-                        return result = MessageResult(false, "Sales is not in the same business unit with this customer");
-                    }
-
-                    var existing = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(objEntity.CustomerID);
-                    var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
-                    if (alreadyAssign != null)
-                    {
-                        return result = MessageResult(false, "Already assigned");
-                    }
                     CpSalesHistory newSalesHistory = new CpSalesHistory()
                     {
                         SalesID = objEntity.SalesID,
@@ -514,14 +502,24 @@ namespace DQCustomer.BusinessLogic
                         CreateUserID = objEntity.CreateUserID,
                     };
 
-                    if (existing.Count == 0)
+                    // Cek sudah di-assign apa belum
+                    var existing = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(objEntity.CustomerID);
+                    var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
+                    if (alreadyAssign != null)
                     {
+                        return result = MessageResult(false, "Already assigned");
+                    }
+
+                    // Cek apakah sales di business unit yang sama dengan customer
+                    var compare = uow.CustomerSettingRepository.CompareSalesDepartmentToBusinessUnit(objEntity.SalesID, objEntity.CustomerID);
+                    
+                    if(compare == true) {
                         CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
                         {
                             CustomerID = objEntity.CustomerID,
                             SalesID = objEntity.SalesID,
-                            Named = true,
-                            Shareable = false,
+                            Named = existing.Count == 0,
+                            Shareable = existing.Count == 0,
                             CreateUserID = objEntity.CreateUserID,
                             CreateDate = DateTime.Now,
                             RequestedBy = objEntity.RequestedBy,
@@ -529,47 +527,21 @@ namespace DQCustomer.BusinessLogic
                             PMOCustomer = false,
                         };
                         uow.CustomerSettingRepository.Add(newCustomerSetting);
+                        uow.CustomerSettingRepository.UpdateAllCustomerSetting(objEntity.CustomerID, newCustomerSetting);
+
+                        // tambah sales history
                         newSalesHistory.Status = "Assign";
+                        newSalesHistory.IsApprovedByDirectorate = true;
+                        newSalesHistory.IsApprovedByAdmin = true;
                         uow.SalesHistoryRepository.Add(newSalesHistory);
-                        result = MessageResult(true, "Insert Success!");
-                    }
-                    else if (existing.Count == 1)
-                    {
-                        var existingSalesHistory = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.Status == "Pending");
-                        if (existingSalesHistory != null)
-                        {
-                            return result = MessageResult(false, "Already have pending request!");
-                        }
-                        var approvalID = uow.CustomerSettingRepository.GetApprovalID();
+                        result = MessageResult(true, "Insert success!");
+                    } else if (compare == false) {
                         newSalesHistory.Status = "Pending";
-                        newSalesHistory.ApprovalBy = approvalID;
                         uow.SalesHistoryRepository.Add(newSalesHistory);
                         //uow.CustomerSettingRepository.SendEmailReqCustomerSetting(objEntity.CustomerID, objEntity.SalesID, approvalID);
-                        result = MessageResult(true, "Wait for Approval!");
-                    }
-                    else if (existing.Count > 1)
-                    {
-                        var customerSetting = existing.FirstOrDefault(x => x.CustomerID == objEntity.CustomerID);
-                        CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
-                        {
-                            CustomerID = objEntity.CustomerID,
-                            SalesID = objEntity.SalesID,
-                            Named = false,
-                            Shareable = true,
-                            CreateUserID = customerSetting.CreateUserID,
-                            CreateDate = customerSetting.CreateDate,
-                            RequestedBy = objEntity.RequestedBy,
-                            RequestedDate = DateTime.Now,
-                            PMOCustomer = customerSetting.PMOCustomer,
-                            ModifyUserID = objEntity.CreateUserID,
-                            ModifyDate = DateTime.Now,
-                            CustomerCategory = customerSetting.CustomerCategory
-                        };
-                        uow.CustomerSettingRepository.Add(newCustomerSetting);
-                        uow.CustomerSettingRepository.UpdateAllCustomerSetting(objEntity.CustomerID, newCustomerSetting);
-                        newSalesHistory.Status = "Assign";
-                        uow.SalesHistoryRepository.Add(newSalesHistory);
-                        result = MessageResult(true, "Insert Success!");
+                        result = MessageResult(true, "Wait for directorate approval!");
+                    } else {
+                        result = MessageResult(false, "Customer didn't have industry classification");
                     }
                 }
 
@@ -584,6 +556,7 @@ namespace DQCustomer.BusinessLogic
 
             return result;
         }
+
         public ResultAction ReleaseAccount(long customerID, long salesID, int? modifyUserID)
         {
             ResultAction result = new ResultAction();
@@ -628,7 +601,8 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
-        public ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, string description, int? modifyUserID)
+
+        public ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy,  string description, int? modifyUserID)
         {
             ResultAction result = new ResultAction();
             try
@@ -636,38 +610,75 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
+
                     var existing = uow.SalesHistoryRepository.GetAll().OrderByDescending(y => y.CreateDate).FirstOrDefault(x => x.CustomerID == customerID && x.SalesID == salesID);
                     if (existing == null)
                     {
                         return MessageResult(false, "Data not found!");
                     }
+
+                    if (existing.IsApprovedByDirectorate == false) {
+                        return MessageResult(false, "Directorate didn't approve this sales request");
+                    }
+                    
                     if (!isApprove)
                     {
                         existing.Status = "Rejected";
                         existing.Description = description;
+                        if (directorateApprovedBy != null) {
+                            existing.IsApprovedByDirectorate = false;
+                        }
+                        if (adminApprovedBy != null) {
+                            existing.IsApprovedByAdmin = false;
+                        }
                     }
-                    else
-                    {
-                        existing.Status = "Assign";
-                        var customerSetting = uow.CustomerSettingRepository.GetAll().FirstOrDefault(x => x.CustomerID == customerID);
-                        CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
-                        {
-                            CustomerID = existing.CustomerID,
-                            SalesID = existing.SalesID,
-                            Named = false,
-                            Shareable = true,
-                            CreateUserID = customerSetting.CreateUserID,
-                            CreateDate = customerSetting.CreateDate,
-                            RequestedBy = existing.RequestedBy,
-                            RequestedDate = existing.RequestedDate,
-                            PMOCustomer = customerSetting.PMOCustomer,
-                            ModifyUserID = modifyUserID,
-                            ModifyDate = DateTime.Now,
-                            CustomerCategory = customerSetting.CustomerCategory
-                        };
-                        uow.CustomerSettingRepository.Add(newCustomerSetting);
-                        uow.CustomerSettingRepository.UpdateAllCustomerSetting(customerID, newCustomerSetting);
+                    else {
+                        // di-approve oleh direktorat
+                        if (directorateApprovedBy != null) {
+                            // cek di database statusnya udah pernah diubah apa belum
+                            if (existing.DirectorateApprovedBy != null) {
+                                return MessageResult(false, "Directorate already changed the status approval");
+                            }
+
+                            existing.Status = "Pending";
+                            existing.IsApprovedByDirectorate = true;
+                            existing.DirectorateApprovedBy = directorateApprovedBy;
+                        }
+
+                        // di-approve oleh admin
+                        if(adminApprovedBy != null) {
+                            // cek udah di-approve direktorat apa belum
+                            if (existing.IsApprovedByDirectorate == null) {
+                                return MessageResult(false, "Directorate haven't approve this sales request");
+                            }
+
+                            existing.Status = "Assign";
+                            existing.IsApprovedByAdmin = true;
+                            existing.ApprovalBy = adminApprovedBy;
+
+                            var existingCustomerSetting = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(customerID);
+                            var customerSetting = uow.CustomerSettingRepository.GetAll().FirstOrDefault(x => x.CustomerID == customerID);
+        
+                            CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
+                            {
+                                CustomerID = existing.CustomerID,
+                                SalesID = existing.SalesID,
+                                Named = existingCustomerSetting.Count == 0,
+                                Shareable = existingCustomerSetting.Count >= 1,
+                                CreateUserID = customerSetting != null ? customerSetting.CreateUserID : (int)existing.SalesID,
+                                CreateDate = customerSetting != null ? customerSetting.CreateDate : DateTime.Now,
+                                RequestedBy = existing.RequestedBy,
+                                RequestedDate = existing.RequestedDate,
+                                PMOCustomer = customerSetting != null ? customerSetting.PMOCustomer : false,
+                                ModifyUserID = modifyUserID,
+                                ModifyDate = DateTime.Now,
+                                CustomerCategory = customerSetting != null ? customerSetting.CustomerCategory : null
+                            };
+                            uow.CustomerSettingRepository.Add(newCustomerSetting);
+                            uow.CustomerSettingRepository.UpdateAllCustomerSetting(customerID, newCustomerSetting);
+                        }
                     }
+
                     existing.ModifyUserID = modifyUserID;
                     existing.ModifyDate = DateTime.Now;
                     uow.SalesHistoryRepository.Update(existing);
@@ -680,10 +691,12 @@ namespace DQCustomer.BusinessLogic
                 if (ex.Message.Contains("The EXECUTE permission was denied on the object 'sp_send_dbmail', database 'msdb', schema 'dbo'.") || ex.Message.Contains("String or binary data would be truncated."))
                     result = MessageResult(true, "Success!");
                 else
+                    Console.WriteLine(ex);
                     result = MessageResult(false, ex.Message);
             }
             return result;
         }
+
         public ResultAction GetCustomerPICByCustomerID(long customerID)
         {
             ResultAction result = new ResultAction();
