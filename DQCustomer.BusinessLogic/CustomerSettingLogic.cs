@@ -393,7 +393,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(search, salesID, pmoCustomer, blacklist, holdshipment, isNew);
+                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, search, salesID, pmoCustomer, blacklist, holdshipment, isNew);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
