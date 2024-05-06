@@ -75,5 +75,15 @@ namespace DQCustomer.DataAccess.Repositories
             ).ToList();
             return output;
         }
+
+        public List<Req_CustomerSettingGetSalesHistoryByCustID_ViewModel> GetSalesHistoryByID(long customerID)
+        {
+            _sql = "[cp].[spGetSalesHistoryByCustomerID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            var output = _context.db.Query<Req_CustomerSettingGetSalesHistoryByCustID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+
     }
 }

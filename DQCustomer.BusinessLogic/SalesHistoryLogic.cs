@@ -183,5 +183,28 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
+
+        public ResultAction GetSalesHistoryByID(long customerID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.SalesHistoryRepository.GetSalesHistoryByID(customerID);
+                    if (existing.Count == 0)
+                    {
+                        return MessageResult(false, "Data Not FOund!");
+                    }
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
     }
 }

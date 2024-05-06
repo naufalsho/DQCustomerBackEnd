@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DQCustomer.BusinessObject.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,10 +29,7 @@ namespace DQCustomer.BusinessObject
         public string CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string ModifiedDate { get; set; }
-        public string RequestedBy { get; set; }
-        public long SalesShareableID { get; set; }
-        public long ApprovalBy { get; set; }
-        public string Status { get; set; }
         public string ApprovalStatus { get; set; }
+        public List<Req_CustomerSettingGetSalesHistoryByCustID_ViewModel> SalesHistory { get; set; }
     }
 }

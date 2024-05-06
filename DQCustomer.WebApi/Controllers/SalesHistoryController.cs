@@ -111,5 +111,19 @@ namespace DQCustomer.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetSalesHistoryByID/{customerID}")]
+        public IActionResult GetSalesHistoryByID(long customerID)
+        {
+            try
+            {
+                var result = objSalesHistoryLogic.GetSalesHistoryByID(customerID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

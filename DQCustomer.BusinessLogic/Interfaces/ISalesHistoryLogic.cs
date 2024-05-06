@@ -14,5 +14,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction DeleteSalesHistory(long SalesHistoryID);
         ResultAction GetAccountOwner(long customerID);
         ResultAction GetSalesAssignHistory(long customerID);
+        ResultAction GetSalesHistoryByID(long customerID);
     }
 }

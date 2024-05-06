@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Linq;
 
 namespace DQCustomer.BusinessLogic
 {
@@ -132,11 +133,8 @@ namespace DQCustomer.BusinessLogic
                                               CreatedDate = x.CreatedDate,
                                               ModifiedBy = x.ModifiedBy,
                                               ModifiedDate = x.ModifiedDate,
-                                              RequestedBy = x.RequestedBy,
-                                              SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status,
-                                              ApprovalStatus = x.ApprovalStatus
+                                              ApprovalStatus = x.ApprovalStatus,
+                                              SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -229,17 +227,21 @@ namespace DQCustomer.BusinessLogic
                                               CreatedDate = x.CreatedDate,
                                               ModifiedBy = x.ModifiedBy,
                                               ModifiedDate = x.ModifiedDate,
-                                              RequestedBy = x.RequestedBy,
-                                              SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status,
-                                              ApprovalStatus = x.ApprovalStatus
+                                              ApprovalStatus = x.ApprovalStatus,
+                                              SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
                 if (myAccount != null)
                 {
-                    softwareDashboards = softwareDashboards.Where(x => x.ApprovalBy == myAccount && x.Status == "Pending").ToList();
+                    //softwareDashboards = softwareDashboard.Where(x => x.ApprovalBy == myAccount && x.Status == "Pending").ToList();
+                    // Filter SalesHistory berdasarkan ApprovalBy dan Status tertentu
+                    softwareDashboards.ForEach(dashboard =>
+                    {
+                        dashboard.SalesHistory = dashboard.SalesHistory
+                            .Where(history => history.ApprovalBy == myAccount && history.Status.ToUpper().StartsWith("PENDING"))
+                            .ToList();
+                    });
                 }
 
                 if (page > 0)
@@ -330,11 +332,8 @@ namespace DQCustomer.BusinessLogic
                                               CreatedDate = x.CreatedDate,
                                               ModifiedBy = x.ModifiedBy,
                                               ModifiedDate = x.ModifiedDate,
-                                              RequestedBy = x.RequestedBy,
-                                              SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy,
-                                              Status = x.Status,
-                                              ApprovalStatus = x.ApprovalStatus
+                                              ApprovalStatus = x.ApprovalStatus,
+                                              SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
@@ -426,10 +425,8 @@ namespace DQCustomer.BusinessLogic
                                               CreatedDate = x.CreatedDate,
                                               ModifiedBy = x.ModifiedBy,
                                               ModifiedDate = x.ModifiedDate,
-                                              RequestedBy = x.RequestedBy,
-                                              SalesShareableID = x.SalesShareableID,
-                                              ApprovalBy = x.ApprovalBy,
-                                              ApprovalStatus = x.ApprovalStatus
+                                              ApprovalStatus = x.ApprovalStatus,
+                                              SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
                 var noName = (showNoName ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == false).ToList() : new List<CpCustomerSettingDashboard>();
@@ -437,10 +434,23 @@ namespace DQCustomer.BusinessLogic
                 var shareable = (showShareable ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == true).ToList() : new List<CpCustomerSettingDashboard>();
 
                 var mergedList = noName.Concat(Named).Concat(shareable).ToList();
+                //if (myAccount != null)
+                //{
+                //    mergedList = mergedList.Where(x => x.ApprovalBy == myAccount).ToList();
+                //}
+
                 if (myAccount != null)
                 {
-                    mergedList = mergedList.Where(x => x.ApprovalBy == myAccount).ToList();
+                    // Filter SalesHistory berdasarkan ApprovalBy dan Status tertentu
+                    mergedList.ForEach(item =>
+                    {
+                        item.SalesHistory = item.SalesHistory
+                            .Where(history => history.ApprovalBy == myAccount && history.Status.ToUpper().StartsWith("PENDING"))
+                            .ToList();
+
+                    });
                 }
+
                 var resultSoftware = new List<CpCustomerSettingDashboard>();
 
                 if (page > 0)
@@ -512,8 +522,9 @@ namespace DQCustomer.BusinessLogic
 
                     // Cek apakah sales di business unit yang sama dengan customer
                     var compare = uow.CustomerSettingRepository.CompareSalesDepartmentToBusinessUnit(objEntity.SalesID, objEntity.CustomerID);
-                    
-                    if(compare == true) {
+
+                    if (compare == true)
+                    {
                         CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
                         {
                             CustomerID = objEntity.CustomerID,
@@ -535,12 +546,16 @@ namespace DQCustomer.BusinessLogic
                         newSalesHistory.IsApprovedByAdmin = true;
                         uow.SalesHistoryRepository.Add(newSalesHistory);
                         result = MessageResult(true, "Insert success!");
-                    } else if (compare == false) {
+                    }
+                    else if (compare == false)
+                    {
                         newSalesHistory.Status = "Pending";
                         uow.SalesHistoryRepository.Add(newSalesHistory);
                         //uow.CustomerSettingRepository.SendEmailReqCustomerSetting(objEntity.CustomerID, objEntity.SalesID, approvalID);
                         result = MessageResult(true, "Wait for directorate approval!");
-                    } else {
+                    }
+                    else
+                    {
                         result = MessageResult(false, "Customer didn't have industry classification");
                     }
                 }
@@ -602,7 +617,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy,  string description, int? modifyUserID)
+        public ResultAction ApproveCustomerSetting(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy, string description, int? modifyUserID)
         {
             ResultAction result = new ResultAction();
             try
@@ -617,26 +632,32 @@ namespace DQCustomer.BusinessLogic
                         return MessageResult(false, "Data not found!");
                     }
 
-                    if (existing.IsApprovedByDirectorate == false) {
+                    if (existing.IsApprovedByDirectorate == false)
+                    {
                         return MessageResult(false, "Directorate didn't approve this sales request");
                     }
-                    
+
                     if (!isApprove)
                     {
                         existing.Status = "Rejected";
                         existing.Description = description;
-                        if (directorateApprovedBy != null) {
+                        if (directorateApprovedBy != null)
+                        {
                             existing.IsApprovedByDirectorate = false;
                         }
-                        if (adminApprovedBy != null) {
+                        if (adminApprovedBy != null)
+                        {
                             existing.IsApprovedByAdmin = false;
                         }
                     }
-                    else {
+                    else
+                    {
                         // di-approve oleh direktorat
-                        if (directorateApprovedBy != null) {
+                        if (directorateApprovedBy != null)
+                        {
                             // cek di database statusnya udah pernah diubah apa belum
-                            if (existing.DirectorateApprovedBy != null) {
+                            if (existing.DirectorateApprovedBy != null)
+                            {
                                 return MessageResult(false, "Directorate already changed the status approval");
                             }
 
@@ -646,9 +667,11 @@ namespace DQCustomer.BusinessLogic
                         }
 
                         // di-approve oleh admin
-                        if(adminApprovedBy != null) {
+                        if (adminApprovedBy != null)
+                        {
                             // cek udah di-approve direktorat apa belum
-                            if (existing.IsApprovedByDirectorate == null) {
+                            if (existing.IsApprovedByDirectorate == null)
+                            {
                                 return MessageResult(false, "Directorate haven't approve this sales request");
                             }
 
@@ -658,7 +681,7 @@ namespace DQCustomer.BusinessLogic
 
                             var existingCustomerSetting = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(customerID);
                             var customerSetting = uow.CustomerSettingRepository.GetAll().FirstOrDefault(x => x.CustomerID == customerID);
-        
+
                             CpCustomerSetting newCustomerSetting = new CpCustomerSetting()
                             {
                                 CustomerID = existing.CustomerID,
@@ -692,7 +715,7 @@ namespace DQCustomer.BusinessLogic
                     result = MessageResult(true, "Success!");
                 else
                     Console.WriteLine(ex);
-                    result = MessageResult(false, ex.Message);
+                result = MessageResult(false, ex.Message);
             }
             return result;
         }
@@ -1294,7 +1317,7 @@ namespace DQCustomer.BusinessLogic
                     var dataAddresOfficeNum = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(0, customerGenID);
                     var dataCustPIC = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(customerGenID);
                     //params related = (CustomerID, CustomerGenID)
-                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(0,customerGenID);
+                    var dataRelatedCust = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(0, customerGenID);
                     var dataImageFile = uow.CustomerCardFileRepository.GetCustomerCardFileByCustomerGenID(customerGenID);
 
                     // Konversi data dari repository ke ViewModel
@@ -1310,7 +1333,7 @@ namespace DQCustomer.BusinessLogic
                             CustomerBusinessName = item.CustomerBusinessName,
                             HoldingCompName = item.HoldingCompName,
                             CustomerAddress = item.CustomerAddress,
-                            City= item.City,
+                            City = item.City,
                             Country = item.Country,
                             ZipCode = item.ZipCode,
                             NIB = item.NIB,
