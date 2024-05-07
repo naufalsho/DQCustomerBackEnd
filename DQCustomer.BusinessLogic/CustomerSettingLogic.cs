@@ -530,7 +530,7 @@ namespace DQCustomer.BusinessLogic
                             CustomerID = objEntity.CustomerID,
                             SalesID = objEntity.SalesID,
                             Named = existing.Count == 0,
-                            Shareable = existing.Count == 0,
+                            Shareable = existing.Count > 0,
                             CreateUserID = objEntity.CreateUserID,
                             CreateDate = DateTime.Now,
                             RequestedBy = objEntity.RequestedBy,
