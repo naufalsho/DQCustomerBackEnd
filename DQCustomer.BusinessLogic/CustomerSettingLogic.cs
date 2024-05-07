@@ -101,7 +101,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(search, blacklist, holdshipment);
+                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -152,7 +152,7 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = softwareDashboards.Count();
+                result.TotalRows = totalRows;//softwareDashboards.Count();
                 result.Column = column;
 
                 if (sorting != null)
@@ -195,7 +195,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(search, salesID, pmoCustomer, blacklist, holdshipment);
+                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -257,7 +257,7 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = softwareDashboards.Count();
+                result.TotalRows = totalRows;//softwareDashboards.Count();
                 result.Column = column;
 
                 if (sorting != null)
@@ -300,7 +300,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(search, salesID, pmoCustomer, blacklist, holdshipment);
+                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -351,7 +351,7 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = softwareDashboards.Count();
+                result.TotalRows = totalRows; //softwareDashboards.Count();
                 result.Column = column;
 
                 if (sorting != null)
@@ -393,7 +393,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, search, salesID, pmoCustomer, blacklist, holdshipment, isNew);
+                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, column, sorting,out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, isNew);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -466,7 +466,7 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = mergedList;
                 }
 
-                result.TotalRows = mergedList.Count();
+                result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
 
                 if (sorting != null)
