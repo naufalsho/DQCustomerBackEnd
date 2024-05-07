@@ -59,9 +59,9 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@SortColumn", column);
             vParams.Add("@SortOrder", sorting);
             vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
-            totalRows = vParams.Get<int>("@TotalRows");
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
 
@@ -79,9 +79,9 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@SortColumn", column);
             vParams.Add("@SortOrder", sorting);
             vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
-            totalRows = vParams.Get<int>("@TotalRows");
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
 
             return output;
         }
@@ -99,9 +99,9 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@SortColumn", column);
             vParams.Add("@SortOrder", sorting);
             vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
-            totalRows = vParams.Get<int>("@TotalRows");
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
         public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? isNew = null)
@@ -119,10 +119,10 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@SortColumn", column);
             vParams.Add("@SortOrder", sorting); 
             vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
-            totalRows = vParams.Get<int>("@TotalRows");
 
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
 
             return output;
         }

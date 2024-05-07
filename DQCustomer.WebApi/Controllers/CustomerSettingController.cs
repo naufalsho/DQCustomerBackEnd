@@ -126,7 +126,6 @@ namespace DQCustomer.WebApi.Controllers
         {
             try
             {
-                int totalRows = 0;
                 var result = objCustomerSettingLogic.GetCustomerSettingAllAccount(page, pageSize, column, sorting, search, salesID, myAccount, pmoCustomer, blacklist, holdshipment, showNoName, showNamed, showShareable, isNew);
                 return Ok(result);
             }
