@@ -143,8 +143,8 @@ namespace DQCustomer.BusinessLogic
                 {
                     var queryable = softwareDashboards.AsQueryable();
                     resultSoftware = queryable
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
+                    //    .Skip((page - 1) * pageSize)
+                    //    .Take(pageSize)
                         .ToList();
                 }
                 else
@@ -152,28 +152,30 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = totalRows;//softwareDashboards.Count();
+                result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
+                result.Sorting = sorting;
+                result.Rows = resultSoftware;
 
-                if (sorting != null)
-                {
-                    if (sorting == "desc")
-                    {
-                        sorting = "descending";
-                        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
-                    if (sorting == "asc")
-                    {
-                        sorting = "ascending";
-                        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
+                //if (sorting != null)
+                //{
+                //    if (sorting == "desc")
+                //    {
+                //        sorting = "descending";
+                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
+                //    if (sorting == "asc")
+                //    {
+                //        sorting = "ascending";
+                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
 
-                    result.Sorting = sorting;
-                }
-                else
-                {
-                    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                }
+                //    result.Sorting = sorting;
+                //}
+                //else
+                //{
+                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
+                //}
             }
 
             return result;
@@ -248,8 +250,8 @@ namespace DQCustomer.BusinessLogic
                 {
                     var queryable = softwareDashboards.AsQueryable();
                     resultSoftware = queryable
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
+                    //    .Skip((page - 1) * pageSize)
+                    //    .Take(pageSize)
                         .ToList();
                 }
                 else
@@ -257,28 +259,30 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = totalRows;//softwareDashboards.Count();
+                result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
+                result.Sorting = sorting;
+                result.Rows = resultSoftware;
 
-                if (sorting != null)
-                {
-                    if (sorting == "desc")
-                    {
-                        sorting = "descending";
-                        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
-                    if (sorting == "asc")
-                    {
-                        sorting = "ascending";
-                        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
+                //if (sorting != null)
+                //{
+                //    if (sorting == "desc")
+                //    {
+                //        sorting = "descending";
+                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
+                //    if (sorting == "asc")
+                //    {
+                //        sorting = "ascending";
+                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
 
-                    result.Sorting = sorting;
-                }
-                else
-                {
-                    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                }
+                //    result.Sorting = sorting;
+                //}
+                //else
+                //{
+                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
+                //}
             }
 
             return result;
@@ -342,8 +346,8 @@ namespace DQCustomer.BusinessLogic
                 {
                     var queryable = softwareDashboards.AsQueryable();
                     resultSoftware = queryable
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
+                    //    .Skip((page - 1) * pageSize)
+                    //    .Take(pageSize)
                         .ToList();
                 }
                 else
@@ -351,28 +355,30 @@ namespace DQCustomer.BusinessLogic
                     resultSoftware = softwareDashboards;
                 }
 
-                result.TotalRows = totalRows; //softwareDashboards.Count();
+                result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
+                result.Sorting = sorting;
+                result.Rows = resultSoftware;
 
-                if (sorting != null)
-                {
-                    if (sorting == "desc")
-                    {
-                        sorting = "descending";
-                        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
-                    if (sorting == "asc")
-                    {
-                        sorting = "ascending";
-                        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
+                //if (sorting != null)
+                //{
+                //    if (sorting == "desc")
+                //    {
+                //        sorting = "descending";
+                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
+                //    if (sorting == "asc")
+                //    {
+                //        sorting = "ascending";
+                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
 
-                    result.Sorting = sorting;
-                }
-                else
-                {
-                    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                }
+                //    result.Sorting = sorting;
+                //}
+                //else
+                //{
+                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
+                //}
             }
 
             return result;
@@ -457,8 +463,8 @@ namespace DQCustomer.BusinessLogic
                 {
                     var queryable = mergedList.AsQueryable();
                     resultSoftware = queryable
-                        .Skip((page - 1) * pageSize)
-                        .Take(pageSize)
+                    //    .Skip((page - 1) * pageSize)
+                    //    .Take(pageSize)
                         .ToList();
                 }
                 else
@@ -468,26 +474,28 @@ namespace DQCustomer.BusinessLogic
 
                 result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
+                result.Sorting = sorting;
+                result.Rows = resultSoftware;
 
-                if (sorting != null)
-                {
-                    if (sorting == "desc")
-                    {
-                        sorting = "descending";
-                        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
-                    if (sorting == "asc")
-                    {
-                        sorting = "ascending";
-                        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                    }
+                //if (sorting != null)
+                //{
+                //    if (sorting == "desc")
+                //    {
+                //        sorting = "descending";
+                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
+                //    if (sorting == "asc")
+                //    {
+                //        sorting = "ascending";
+                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
+                //    }
 
-                    result.Sorting = sorting;
-                }
-                else
-                {
-                    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                }
+                //    result.Sorting = sorting;
+                //}
+                //else
+                //{
+                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
+                //}
             }
 
             return result;
