@@ -13,6 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using System.Text;
 using System.Xml.Linq;
 
@@ -85,7 +86,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -101,7 +102,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment);
+                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -137,51 +138,17 @@ namespace DQCustomer.BusinessLogic
                                               SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
-                var resultSoftware = new List<CpCustomerSettingDashboard>();
-
-                if (page > 0)
-                {
-                    var queryable = softwareDashboards.AsQueryable();
-                    resultSoftware = queryable
-                    //    .Skip((page - 1) * pageSize)
-                    //    .Take(pageSize)
-                        .ToList();
-                }
-                else
-                {
-                    resultSoftware = softwareDashboards;
-                }
-
-                result.TotalRows = totalRows;//mergedList.Count();
+                result.TotalRows = totalRows;
                 result.Column = column;
                 result.Sorting = sorting;
-                result.Rows = resultSoftware;
+                result.Rows = softwareDashboards;
 
-                //if (sorting != null)
-                //{
-                //    if (sorting == "desc")
-                //    {
-                //        sorting = "descending";
-                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-                //    if (sorting == "asc")
-                //    {
-                //        sorting = "ascending";
-                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-
-                //    result.Sorting = sorting;
-                //}
-                //else
-                //{
-                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                //}
             }
 
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -197,7 +164,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment);
+                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -233,62 +200,17 @@ namespace DQCustomer.BusinessLogic
                                               SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
-                var resultSoftware = new List<CpCustomerSettingDashboard>();
-                if (myAccount != null)
-                {
-                    //softwareDashboards = softwareDashboard.Where(x => x.ApprovalBy == myAccount && x.Status == "Pending").ToList();
-                    // Filter SalesHistory berdasarkan ApprovalBy dan Status tertentu
-                    softwareDashboards.ForEach(dashboard =>
-                    {
-                        dashboard.SalesHistory = dashboard.SalesHistory
-                            .Where(history => history.ApprovalBy == myAccount && history.Status.ToUpper().StartsWith("PENDING"))
-                            .ToList();
-                    });
-                }
-
-                if (page > 0)
-                {
-                    var queryable = softwareDashboards.AsQueryable();
-                    resultSoftware = queryable
-                    //    .Skip((page - 1) * pageSize)
-                    //    .Take(pageSize)
-                        .ToList();
-                }
-                else
-                {
-                    resultSoftware = softwareDashboards;
-                }
-
                 result.TotalRows = totalRows;//mergedList.Count();
                 result.Column = column;
                 result.Sorting = sorting;
-                result.Rows = resultSoftware;
+                result.Rows = softwareDashboards;
 
-                //if (sorting != null)
-                //{
-                //    if (sorting == "desc")
-                //    {
-                //        sorting = "descending";
-                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-                //    if (sorting == "asc")
-                //    {
-                //        sorting = "ascending";
-                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-
-                //    result.Sorting = sorting;
-                //}
-                //else
-                //{
-                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                //}
             }
 
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool ? showNoName = null, bool? showNamed = null, bool? showShareable = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -304,7 +226,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment);
+                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -340,50 +262,15 @@ namespace DQCustomer.BusinessLogic
                                               SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
-                var resultSoftware = new List<CpCustomerSettingDashboard>();
-
-                if (page > 0)
-                {
-                    var queryable = softwareDashboards.AsQueryable();
-                    resultSoftware = queryable
-                    //    .Skip((page - 1) * pageSize)
-                    //    .Take(pageSize)
-                        .ToList();
-                }
-                else
-                {
-                    resultSoftware = softwareDashboards;
-                }
-
-                result.TotalRows = totalRows;//mergedList.Count();
+                result.TotalRows = totalRows;
                 result.Column = column;
                 result.Sorting = sorting;
-                result.Rows = resultSoftware;
-
-                //if (sorting != null)
-                //{
-                //    if (sorting == "desc")
-                //    {
-                //        sorting = "descending";
-                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-                //    if (sorting == "asc")
-                //    {
-                //        sorting = "ascending";
-                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-
-                //    result.Sorting = sorting;
-                //}
-                //else
-                //{
-                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                //}
+                result.Rows = softwareDashboards;
             }
 
             return result;
         }
-        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -399,7 +286,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, column, sorting,out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, isNew);
+                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable, isNew);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -435,67 +322,10 @@ namespace DQCustomer.BusinessLogic
                                               SalesHistory = uow.SalesHistoryRepository.GetSalesHistoryByID(x.CustomerID)
                                           }).ToList();
 
-                var noName = (showNoName ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == false).ToList() : new List<CpCustomerSettingDashboard>();
-                var Named = (showNamed ?? true) ? softwareDashboards.Where(x => x.Named == true && x.Shareable == false).ToList() : new List<CpCustomerSettingDashboard>();
-                var shareable = (showShareable ?? true) ? softwareDashboards.Where(x => x.Named == false && x.Shareable == true).ToList() : new List<CpCustomerSettingDashboard>();
-
-                var mergedList = noName.Concat(Named).Concat(shareable).ToList();
-                //if (myAccount != null)
-                //{
-                //    mergedList = mergedList.Where(x => x.ApprovalBy == myAccount).ToList();
-                //}
-
-                if (myAccount != null)
-                {
-                    // Filter SalesHistory berdasarkan ApprovalBy dan Status tertentu
-                    mergedList.ForEach(item =>
-                    {
-                        item.SalesHistory = item.SalesHistory
-                            .Where(history => history.ApprovalBy == myAccount && history.Status.ToUpper().StartsWith("PENDING"))
-                            .ToList();
-
-                    });
-                }
-
-                var resultSoftware = new List<CpCustomerSettingDashboard>();
-
-                if (page > 0)
-                {
-                    var queryable = mergedList.AsQueryable();
-                    resultSoftware = queryable
-                    //    .Skip((page - 1) * pageSize)
-                    //    .Take(pageSize)
-                        .ToList();
-                }
-                else
-                {
-                    resultSoftware = mergedList;
-                }
-
-                result.TotalRows = totalRows;//mergedList.Count();
+                result.TotalRows = totalRows;
                 result.Column = column;
                 result.Sorting = sorting;
-                result.Rows = resultSoftware;
-
-                //if (sorting != null)
-                //{
-                //    if (sorting == "desc")
-                //    {
-                //        sorting = "descending";
-                //        result.Rows = resultSoftware.OrderByDescending(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-                //    if (sorting == "asc")
-                //    {
-                //        sorting = "ascending";
-                //        result.Rows = resultSoftware.OrderBy(x => x.GetType().GetProperty(column).GetValue(x, null)).ToList();
-                //    }
-
-                //    result.Sorting = sorting;
-                //}
-                //else
-                //{
-                //    result.Rows = resultSoftware.OrderByDescending(c => c.CreatedDate).ToList();
-                //}
+                result.Rows = softwareDashboards;
             }
 
             return result;
