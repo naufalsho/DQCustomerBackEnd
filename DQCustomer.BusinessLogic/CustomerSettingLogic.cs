@@ -671,6 +671,7 @@ namespace DQCustomer.BusinessLogic
 
                             existing.Status = "Pending";
                             existing.IsApprovedByDirectorate = true;
+                            existing.DirectorateApprovedDate = DateTime.Now;
                             existing.DirectorateApprovedBy = directorateApprovedBy;
                         }
 
@@ -685,6 +686,7 @@ namespace DQCustomer.BusinessLogic
 
                             existing.Status = "Assign";
                             existing.IsApprovedByAdmin = true;
+                            existing.AdminApprovedDate = DateTime.Now;
                             existing.ApprovalBy = adminApprovedBy;
 
                             var existingCustomerSetting = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(customerID);
