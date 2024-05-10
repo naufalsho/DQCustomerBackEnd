@@ -11,12 +11,12 @@ using System.Text;
 
 namespace DQCustomer.DataAccess.Repositories
 {
-    public class AccountHistoryActivityRepository : Repository<CpAccountActivityHistory>, IAccountActivityHistoryRepository
+    public class AccountActivityHistoryRepository : Repository<CpAccountActivityHistory>, IAccountActivityHistoryRepository
     {
         private IDapperContext _context;
         private IDbTransaction _transaction;
         private string _sql;
-        public AccountHistoryActivityRepository(IDbTransaction transaction, IDapperContext context) : base(transaction, context)
+        public AccountActivityHistoryRepository(IDbTransaction transaction, IDapperContext context) : base(transaction, context)
         {
             this._context = context;
             this._transaction = transaction;
