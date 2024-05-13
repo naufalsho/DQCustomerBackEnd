@@ -96,7 +96,7 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
-        [HttpGet("(GetAccountActivityHistoryByID)")]
+        [HttpGet("GetAccountActivityHistoryByID")]
         public IActionResult GetAccountActivityHistoryByID(long customerID, long customerGenID)
         {
             try
