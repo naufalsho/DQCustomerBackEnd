@@ -191,6 +191,8 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@ModifyDate", objEntity.ModifyDate);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             vParams.Add("@Category", objEntity.CustomerCategory);
+            vParams.Add("@CAPFlag", objEntity.CAPFlag);
+
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }
