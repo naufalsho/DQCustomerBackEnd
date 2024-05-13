@@ -394,6 +394,10 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@CustomerID", customerID);
             vParams.Add("@CustomerGenID", customerGenID);
             vParams.Add("@IndustryClass", objEntity.IndustryClass);
+            vParams.Add("@CustomerName", objEntity.CustomerName);
+            vParams.Add("@CoorporateEmail", objEntity.CoorporateEmail);
+            vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
+            vParams.Add("@NIB", objEntity.NIB);
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }

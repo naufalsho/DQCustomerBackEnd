@@ -1218,7 +1218,11 @@ namespace DQCustomer.BusinessLogic
 
                     Req_CustomerSettingUpdateIndustryClass_ViewModel dataUpdate = new Req_CustomerSettingUpdateIndustryClass_ViewModel()
                     {
-                        IndustryClass = objEntity.IndustryClass
+                        IndustryClass = objEntity.IndustryClass,
+                        CustomerName = objEntity.CustomerName,
+                        CoorporateEmail = objEntity.CoorporateEmail,
+                        NPWPNumber = objEntity.NPWPNumber,
+                        NIB = objEntity.NIB
                     };
 
                     uow.CustomerSettingRepository.UpdateIndustryClassByID(customerID, customerGenID, dataUpdate);
