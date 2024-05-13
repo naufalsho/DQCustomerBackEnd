@@ -1056,7 +1056,8 @@ namespace DQCustomer.BusinessLogic
                     {
                         CustomerGenID = objEntity.CustomerGenID,
                         ApprovalStatus = objEntity.ApprovalStatus,
-                        Remark = objEntity.Remark
+                        Remark = objEntity.Remark,
+                        ModifyUserID = objEntity.ModifyUserID
                     };
 
                     var responseData = new

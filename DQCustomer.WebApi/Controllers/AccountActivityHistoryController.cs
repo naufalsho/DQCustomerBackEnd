@@ -96,5 +96,19 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
 
+        [HttpGet("(GetAccountActivityHistoryByID)")]
+        public IActionResult GetAccountActivityHistoryByID(long customerID, long customerGenID)
+        {
+            try
+            {
+                var result = objAccountActivityHistoryLogic.GetAccountActivityHistoryByID(customerID, customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

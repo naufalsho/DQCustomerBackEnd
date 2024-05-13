@@ -52,11 +52,12 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.AccountHistoryActivityRepository.GetAll();
+                    var existing = uow.AccountActivityHistoryRepository.GetAll();
                     if(existing.Count() <= 0)
                     {
                         return result = MessageResult(false, "Data Count : " + existing.Count() );
                     }
+
                     result = MessageResult(true, "Success", existing);
                 }
             }
@@ -75,7 +76,7 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.AccountHistoryActivityRepository.GetByID(accountActivityHistoryID);
+                    var existing = uow.AccountActivityHistoryRepository.GetByID(accountActivityHistoryID);
                     if (existing == null)
                     {
                         return result = MessageResult(false, "Data not found");
@@ -102,7 +103,7 @@ namespace DQCustomer.BusinessLogic
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
                     var data = objEntity;
-                    uow.AccountHistoryActivityRepository.Add(data);
+                    uow.AccountActivityHistoryRepository.Add(data);
                     result = MessageResult(true, "Insert Success!");
                 }
             }
@@ -122,7 +123,7 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    var existingID = uow.AccountHistoryActivityRepository.GetByID(objEntity.AccountActivityHistoryID);
+                    var existingID = uow.AccountActivityHistoryRepository.GetByID(objEntity.AccountActivityHistoryID);
                     if (existingID == null)
                     {
                         return result = MessageResult(false, "ID not found");
@@ -130,7 +131,7 @@ namespace DQCustomer.BusinessLogic
 
                     objEntity.ModifyDate = DateTime.Now;
                     var data = objEntity;
-                    uow.AccountHistoryActivityRepository.Update(data);
+                    uow.AccountActivityHistoryRepository.Update(data);
                     result = MessageResult(true, "Update Success");
                 }
             }
@@ -150,14 +151,37 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    var existingID = uow.AccountHistoryActivityRepository.GetByID(accountActivityHistoryID);
+                    var existingID = uow.AccountActivityHistoryRepository.GetByID(accountActivityHistoryID);
                     if (existingID == null)
                     {
                         return result = MessageResult(false, "Data not found");
                     }
 
-                    uow.AccountHistoryActivityRepository.DeleteByID(accountActivityHistoryID);
+                    uow.AccountActivityHistoryRepository.DeleteByID(accountActivityHistoryID);
                     result = MessageResult(true, "Delete Success");
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
+
+        public ResultAction GetAccountActivityHistoryByID(long customerID, long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.AccountActivityHistoryRepository.GetAccountActivityHistoryByID(customerID, customerGenID);
+                    if (existing == null)
+                    {
+                        return result = MessageResult(false, "Data not found");
+                    }
+                    result = MessageResult(true, "Success", existing);
                 }
             }
             catch (Exception ex)

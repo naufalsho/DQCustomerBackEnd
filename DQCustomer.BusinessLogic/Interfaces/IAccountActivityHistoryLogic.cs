@@ -13,5 +13,6 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction Insert(CpAccountActivityHistory objEntity);
         ResultAction Update(CpAccountActivityHistory objEntity);
         ResultAction DeleteByID(long accountActivityHistoryID);
+        ResultAction GetAccountActivityHistoryByID(long customerID, long customerGenID);
     }
 }

@@ -37,5 +37,15 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
+        public List<Req_AccountActivityHistoryGetByID> GetAccountActivityHistoryByID(long customerID, long customerGenID)
+        {
+            _sql = "[cp].[spGetAccountActivityHistoryByID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_AccountActivityHistoryGetByID>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+
     }
 }

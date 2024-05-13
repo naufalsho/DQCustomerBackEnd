@@ -350,9 +350,11 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
             vParams.Add("@ImageFile", imageFile);
             vParams.Add("@Extension", extension);
+            vParams.Add("@Return_Value", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
-            return output == 1 ? true : false;
+            bool returnVal = vParams.Get<bool>("@Return_Value");
+            return returnVal;
         }
         public List<Req_CustomerSettingGetRequestNewCustomer_ViewModel> GetRequestNewCustomerByGenID(long customerGenID)
         {
@@ -369,8 +371,12 @@ namespace DQCustomer.DataAccess.Repositories
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerGenID",objEntity.CustomerGenID);
             vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+            vParams.Add("@Return_Value", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
-            return output == 1 ? true : false;
+            bool returnVal = vParams.Get<bool>("@Return_Value");
+            return returnVal;
         }
 
         public IEnumerable<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel> GetCustomerDetailsByCustID(long customerID)

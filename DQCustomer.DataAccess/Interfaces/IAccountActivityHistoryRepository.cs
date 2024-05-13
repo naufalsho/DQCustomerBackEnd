@@ -10,5 +10,6 @@ namespace DQCustomer.DataAccess.Interfaces
     {
         CpAccountActivityHistory GetByID(long accountActivityHistoryID);
         bool DeleteByID(long accountActivityHistoryID);
+        List<Req_AccountActivityHistoryGetByID> GetAccountActivityHistoryByID(long customerID, long customerGenID);
     }
 }

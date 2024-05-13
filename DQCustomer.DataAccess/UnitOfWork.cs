@@ -58,8 +58,8 @@ namespace DQCustomer.DataAccess
         public ICustomerPICRepository CustomerPICRepository => customerPICRepository ?? (customerPICRepository = new CustomerPICRepository(_transaction, _context));
         public ICustomerCardFileRepository customerCardFileRepository;
         public ICustomerCardFileRepository CustomerCardFileRepository => customerCardFileRepository ?? (customerCardFileRepository = new CustomerCardFileRepository(_transaction, _context));
-        public IAccountActivityHistoryRepository accountHistoryActivityRepository;
-        public IAccountActivityHistoryRepository AccountHistoryActivityRepository => accountHistoryActivityRepository ?? (accountHistoryActivityRepository = new AccountActivityHistoryRepository(_transaction, _context));
+        public IAccountActivityHistoryRepository accountActivityHistoryRepository;
+        public IAccountActivityHistoryRepository AccountActivityHistoryRepository => accountActivityHistoryRepository ?? (accountActivityHistoryRepository = new AccountActivityHistoryRepository(_transaction, _context));
     }
 
 }
