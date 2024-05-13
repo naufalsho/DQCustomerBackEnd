@@ -86,7 +86,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -102,7 +102,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -148,7 +148,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -164,7 +164,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -210,7 +210,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool ? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -226,7 +226,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 

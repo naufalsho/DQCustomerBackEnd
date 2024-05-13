@@ -82,11 +82,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingNoNamedAccount")]
-        public IActionResult GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public IActionResult GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, search, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var result = objCustomerSettingLogic.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, search, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -96,11 +96,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingNamedAccount")]
-        public IActionResult GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public IActionResult GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var result = objCustomerSettingLogic.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -110,11 +110,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingShareableAccount")]
-        public IActionResult GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public IActionResult GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable);
+                var result = objCustomerSettingLogic.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)

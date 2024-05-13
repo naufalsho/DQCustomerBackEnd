@@ -47,7 +47,7 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNoNamedAccounts]";
             var vParams = new DynamicParameters();
@@ -55,9 +55,6 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@MyAccount", myAccount);
-            vParams.Add("@ShowNoName", showNoName);
-            vParams.Add("@ShowNamed", showNamed);
-            vParams.Add("@ShowShareable", showShareable);
             vParams.Add("@PageNumber", page);
             vParams.Add("@PageSize", pageSize);
             vParams.Add("@SortColumn", column);
@@ -69,7 +66,7 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNamedAccounts]";
             var vParams = new DynamicParameters();
@@ -79,9 +76,6 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
             vParams.Add("@MyAccount", myAccount);
-            vParams.Add("@ShowNoName", showNoName);
-            vParams.Add("@ShowNamed", showNamed);
-            vParams.Add("@ShowShareable", showShareable);
             vParams.Add("@PageNumber", page);
             vParams.Add("@PageSize", pageSize);
             vParams.Add("@SortColumn", column);
@@ -93,7 +87,7 @@ namespace DQCustomer.DataAccess.Repositories
 
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingShareableAccounts]";
             var vParams = new DynamicParameters();
@@ -103,9 +97,6 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
             vParams.Add("@MyAccount", myAccount);
-            vParams.Add("@ShowNoName", showNoName);
-            vParams.Add("@ShowNamed", showNamed);
-            vParams.Add("@ShowShareable", showShareable);
             vParams.Add("@PageNumber", page);
             vParams.Add("@PageSize", pageSize);
             vParams.Add("@SortColumn", column);
