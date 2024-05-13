@@ -400,6 +400,8 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@CoorporateEmail", objEntity.CoorporateEmail);
             vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
             vParams.Add("@NIB", objEntity.NIB);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }

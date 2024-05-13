@@ -11,5 +11,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string CoorporateEmail { get; set; }
         public string NPWPNumber { get; set; }
         public string NIB { get; set; }
+        public long ModifyUserID { get; set; }
     }
 }

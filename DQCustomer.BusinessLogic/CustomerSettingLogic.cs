@@ -1222,7 +1222,8 @@ namespace DQCustomer.BusinessLogic
                         CustomerName = objEntity.CustomerName,
                         CoorporateEmail = objEntity.CoorporateEmail,
                         NPWPNumber = objEntity.NPWPNumber,
-                        NIB = objEntity.NIB
+                        NIB = objEntity.NIB,
+                        ModifyUserID = objEntity.ModifyUserID
                     };
 
                     uow.CustomerSettingRepository.UpdateIndustryClassByID(customerID, customerGenID, dataUpdate);
