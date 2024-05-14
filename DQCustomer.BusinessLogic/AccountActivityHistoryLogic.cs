@@ -91,7 +91,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction Insert(CpAccountActivityHistory objEntity)
+        public ResultAction Insert(Req_AccountActivityHistoryInsert_ViewModel objEntity)
         {
             ResultAction result = new ResultAction();
             try
@@ -100,10 +100,12 @@ namespace DQCustomer.BusinessLogic
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
 
-                    objEntity.CreateDate = DateTime.Now;
-                    objEntity.ModifyDate = DateTime.Now;
                     var data = objEntity;
-                    uow.AccountActivityHistoryRepository.Add(data);
+                    if(objEntity.CustomerID == 0 && objEntity.CustomerGenID == 0)
+                    {
+                        return result = MessageResult(false, "CustomerID & CustomerGenID is required!");
+                    }
+                    uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(data);
                     result = MessageResult(true, "Insert Success!");
                 }
             }

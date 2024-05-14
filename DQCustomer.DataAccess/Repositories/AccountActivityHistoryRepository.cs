@@ -47,5 +47,17 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
+        public bool InsertAccountActivityHistory(Req_AccountActivityHistoryInsert_ViewModel objEntity)
+        {
+            _sql = "[cp].[spInsertAccountActivityHistory]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@Description", objEntity.Description);
+            vParams.Add("@UserID", objEntity.UserID);
+            vParams.Add("@CustomerID", objEntity.CustomerID);
+            vParams.Add("@CustomerGenID", objEntity.CustomerGenID);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            return output == 1? true : false;
+        }
     }
 }

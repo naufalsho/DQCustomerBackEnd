@@ -55,7 +55,7 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(CpAccountActivityHistory objEntity)
+        public IActionResult Insert([FromForm] Req_AccountActivityHistoryInsert_ViewModel objEntity)
         {
             try
             {

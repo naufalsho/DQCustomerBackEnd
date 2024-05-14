@@ -107,6 +107,17 @@ namespace DQCustomer.BusinessLogic
                     data.CreateDate = existing.CreateDate;
                     data.ModifyDate = DateTime.Now;
 
+                    if (objEntity.PINFlag == true)
+                    {
+                        var checkPINFlag = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(data.CustomerGenID).Where(cp => cp.PINFlag == true).SingleOrDefault();
+                        if (checkPINFlag != null)
+                        {
+                            var dataChange = checkPINFlag;
+                            dataChange.PINFlag = false;
+                            uow.CustomerPICRepository.Update(dataChange);
+                        }
+                    }
+
                     uow.CustomerPICRepository.Update(data);
                     result = MessageResult(true, "Update Success");
                 }

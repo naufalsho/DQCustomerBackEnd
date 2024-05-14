@@ -10,9 +10,9 @@ namespace DQCustomer.BusinessLogic.Interfaces
     {
         ResultAction GetAll();
         ResultAction GetByID(long accountActivityHistoryID);
-        ResultAction Insert(CpAccountActivityHistory objEntity);
         ResultAction Update(CpAccountActivityHistory objEntity);
         ResultAction DeleteByID(long accountActivityHistoryID);
         ResultAction GetAccountActivityHistoryByID(long customerID, long customerGenID);
+        ResultAction Insert(Req_AccountActivityHistoryInsert_ViewModel objEntity);
     }
 }
