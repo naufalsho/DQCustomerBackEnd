@@ -41,7 +41,7 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpPut]
-        public IActionResult Update(long customerID, CpCustomerSetting objEntity)
+        public IActionResult Update(long customerID, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity)
         {
             try
             {

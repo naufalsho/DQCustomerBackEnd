@@ -26,7 +26,7 @@ namespace DQCustomer.DataAccess.Interfaces
         List<Req_CustomerSettingGetCollectionHistory_ViewModel> GetCollectionHistory(long customerID);
         List<Req_CustomerSettingGetSalesData_ViewModel> GetSalesByName(string salesName);
         List<string> GetCustomerCategory();
-        bool UpdateSpecificCustomerSetting(long id, CpCustomerSetting objEntity);
+        bool UpdateSpecificCustomerSetting(long id, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity);
         List<Req_CustomerSettingGetCustomerDataByName_ViewModel> GetCustomerByName(string customerName);
         long GetApprovalID();
         List<Req_CustomerSettingGetRelatedCustomerAndLastProject_ViewModel> GetRelatedAndLast();

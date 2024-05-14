@@ -678,6 +678,7 @@ namespace DQCustomer.BusinessLogic
                     envelope.SalesName = existing.SalesName;
                     envelope.CustomerAddress = existing.CustomerAddress;
                     envelope.CustomerCategory = existing.CustomerCategory;
+                    envelope.CAPFlag = existing.CAPFlag;
                     var shareable = uow.SalesHistoryRepository.GetShareableStatus(customerID);
                     envelope.ShareableApprovalStatus = shareable;
                     result = MessageResult(true, "Success", envelope);
@@ -806,7 +807,7 @@ namespace DQCustomer.BusinessLogic
             }
             return result;
         }
-        public ResultAction Update(long customerID, CpCustomerSetting objEntity)
+        public ResultAction Update(long customerID, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity)
         {
             ResultAction result = new ResultAction();
             try

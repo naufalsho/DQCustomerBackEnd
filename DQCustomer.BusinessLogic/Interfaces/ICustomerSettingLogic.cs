@@ -27,7 +27,7 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction GetCollectionHistory(long customerID);
         ResultAction GetSalesByName(string salesName);
         ResultAction GetCustomerCategory();
-        ResultAction Update(long customerID, CpCustomerSetting objEntity);
+        ResultAction Update(long customerID, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity);
         ResultAction GetCustomerName(string customerName);
         CpCustomerSettingSearchRequest GetSearchRequest(int page, int pageSize, string column, string sorting, string customerName, string picName);
         ResultAction InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity);

@@ -21,5 +21,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public bool Holdshipment { get; set; }
         public float AvgAR { get; set; }
         public string SalesName { get; set; }
+        public bool CAPFlag { get; set; }
     }
 }

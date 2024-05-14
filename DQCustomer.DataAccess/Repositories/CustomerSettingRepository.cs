@@ -182,7 +182,7 @@ namespace DQCustomer.DataAccess.Repositories
                 return false;
             }
         }
-        public bool UpdateSpecificCustomerSetting(long id, CpCustomerSetting objEntity)
+        public bool UpdateSpecificCustomerSetting(long id, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity)
         {
             _sql = "[cp].[spUpdateCustomerSettingPMOCustomerCategory]";
             var vParams = new DynamicParameters();
@@ -192,6 +192,7 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             vParams.Add("@Category", objEntity.CustomerCategory);
             vParams.Add("@CAPFlag", objEntity.CAPFlag);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
 
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
