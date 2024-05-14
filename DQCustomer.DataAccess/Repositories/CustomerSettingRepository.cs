@@ -188,7 +188,6 @@ namespace DQCustomer.DataAccess.Repositories
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerID", id);
             vParams.Add("@PMOCustomer", objEntity.PMOCustomer);
-            vParams.Add("@ModifyDate", objEntity.ModifyDate);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             vParams.Add("@Category", objEntity.CustomerCategory);
             vParams.Add("@CAPFlag", objEntity.CAPFlag);

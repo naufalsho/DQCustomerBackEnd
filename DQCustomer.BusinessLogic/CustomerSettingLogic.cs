@@ -815,7 +815,6 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    objEntity.ModifyDate = DateTime.Now;
                     uow.CustomerSettingRepository.UpdateSpecificCustomerSetting(customerID, objEntity);
                     result = MessageResult(true, "Update Success!");
                 }
