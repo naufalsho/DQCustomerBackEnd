@@ -77,13 +77,28 @@ namespace DQCustomer.BusinessLogic
                     objEntity.Type = objEntity.Type.ToUpper();
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
-                    if(existingID != null) 
-                    {
 
-                        uow.AddressOfficeNumberRepository.Add(objEntity);
+                    if (objEntity.CreateUserID == null || objEntity.CreateUserID == 0 ){
+                        return MessageResult(false, "CreateUserID field is required!");
                     }
 
-                    result = MessageResult(true, "Insert Success!");
+                    if(existingID == null) 
+                    {
+                        return MessageResult(false, "Data not found!");
+                    }
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)objEntity.CustomerID,
+                        CustomerGenID = (long)objEntity.CustomerGenID,
+                        UserID = objEntity.CreateUserID,
+                        Description = "Add new Address"
+                    };
+
+                    uow.AddressOfficeNumberRepository.Add(objEntity);
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Insert Success!", "data : "+ accountActivity);
 
                 }
             }
@@ -102,7 +117,7 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById(Id);
+                    var existing = uow.AddressOfficeNumberRepository.GetAddressOfficeNumberById((long)objEntity.CustomerID, (long)objEntity.CustomerGenID).Where(ao => ao.AddressOfficeNumberID == Id).SingleOrDefault();
                     if (existing == null)
                     {
                         return result = MessageResult(false, "Data not found");
@@ -114,8 +129,36 @@ namespace DQCustomer.BusinessLogic
                     data.CreateDate = existing.CreateDate;
                     data.ModifyDate = DateTime.Now;
 
+                    if (data.ModifyUserID == null || data.ModifyUserID == 0)
+                    {
+                        return MessageResult(false, "ModifyUserID field is required!");
+                    }
+                    if(data.Type.ToUpper() != "MAIN" && data.Type.ToUpper() != "BRANCH")
+                    {
+                        return MessageResult(false, "field 'Type' must be MAIN/BRANCH");
+                    }
+
+                    string descriptionActivity = "";
+                    if(existing.Type.ToUpper() == "MAIN")
+                    {
+                        descriptionActivity = "Main address change";
+                    }
+                    else
+                    {
+                        descriptionActivity = "Branch address change";
+                    }
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)data.CustomerID,
+                        CustomerGenID = (long)data.CustomerGenID,
+                        UserID = (long)data.ModifyUserID,
+                        Description = descriptionActivity
+                    };
                     uow.AddressOfficeNumberRepository.Update(data);
-                    result = MessageResult(true, "Update Success");
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Update Success", "data :"+accountActivity);
                 }
             }
             catch (Exception ex)
@@ -138,8 +181,28 @@ namespace DQCustomer.BusinessLogic
                     {
                         return result = MessageResult(false, "Data not found");
                     }
+
+                    string descriptionActivity = "";
+                    if(existing.Type.ToUpper() == "MAIN")
+                    {
+                        descriptionActivity = "Delete main address & main address change";
+                    }
+                    else
+                    {
+                        descriptionActivity = "Delete address";
+                    }
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)existing.CustomerID,
+                        CustomerGenID = (long)existing.CustomerGenID,
+                        UserID = (long)existing.ModifyUserID,
+                        Description = descriptionActivity
+                    };
                     uow.AddressOfficeNumberRepository.Delete(existing);
-                    result = MessageResult(true, "Delete Success");
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Delete Success","data :"+accountActivity);
                 }
             }
             catch (Exception ex)
@@ -149,7 +212,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID)
+        public ResultAction DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID, long modifyUserID)
         {
             ResultAction result = new ResultAction();
             try
@@ -162,8 +225,28 @@ namespace DQCustomer.BusinessLogic
                     {
                         return result = MessageResult(false, "Data not found");
                     }
+
+                    string descriptionActivity = "";
+                    if (existing.Type.ToUpper() == "MAIN")
+                    {
+                        descriptionActivity = "Delete main address & main address change";
+                    }
+                    else
+                    {
+                        descriptionActivity = "Delete address";
+                    }
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = customerID,
+                        CustomerGenID = customerGenID,
+                        UserID = modifyUserID,
+                        Description = descriptionActivity
+                    };
                     uow.AddressOfficeNumberRepository.DeleteAddressOfficeNumberByID(Id, customerID, customerGenID);
-                    result = MessageResult(true, "Delete Success");
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Delete Success", "data :" + accountActivity);
                 }
             }
             catch (Exception ex)

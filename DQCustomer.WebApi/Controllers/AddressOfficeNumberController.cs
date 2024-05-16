@@ -83,11 +83,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpDelete("DeleteByID/{AddressOfficeNumberID}")]
-        public IActionResult DeleteAddressOfficeNumberByID(int AddressOfficeNumberID, long customerID, long customerGenID)
+        public IActionResult DeleteAddressOfficeNumberByID(int AddressOfficeNumberID, long customerID, long customerGenID, long modifyUserID)
         {
             try
             {
-                var result = objAddressOfficeNumberLogic.DeleteAddressOfficeNumberByID(AddressOfficeNumberID, customerID, customerGenID);
+                var result = objAddressOfficeNumberLogic.DeleteAddressOfficeNumberByID(AddressOfficeNumberID, customerID, customerGenID, modifyUserID);
                 return Ok(result);
             }
             catch (Exception ex)

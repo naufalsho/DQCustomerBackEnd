@@ -55,9 +55,11 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@UserID", objEntity.UserID);
             vParams.Add("@CustomerID", objEntity.CustomerID);
             vParams.Add("@CustomerGenID", objEntity.CustomerGenID);
+            vParams.Add("@RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
-            return output == 1? true : false;
+            _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            int output = vParams.Get<int>("@RowCount");
+            return output == 1? true : false ;
         }
     }
 }

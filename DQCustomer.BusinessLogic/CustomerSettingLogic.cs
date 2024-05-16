@@ -969,6 +969,12 @@ namespace DQCustomer.BusinessLogic
                         File = objEntity.File
                     };
 
+
+                    if (newCustomer.CreatedUserID == null || newCustomer.CreatedUserID == 0)
+                    {
+                        return MessageResult(false, "CreatedUserID field is required!");
+                    }
+
                     uow.CustomerSettingRepository.InsertRequestNewCustomer(newCustomer, extension, imageFile);
                     result = MessageResult(true, "Insert Success!");
 
@@ -1061,6 +1067,11 @@ namespace DQCustomer.BusinessLogic
                         Remark = objEntity.Remark,
                         ModifyUserID = objEntity.ModifyUserID
                     };
+
+                    if (dataUpdate.ModifyUserID == null || dataUpdate.ModifyUserID == 0)
+                    {
+                        return MessageResult(false, "ModifyUserID field is required!");
+                    }
 
                     var responseData = new
                     {
@@ -1225,6 +1236,11 @@ namespace DQCustomer.BusinessLogic
                         NIB = objEntity.NIB,
                         ModifyUserID = objEntity.ModifyUserID
                     };
+
+                    if (dataUpdate.ModifyUserID == null || dataUpdate.ModifyUserID == 0)
+                    {
+                        return MessageResult(false, "ModifyUserID field is required!");
+                    }
 
                     uow.CustomerSettingRepository.UpdateIndustryClassByID(customerID, customerGenID, dataUpdate);
                     result = MessageResult(true, "Update Success!");

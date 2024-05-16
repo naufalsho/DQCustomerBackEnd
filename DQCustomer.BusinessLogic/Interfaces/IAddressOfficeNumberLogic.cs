@@ -12,7 +12,7 @@ namespace DQCustomer.BusinessLogic.Interfaces
         ResultAction Insert(CpAddressOfficeNumber objEntity);
         ResultAction Update(long Id, CpAddressOfficeNumber objEntity);
         ResultAction Delete(long Id);
-        ResultAction DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID);
+        ResultAction DeleteAddressOfficeNumberByID(long Id, long customerID, long customerGenID, long modifyUserID);
         ResultAction GetAddressOfficeNumberByCustomerGenId(long customerGenId);
         ResultAction GetAddressOfficeNumberByCustomerId(long customerId);
         ResultAction GetAddressOfficeNumberById(long customerId, long customerGenId);
