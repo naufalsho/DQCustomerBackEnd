@@ -74,9 +74,25 @@ namespace DQCustomer.BusinessLogic
 
                     objEntity.CreateDate = DateTime.Now;
                     objEntity.ModifyDate = DateTime.Now;
-                    uow.CustomerPICRepository.Add(objEntity);
 
-                    result = MessageResult(true, "Insert Success!");
+                    if (objEntity.CreateUserID == null || objEntity.CreateUserID == 0)
+                    {
+                        return MessageResult(false, "CreateUserID field is required!");
+                    }
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = 0,
+                        CustomerGenID = (long)objEntity.CustomerGenID,
+                        UserID = objEntity.CreateUserID,
+                        Description = "Add new PIC"
+                    };
+
+                    uow.CustomerPICRepository.Add(objEntity);
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+
+                    result = MessageResult(true, "Insert Success!", "Insert: " + accountActivity);
 
                 }
             }
@@ -107,6 +123,11 @@ namespace DQCustomer.BusinessLogic
                     data.CreateDate = existing.CreateDate;
                     data.ModifyDate = DateTime.Now;
 
+                    if (data.ModifyUserID == null || data.ModifyUserID == 0)
+                    {
+                        return MessageResult(false, "ModifyUserID field is required!");
+                    }
+
                     if (objEntity.PINFlag == true)
                     {
                         var checkPINFlag = uow.CustomerPICRepository.GetCustomerPICByCustomerGenId(data.CustomerGenID).Where(cp => cp.PINFlag == true).SingleOrDefault();
@@ -119,7 +140,18 @@ namespace DQCustomer.BusinessLogic
                     }
 
                     uow.CustomerPICRepository.Update(data);
-                    result = MessageResult(true, "Update Success");
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = 0,
+                        CustomerGenID = (long)data.CustomerGenID,
+                        UserID = (long)data.ModifyUserID,
+                        Description = "PIC change"
+                    };
+
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Update Success", "Update :" + accountActivity); 
                 }
             }
             catch (Exception ex)
@@ -143,7 +175,18 @@ namespace DQCustomer.BusinessLogic
                         return result = MessageResult(false, "Data not found");
                     }
                     uow.CustomerPICRepository.Delete(existing);
-                    result = MessageResult(true, "Delete Success");
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = 0,
+                        CustomerGenID = (long)existing.CustomerGenID,
+                        UserID = (long)existing.ModifyUserID,
+                        Description = "PIC delete"
+                    };
+
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Delete Success", "Delete: "+accountActivity);
                 }
             }
             catch (Exception ex)
