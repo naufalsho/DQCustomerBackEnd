@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DQCustomer.BusinessObject.ViewModel
 {
-    public class Req_CustomerSettingGetRequestNewCustomer_ViewModel : BaseEntity
+    public class Req_CustomerSettingGetRequestNewCustomer_ViewModel
     {
         public long CustomerGenID { get; set; }
         public long CustomerID { get; set; }
@@ -28,6 +28,9 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string PICEmailAddr { get; set; }
         public string IsNew { get; set; }
         public string ApprovalStatus { get; set; }
-
+        public string? CreateDate { get; set; }
+        public int CreateUserID { get; set; }
+        public string? ModifyDate { get; set; }
+        public int? ModifyUserID { get; set; }
     }
 }
