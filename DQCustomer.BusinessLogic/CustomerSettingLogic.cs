@@ -331,7 +331,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction Insert(CpCustomerSetting objEntity)
+        public ResultAction Insert(Req_CustomerSettingInsert_ViewModel objEntity)
         {
             ResultAction result = new ResultAction();
             try
@@ -344,6 +344,7 @@ namespace DQCustomer.BusinessLogic
                     {
                         SalesID = objEntity.SalesID,
                         CustomerID = objEntity.CustomerID,
+                        ClaimRemark = objEntity.ClaimRemark,
                         CreateDate = DateTime.Now,
                         RequestedDate = DateTime.Now,
                         RequestedBy = objEntity.RequestedBy,

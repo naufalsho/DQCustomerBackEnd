@@ -20,5 +20,6 @@ namespace DQCustomer.BusinessObject
         public bool? IsApprovedByAdmin { get; set; }
         public DateTime? AdminApprovedDate { get; set; }
         public long? ApprovalBy { get; set; }
+        public string? ClaimRemark { get; set; }
     }
 }

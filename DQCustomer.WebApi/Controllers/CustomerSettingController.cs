@@ -28,7 +28,7 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(CpCustomerSetting objEntity)
+        public IActionResult Insert(Req_CustomerSettingInsert_ViewModel objEntity)
         {
             try
             {
