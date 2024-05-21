@@ -97,11 +97,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetAccountActivityHistoryByID")]
-        public IActionResult GetAccountActivityHistoryByID(long customerID, long customerGenID)
+        public IActionResult GetAccountActivityHistoryByID(long customerID, long customerGenID, bool showAll)
         {
             try
             {
-                var result = objAccountActivityHistoryLogic.GetAccountActivityHistoryByID(customerID, customerGenID);
+                var result = objAccountActivityHistoryLogic.GetAccountActivityHistoryByID(customerID, customerGenID, showAll);
                 return Ok(result);
             }
             catch (Exception ex)

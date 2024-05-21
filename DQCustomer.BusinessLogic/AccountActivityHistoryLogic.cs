@@ -170,7 +170,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public ResultAction GetAccountActivityHistoryByID(long customerID, long customerGenID)
+        public ResultAction GetAccountActivityHistoryByID(long customerID, long customerGenID, bool showAll)
         {
             ResultAction result = new ResultAction();
             try
@@ -178,7 +178,7 @@ namespace DQCustomer.BusinessLogic
                 using (_context)
                 {
                     IUnitOfWork uow = new UnitOfWork(_context);
-                    var existing = uow.AccountActivityHistoryRepository.GetAccountActivityHistoryByID(customerID, customerGenID);
+                    var existing = uow.AccountActivityHistoryRepository.GetAccountActivityHistoryByID(customerID, customerGenID, showAll);
                     if (existing == null)
                     {
                         return result = MessageResult(false, "Data not found");
