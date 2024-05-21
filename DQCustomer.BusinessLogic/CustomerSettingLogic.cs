@@ -351,6 +351,13 @@ namespace DQCustomer.BusinessLogic
                         CreateUserID = objEntity.CreateUserID,
                     };
 
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = objEntity.CustomerID,
+                        CustomerGenID = 0,
+                        UserID = (long)objEntity.CreateUserID,
+                    };
+
                     // Cek sudah di-assign apa belum
                     var existing = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(objEntity.CustomerID);
                     var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
@@ -379,6 +386,10 @@ namespace DQCustomer.BusinessLogic
                         uow.CustomerSettingRepository.Add(newCustomerSetting);
                         uow.CustomerSettingRepository.UpdateAllCustomerSetting(objEntity.CustomerID, newCustomerSetting);
 
+                        // tambah account history
+                        dataAccountActivity.Description = "Claim account";
+                        uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
                         // tambah sales history
                         newSalesHistory.Status = "Assign";
                         newSalesHistory.IsApprovedByDirectorate = true;
@@ -390,6 +401,9 @@ namespace DQCustomer.BusinessLogic
                     {
                         newSalesHistory.Status = "Pending";
                         uow.SalesHistoryRepository.Add(newSalesHistory);
+
+                        dataAccountActivity.Description = "Request claim";
+                        uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
                         //uow.CustomerSettingRepository.SendEmailReqCustomerSetting(objEntity.CustomerID, objEntity.SalesID, approvalID);
                         result = MessageResult(true, "Wait for directorate approval!");
                     }
@@ -446,6 +460,16 @@ namespace DQCustomer.BusinessLogic
                         uow.CustomerSettingRepository.UpdateAllCustomerSetting(customerID, cs);
                     }
 
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = customerID,
+                        CustomerGenID = 0,
+                        UserID = salesID,
+                        Description = "Release account"
+                    };
+
+                    uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
                     result = MessageResult(true, "Update Success!");
                 }
             }
@@ -476,6 +500,15 @@ namespace DQCustomer.BusinessLogic
                         return MessageResult(false, "Directorate didn't approve this sales request");
                     }
 
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = customerID,
+                        CustomerGenID = 0,
+                        UserID = (long)modifyUserID,
+                    };
+
+                    var employeeData = uow.CustomerSettingRepository.GetListSales().First(x => x.SalesID == salesID);
+
                     if (!isApprove)
                     {
                         existing.Status = "Rejected";
@@ -488,6 +521,7 @@ namespace DQCustomer.BusinessLogic
                         {
                             existing.IsApprovedByAdmin = false;
                         }
+                        dataAccountActivity.Description = "Reject request from " + employeeData.SalesName;
                     }
                     else
                     {
@@ -504,6 +538,8 @@ namespace DQCustomer.BusinessLogic
                             existing.IsApprovedByDirectorate = true;
                             existing.DirectorateApprovedDate = DateTime.Now;
                             existing.DirectorateApprovedBy = directorateApprovedBy;
+
+                            dataAccountActivity.Description = "Directorate approve request from " + employeeData.SalesName;
                         }
 
                         // di-approve oleh admin
@@ -519,6 +555,8 @@ namespace DQCustomer.BusinessLogic
                             existing.IsApprovedByAdmin = true;
                             existing.AdminApprovedDate = DateTime.Now;
                             existing.ApprovalBy = adminApprovedBy;
+
+                            dataAccountActivity.Description = "Admin approve request from " + employeeData.SalesName;
 
                             var existingCustomerSetting = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(customerID);
                             var customerSetting = uow.CustomerSettingRepository.GetAll().FirstOrDefault(x => x.CustomerID == customerID);
@@ -546,6 +584,7 @@ namespace DQCustomer.BusinessLogic
                     existing.ModifyUserID = modifyUserID;
                     existing.ModifyDate = DateTime.Now;
                     uow.SalesHistoryRepository.Update(existing);
+                    uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
                     //uow.CustomerSettingRepository.SendEmailApproveRejectCustomerSetting(customerID, salesID, isApprove, description, modifyUserID);
                     result = MessageResult(true, "Success!");
                 }
