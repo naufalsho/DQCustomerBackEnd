@@ -270,7 +270,7 @@ namespace DQCustomer.BusinessLogic
 
             return result;
         }
-        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = true, bool? showNamed = true, bool? showShareable = true, bool? isNew = true)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -352,6 +352,7 @@ namespace DQCustomer.BusinessLogic
 
                     // Cek sudah di-assign apa belum
                     var existing = uow.CustomerSettingRepository.GetCustomerSettingByCustomerID(objEntity.CustomerID);
+                    var existingData = uow.CustomerSettingRepository.GetAll().OrderByDescending(y => y.CreateDate).FirstOrDefault(x => x.CustomerID == objEntity.CustomerID);
                     var alreadyAssign = uow.SalesHistoryRepository.GetAll().FirstOrDefault(x => x.CustomerID == objEntity.CustomerID && x.SalesID == objEntity.SalesID && x.Status == "Assign");
                     if (alreadyAssign != null)
                     {
@@ -369,12 +370,21 @@ namespace DQCustomer.BusinessLogic
                             SalesID = objEntity.SalesID,
                             Named = existing.Count == 0,
                             Shareable = existing.Count > 0,
-                            CreateUserID = objEntity.CreateUserID,
+                            CustomerCategory = existingData.CustomerCategory,
+                            CreateUserID = (int)objEntity.SalesID,
                             CreateDate = DateTime.Now,
+                            ModifyUserID = (int)objEntity.SalesID,
+                            ModifyDate = DateTime.Now,
                             RequestedBy = objEntity.RequestedBy,
                             RequestedDate = DateTime.Now,
                             PMOCustomer = false,
                         };
+                        
+                        if(objEntity.SalesID == 0)
+                        {
+                            return result = MessageResult(false, "SalesID required!");
+                        }
+
                         uow.CustomerSettingRepository.Add(newCustomerSetting);
                         uow.CustomerSettingRepository.UpdateAllCustomerSetting(objEntity.CustomerID, newCustomerSetting);
 
