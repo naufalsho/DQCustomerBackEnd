@@ -107,7 +107,7 @@ namespace DQCustomer.DataAccess.Repositories
             totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
         {
             _sql = "[cp].[spGetCustomerSettingAllAccounts]";
             var vParams = new DynamicParameters();
@@ -125,6 +125,9 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@PageSize", pageSize);
             vParams.Add("@SortColumn", column);
             vParams.Add("@SortOrder", sorting); 
+            vParams.Add("@ShowPending", showPending); 
+            vParams.Add("@ShowApprove", showApprove); 
+            vParams.Add("@ShowReject", showReject); 
             vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
 
 
