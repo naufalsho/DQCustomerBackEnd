@@ -270,7 +270,7 @@ namespace DQCustomer.BusinessLogic
 
             return result;
         }
-        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = true, bool? showNamed = true, bool? showShareable = true, bool? isNew = true, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = true, bool? showNamed = true, bool? showShareable = true, bool? isNew = true, bool? showPending = true, bool? showApprove = true, bool? showReject = true)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
