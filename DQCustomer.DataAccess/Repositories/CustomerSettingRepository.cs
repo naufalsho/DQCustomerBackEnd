@@ -117,10 +117,10 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
             vParams.Add("@MyAccount", myAccount);
-            vParams.Add("@ShowNoName", showNoName == null ? true : false);
-            vParams.Add("@ShowNamed", showNamed == null ? true : false);
-            vParams.Add("@ShowShareable", showShareable == null ? true : false);
-            vParams.Add("@IsNew", isNew == null ? true : false);
+            vParams.Add("@ShowNoName", showNoName);
+            vParams.Add("@ShowNamed", showNamed);
+            vParams.Add("@ShowShareable", showShareable);
+            vParams.Add("@IsNew", isNew);
             vParams.Add("@PageNumber", page);
             vParams.Add("@PageSize", pageSize);
             vParams.Add("@SortColumn", column);
