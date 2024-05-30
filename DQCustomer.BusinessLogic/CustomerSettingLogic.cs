@@ -378,7 +378,7 @@ namespace DQCustomer.BusinessLogic
                             SalesID = objEntity.SalesID,
                             Named = existing.Count == 0,
                             Shareable = existing.Count > 0,
-                            CustomerCategory = existingData.CustomerCategory,
+                            CustomerCategory = existingData?.CustomerCategory ?? null,
                             CreateUserID = (int)objEntity.SalesID,
                             CreateDate = DateTime.Now,
                             ModifyUserID = (int)objEntity.SalesID,
