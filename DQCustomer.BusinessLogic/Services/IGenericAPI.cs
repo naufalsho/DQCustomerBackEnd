@@ -32,7 +32,7 @@ namespace DQCustomer.BusinessLogic.Services
         string GetCustomerPICName(long customerPICID);
         string GetDocumentType(long udcID);
         Employee GetByEmail(string email);
-		 void UpdateCustomerPIC(CustomerPIC obj);
+		 void UpdateCustomerPIC(BusinessObject.Additional.CustomerPIC obj);
         public List<Tr_Initiate> GetSA(string contractNumber);
         public Udc GetPMOS(int Id);
         public List<Udc> GetListPMOS(int Id);

@@ -21,7 +21,10 @@ namespace DQCustomer.DataAccess.Interfaces
         IRelatedFileRepository RelatedFileRepository { get; }
         ISalesHistoryRepository SalesHistoryRepository { get; }
         ICustomerSuccessStoryRepository CustomerSuccessStoryRepository { get; }
-
+        IAddressOfficeNumberRepository AddressOfficeNumberRepository { get; }
+        ICustomerPICRepository CustomerPICRepository { get; }
+        ICustomerCardFileRepository CustomerCardFileRepository { get; }
+        IAccountActivityHistoryRepository AccountActivityHistoryRepository { get; }
 
     }
 }

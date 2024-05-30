@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace DQCustomer.DataAccess.Repositories
@@ -46,19 +47,26 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(string search, bool? blacklist = null, bool? holdshipment = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNoNamedAccounts]";
             var vParams = new DynamicParameters();
             vParams.Add("@SearchKeyword", search);
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
+            vParams.Add("@MyAccount", myAccount);
+            vParams.Add("@PageNumber", page);
+            vParams.Add("@PageSize", pageSize);
+            vParams.Add("@SortColumn", column);
+            vParams.Add("@SortOrder", sorting);
+            vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNamedAccounts]";
             var vParams = new DynamicParameters();
@@ -67,12 +75,19 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
+            vParams.Add("@MyAccount", myAccount);
+            vParams.Add("@PageNumber", page);
+            vParams.Add("@PageSize", pageSize);
+            vParams.Add("@SortColumn", column);
+            vParams.Add("@SortOrder", sorting);
+            vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
-            
+            totalRows = vParams.Get<int>("@TotalRows");
+
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingShareableAccounts]";
             var vParams = new DynamicParameters();
@@ -81,11 +96,18 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
+            vParams.Add("@MyAccount", myAccount);
+            vParams.Add("@PageNumber", page);
+            vParams.Add("@PageSize", pageSize);
+            vParams.Add("@SortColumn", column);
+            vParams.Add("@SortOrder", sorting);
+            vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
         {
             _sql = "[cp].[spGetCustomerSettingAllAccounts]";
             var vParams = new DynamicParameters();
@@ -94,8 +116,24 @@ namespace DQCustomer.DataAccess.Repositories
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@SalesIDs", salesID);
+            vParams.Add("@MyAccount", myAccount);
+            vParams.Add("@ShowNoName", showNoName);
+            vParams.Add("@ShowNamed", showNamed);
+            vParams.Add("@ShowShareable", showShareable);
+            vParams.Add("@IsNew", isNew);
+            vParams.Add("@PageNumber", page);
+            vParams.Add("@PageSize", pageSize);
+            vParams.Add("@SortColumn", column);
+            vParams.Add("@SortOrder", sorting); 
+            vParams.Add("@ShowPending", showPending); 
+            vParams.Add("@ShowApprove", showApprove); 
+            vParams.Add("@ShowReject", showReject); 
+            vParams.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output); // Output parameter for TotalRows
+
 
             var output = _context.db.Query<CpCustomerSettingDashboard>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            totalRows = vParams.Get<int>("@TotalRows");
+
             return output;
         }
         public bool UpdateAllCustomerSetting(long id, CpCustomerSetting objEntity)
@@ -147,15 +185,17 @@ namespace DQCustomer.DataAccess.Repositories
                 return false;
             }
         }
-        public bool UpdateSpecificCustomerSetting(long id, CpCustomerSetting objEntity)
+        public bool UpdateSpecificCustomerSetting(long id, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity)
         {
             _sql = "[cp].[spUpdateCustomerSettingPMOCustomerCategory]";
             var vParams = new DynamicParameters();
             vParams.Add("@CustomerID", id);
             vParams.Add("@PMOCustomer", objEntity.PMOCustomer);
-            vParams.Add("@ModifyDate", objEntity.ModifyDate);
             vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
             vParams.Add("@Category", objEntity.CustomerCategory);
+            vParams.Add("@CAPFlag", objEntity.CAPFlag);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
+
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return output == 1 ? true : false;
         }
@@ -269,5 +309,127 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Query<Req_CustomerSettingGetRelatedCustomerAndLastProject_ViewModel>(_sql, param: null, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
             return output;
         }
+
+        public List<Req_CustomerSearchRequest_ViewModel> GetSearchRequest(string customerName, string picName)
+        {
+            _sql = "[cp].[spSearchRequestCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerName", customerName);
+            vParams.Add("@PICName", picName);
+            var output = _context.db.Query<Req_CustomerSearchRequest_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+
+        public bool InsertRequestNewCustomer(Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity, string extension, byte[] imageFile)
+        {
+            _sql = "[cp].[spInsertRequestNewCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerName", objEntity.CustomerName);
+            vParams.Add("@CustomerBusinessName", objEntity.CustomerBusinessName);
+            vParams.Add("@HoldingCompName", objEntity.HoldingCompName);
+            vParams.Add("@PhoneNumber", objEntity.PhoneNumber);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
+            vParams.Add("@Website", objEntity.Website);
+            vParams.Add("@CustomerAddress", objEntity.CustomerAddress);
+            vParams.Add("@City", objEntity.City);
+            vParams.Add("@Country", objEntity.Country);
+            vParams.Add("@ZipCode", objEntity.ZipCode);
+            vParams.Add("@CoorporateEmail", objEntity.CoorporateEmail);
+            vParams.Add("@NIB", objEntity.NIB);
+            vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
+            vParams.Add("@PICName", objEntity.PICName);
+            vParams.Add("@PICMobilePhone", objEntity.PICMobilePhone);
+            vParams.Add("@PICJobTitle", objEntity.PICJobTitle);
+            vParams.Add("@PICEmailAddr", objEntity.PICEmailAddr);
+            vParams.Add("@CreateUserID", objEntity.CreatedUserID);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+            vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
+            vParams.Add("@ImageFile", imageFile);
+            vParams.Add("@Extension", extension);
+            vParams.Add("@Return_Value", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            bool returnVal = vParams.Get<bool>("@Return_Value");
+            return returnVal;
+        }
+        public List<Req_CustomerSettingGetRequestNewCustomer_ViewModel> GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            _sql = "[cp].[spGetRequestNewCustomerByGenID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetRequestNewCustomer_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+
+        public bool UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            _sql = "[cp].[spUpdateApprovalStatusNewCustomer]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID",objEntity.CustomerGenID);
+            vParams.Add("@ApprovalStatus", objEntity.ApprovalStatus);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+            vParams.Add("@Return_Value", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            bool returnVal = vParams.Get<bool>("@Return_Value");
+            return returnVal;
+        }
+
+        public IEnumerable<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel> GetCustomerDetailsByCustID(long customerID)
+        {
+            _sql = "[cp].[spGetCustomerDetailsByCustID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            var output = _context.db.Query<Req_CustomerSettingGetCustomerDetailsByCustID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;     
+        }
+        public IEnumerable<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel> GetCustomerDetailsByGenID(long customerGenID)
+        {
+            _sql = "[cp].[spGetCustomerDetailsByGenID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetCustomerDetailsByGenID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;     
+        }
+
+        public bool UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity)
+        {
+            _sql = "[cp].[spUpdateIndustryClassByID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@CustomerGenID", customerGenID);
+            vParams.Add("@IndustryClass", objEntity.IndustryClass);
+            vParams.Add("@CustomerName", objEntity.CustomerName);
+            vParams.Add("@CoorporateEmail", objEntity.CoorporateEmail);
+            vParams.Add("@NPWPNumber", objEntity.NPWPNumber);
+            vParams.Add("@NIB", objEntity.NIB);
+            vParams.Add("@ModifyUserID", objEntity.ModifyUserID);
+            vParams.Add("@Return_Value", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            bool returnVal = vParams.Get<bool>("@Return_Value");
+            return returnVal;
+        }
+
+        public List<Req_CustomerSettingGetIndustryClass_ViewModel> GetIndustryClass()
+        {
+            _sql = "[cp].[spGetListIndustryClass]";
+            var vParams = new DynamicParameters();
+            var output = _context.db.Query<Req_CustomerSettingGetIndustryClass_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
+        public Nullable<bool> CompareSalesDepartmentToBusinessUnit(long salesID, long customerID) {
+            _sql = "[cp].[spCompareSalesDepartmentToBU]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@SalesID", salesID);
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@IsFound", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
+            Nullable<bool> isFound = vParams.Get<Nullable<bool>>("@IsFound");
+
+            return isFound;
+        }
+
     }
 }

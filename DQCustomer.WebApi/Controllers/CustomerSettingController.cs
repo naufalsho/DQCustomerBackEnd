@@ -8,6 +8,10 @@ using System;
 using DQCustomer.BusinessObject;
 using DQCustomer.BusinessObject.ViewModel;
 using DQCustomer.DataAccess.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.Common;
+using System.Drawing.Printing;
+using System.Security.Principal;
 
 namespace DQCustomer.WebApi.Controllers
 {
@@ -24,7 +28,7 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(CpCustomerSetting objEntity)
+        public IActionResult Insert(Req_CustomerSettingInsert_ViewModel objEntity)
         {
             try
             {
@@ -37,7 +41,7 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpPut]
-        public IActionResult Update(long customerID, CpCustomerSetting objEntity)
+        public IActionResult Update(long customerID, Req_CustomerSettingUpdatePMOCustomerCategory_ViewModel objEntity)
         {
             try
             {
@@ -78,11 +82,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingNoNamedAccount")]
-        public IActionResult GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null)
+        public IActionResult GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, search, blacklist, holdshipment);
+                var result = objCustomerSettingLogic.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, search, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -92,11 +96,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingNamedAccount")]
-        public IActionResult GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public IActionResult GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, search, salesID, myAccount, pmoCustomer, blacklist, holdshipment);
+                var result = objCustomerSettingLogic.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -106,11 +110,11 @@ namespace DQCustomer.WebApi.Controllers
         }
 
         [HttpGet("GetCustomerSettingShareableAccount")]
-        public IActionResult GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null)
+        public IActionResult GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment);
+                var result = objCustomerSettingLogic.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -119,11 +123,11 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpGet("GetCustomerSettingAllAccount")]
-        public IActionResult GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, long? myAccount = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null)
+        public IActionResult GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
         {
             try
             {
-                var result = objCustomerSettingLogic.GetCustomerSettingAllAccount(page, pageSize, column, sorting, search, salesID, myAccount, pmoCustomer, blacklist, holdshipment, showNoName, showNamed, showShareable);
+                var result = objCustomerSettingLogic.GetCustomerSettingAllAccount(page, pageSize, column, sorting, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable, isNew, showPending, showApprove, showReject);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -132,11 +136,11 @@ namespace DQCustomer.WebApi.Controllers
             }
         }
         [HttpPut("ApproveCustomerSetting")]
-        public IActionResult Update(long customerID, long salesID, bool isApprove, int modifyUserID, string description)
+        public IActionResult Update(long customerID, long salesID, bool isApprove, long? directorateApprovedBy, long? adminApprovedBy,  string? description, int? modifyUserID)
         {
             try
             {
-                var result = objCustomerSettingLogic.ApproveCustomerSetting(customerID, salesID, isApprove, description, modifyUserID);
+                var result = objCustomerSettingLogic.ApproveCustomerSetting(customerID, salesID, isApprove, directorateApprovedBy, adminApprovedBy, description, modifyUserID);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -294,6 +298,122 @@ namespace DQCustomer.WebApi.Controllers
             try
             {
                 var result = objCustomerSettingLogic.GetCustomerCategory();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // Customer Master
+        [HttpGet("GetCustomerSearchRequest")]
+        public IActionResult GetSearchRequest(int page, int pageSize, string column, string sorting, string customerName, string picName)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetSearchRequest(page, pageSize, column, sorting, customerName, picName);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("InsertRequestNewCustomer")]
+        public IActionResult InsertRequestNewCustomer([FromForm] Req_CustomerSettingInsertRequestCustomer_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.InsertRequestNewCustomer(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetRequestNewCustomerByGenID")]
+        public IActionResult GetRequestNewCustomerByGenID(long customerGenID)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetRequestNewCustomerByGenID(customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateApprovalStatusNewCustomer")]
+        public IActionResult UpdateApprovalStatusNewCustomer(Req_CustomerSettingUpdateAprrovalStatusNewCustomer_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.UpdateApprovalStatusNewCustomer(objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetCustomerDetailsByCustID")]
+        public IActionResult GetCustomerDetailsByCustID(long customerID)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetCustomerDetailsByCustID(customerID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        } 
+        
+        [HttpGet("GetCustomerDetailsByGenID")]
+        public IActionResult GetCustomerDetailsByGenID(long customerGenID)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetCustomerDetailsByGenID(customerGenID);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPut("UpdateIndustryClassByID")]
+        public IActionResult UpdateIndustryClassByID(long customerID, long customerGenID, Req_CustomerSettingUpdateIndustryClass_ViewModel objEntity)
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.UpdateIndustryClassByID(customerID, customerGenID, objEntity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetIndustryClass")]
+        public IActionResult GetIndustryClass()
+        {
+            try
+            {
+                var result = objCustomerSettingLogic.GetIndustryClass();
                 return Ok(result);
             }
             catch (Exception ex)

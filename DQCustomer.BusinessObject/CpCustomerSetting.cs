@@ -16,5 +16,6 @@ namespace DQCustomer.BusinessObject
         public bool? PMOCustomer { get; set; }
         public long RequestedBy { get; set; }
         public DateTime RequestedDate { get; set; }
+        public bool CAPFlag { get; set; }
     }
 }

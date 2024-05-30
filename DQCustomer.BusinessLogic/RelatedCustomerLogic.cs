@@ -50,7 +50,18 @@ namespace DQCustomer.BusinessLogic
                         return result = MessageResult(false, "Data not found");
                     }
                     uow.RelatedCustomerRepository.DeleteRelatedCustomer(Id);
-                    result = MessageResult(true, "Delete Success");
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)existing.CustomerID,
+                        CustomerGenID = (long)existing.CustomerGenID,
+                        UserID = (long)existing.ModifyUserID,
+                        Description = "Related customer delete"
+                    };
+
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Delete Success", "data :" + accountActivity);
                 }
             }
             catch (Exception ex)
@@ -100,7 +111,18 @@ namespace DQCustomer.BusinessLogic
                         CreateDate = DateTime.Now
                     };
                     uow.RelatedCustomerRepository.Add(newData);
-                    result = MessageResult(true, "Success");
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)newData.CustomerID,
+                        CustomerGenID = (long)objEntity.CustomerGenID,
+                        UserID = newData.CreateUserID,
+                        Description = "Add new related customer"
+                    };
+
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Insert Success!", "data : " + accountActivity);
                 }
             }
             catch (Exception ex)
@@ -123,11 +145,29 @@ namespace DQCustomer.BusinessLogic
                     {
                         return result = MessageResult(false, "Data not found");
                     }
+
+                    if (objEntity.ModifyUserID == null || objEntity.ModifyUserID == 0)
+                    {
+                        return MessageResult(false, "ModifyUserID field is required!");
+                    }
+
                     existing = objEntity;
                     existing.RCustomerID = Id;
                     existing.ModifyDate = DateTime.Now;
+
                     uow.RelatedCustomerRepository.Update(existing);
-                    result = MessageResult(true, "Update Success");
+
+                    Req_AccountActivityHistoryInsert_ViewModel dataAccountActivity = new Req_AccountActivityHistoryInsert_ViewModel
+                    {
+                        CustomerID = (long)objEntity.CustomerID,
+                        CustomerGenID = (long)objEntity.CustomerGenID,
+                        UserID = (long)objEntity.ModifyUserID,
+                        Description = "Related customer change"
+                    };
+
+                    var accountActivity = uow.AccountActivityHistoryRepository.InsertAccountActivityHistory(dataAccountActivity);
+
+                    result = MessageResult(true, "Update Success", "data :" + accountActivity);
                 }
             }
             catch (Exception ex)
@@ -155,5 +195,23 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
+        public ResultAction GetRelatedCustomerMoreDetailsByID(long customerID, long customerGenID)
+        {
+            ResultAction result = new ResultAction();
+            try
+            {
+                using (_context)
+                {
+                    IUnitOfWork uow = new UnitOfWork(_context);
+                    var existing = uow.RelatedCustomerRepository.GetRelatedCustomerMoreDetailsByID(customerID, customerGenID);
+                    result = MessageResult(true, "Success", existing);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = MessageResult(false, ex.Message);
+            }
+            return result;
+        }
     }
 }

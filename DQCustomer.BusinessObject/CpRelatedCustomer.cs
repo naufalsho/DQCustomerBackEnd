@@ -10,5 +10,6 @@ namespace DQCustomer.BusinessObject
         public long RCustomerID { get; set; }
         public long CustomerID { get; set; }
         public long RelatedCustomerID { get; set; }
+        public long CustomerGenID { get; set; } 
     }
 }

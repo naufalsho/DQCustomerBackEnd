@@ -45,5 +45,15 @@ namespace DQCustomer.DataAccess.Repositories
             var affectedRows = _context.db.Execute(_sql, param: (object)vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
             return affectedRows > 0;
         }
+
+        public List<Req_CustomerSettingGetRelatedCustomerMoreDetailByID_ViewModel> GetRelatedCustomerMoreDetailsByID(long customerID, long customerGenID)
+        {
+            _sql = "[cp].[spGetRelatedCustomerMoreDetailByID]";
+            var vParams = new DynamicParameters();
+            vParams.Add("@CustomerID", customerID);
+            vParams.Add("@CustomerGenID", customerGenID);
+            var output = _context.db.Query<Req_CustomerSettingGetRelatedCustomerMoreDetailByID_ViewModel>(_sql, param: vParams, transaction: _transaction, buffered: false, commandTimeout: null, commandType: CommandType.StoredProcedure).ToList();
+            return output;
+        }
     }
 }
