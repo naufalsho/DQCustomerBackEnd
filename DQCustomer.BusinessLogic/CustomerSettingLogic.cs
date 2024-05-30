@@ -1066,6 +1066,7 @@ namespace DQCustomer.BusinessLogic
                             HoldingCompName = item.HoldingCompName,
                             CustomerAddress = item.CustomerAddress,
                             Country = item.Country,
+                            City = item.City,
                             ZipCode = item.ZipCode,
                             NIB = item.NIB,
                             PhoneNumber = item.PhoneNumber,
