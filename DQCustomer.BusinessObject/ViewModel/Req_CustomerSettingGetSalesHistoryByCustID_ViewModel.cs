@@ -9,6 +9,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public long SalesHistoryID { get; set; }
         public long CustomerID { get; set; }
         public long SalesID { get; set; } 
+        public string DirectorateName { get; set; }
         public long SalesKey { get; set; }
         public long ApprovalBy { get; set; } 
         public long DirectorateApprovedBy { get; set; }
