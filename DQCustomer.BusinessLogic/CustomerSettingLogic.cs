@@ -86,7 +86,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, string search, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -102,7 +102,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, blacklist, holdshipment, myAccount);
+                var noNamed = uow.CustomerSettingRepository.GetCustomerSettingNoNamedAccount(page, pageSize, column, sorting, out int totalRows, search, isCap, pmoCustomer, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -118,6 +118,7 @@ namespace DQCustomer.BusinessLogic
                                               IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
                                               IndustryClassBusiness = x.IndustryClassBusiness,
+                                              DirectorateName = x.DirectorateName,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -148,7 +149,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -164,7 +165,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
+                var named = uow.CustomerSettingRepository.GetCustomerSettingNamedAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, isCap, pmoCustomer, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -180,6 +181,7 @@ namespace DQCustomer.BusinessLogic
                                               IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
                                               IndustryClassBusiness = x.IndustryClassBusiness,
+                                              DirectorateName = x.DirectorateName,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -210,7 +212,7 @@ namespace DQCustomer.BusinessLogic
             return result;
         }
 
-        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -226,7 +228,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount);
+                var shareable = uow.CustomerSettingRepository.GetCustomerSettingShareableAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, isCap, pmoCustomer, blacklist, holdshipment, myAccount);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -242,6 +244,7 @@ namespace DQCustomer.BusinessLogic
                                               IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
                                               IndustryClassBusiness = x.IndustryClassBusiness,
+                                              DirectorateName = x.DirectorateName,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,
@@ -270,7 +273,7 @@ namespace DQCustomer.BusinessLogic
 
             return result;
         }
-        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
+        public CpCustomerSettingEnvelope GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
         {
             CpCustomerSettingEnvelope result = new CpCustomerSettingEnvelope();
 
@@ -286,7 +289,7 @@ namespace DQCustomer.BusinessLogic
             {
                 IUnitOfWork uow = new UnitOfWork(_context);
 
-                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable, isNew, showPending, showApprove, showReject);
+                var allAccount = uow.CustomerSettingRepository.GetCustomerSettingAllAccount(page, pageSize, column, sorting, out int totalRows, search, salesID, isCap, pmoCustomer, blacklist, holdshipment, myAccount, showNoName, showNamed, showShareable, isNew, showPending, showApprove, showReject);
 
                 var relatedLastProject = uow.CustomerSettingRepository.GetRelatedAndLast();
 
@@ -302,6 +305,7 @@ namespace DQCustomer.BusinessLogic
                                               IndustryClassID = x.IndustryClassID,
                                               IndustryClass = x.IndustryClass,
                                               IndustryClassBusiness = x.IndustryClassBusiness,
+                                              DirectorateName = x.DirectorateName,
                                               CustomerCategory = x.CustomerCategory,
                                               CustomerName = x.CustomerName,
                                               CustomerAddress = x.CustomerAddress,

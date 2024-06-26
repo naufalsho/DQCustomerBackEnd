@@ -47,11 +47,13 @@ namespace DQCustomer.DataAccess.Repositories
             var output = _context.db.Execute(_sql, param: vParams, transaction: _transaction, commandTimeout: null, commandType: CommandType.StoredProcedure);
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNoNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNoNamedAccounts]";
             var vParams = new DynamicParameters();
             vParams.Add("@SearchKeyword", search);
+            vParams.Add("@PMOCustomer", pmoCustomer);
+            vParams.Add("@IsCAP", isCap);
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
             vParams.Add("@MyAccount", myAccount);
@@ -66,11 +68,12 @@ namespace DQCustomer.DataAccess.Repositories
             return output;
         }
 
-        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingNamedAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingNamedAccounts]";
             var vParams = new DynamicParameters();
             vParams.Add("@SearchKeyword", search);
+            vParams.Add("@IsCAP", isCap);
             vParams.Add("@PMOCustomer", pmoCustomer);
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
@@ -87,11 +90,12 @@ namespace DQCustomer.DataAccess.Repositories
 
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingShareableAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null)
         {
             _sql = "[cp].[spGetCustomerSettingShareableAccounts]";
             var vParams = new DynamicParameters();
             vParams.Add("@SearchKeyword", search);
+            vParams.Add("@IsCAP", isCap);
             vParams.Add("@PMOCustomer", pmoCustomer);
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
@@ -107,11 +111,12 @@ namespace DQCustomer.DataAccess.Repositories
             totalRows = vParams.Get<int>("@TotalRows");
             return output;
         }
-        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
+        public List<CpCustomerSettingDashboard> GetCustomerSettingAllAccount(int page, int pageSize, string column, string sorting, out int totalRows, string search, string salesID, bool? isCap = null, bool? pmoCustomer = null, bool? blacklist = null, bool? holdshipment = null, long? myAccount = null, bool? showNoName = null, bool? showNamed = null, bool? showShareable = null, bool? isNew = null, bool? showPending = null, bool? showApprove = null, bool? showReject = null)
         {
             _sql = "[cp].[spGetCustomerSettingAllAccounts]";
             var vParams = new DynamicParameters();
             vParams.Add("@SearchKeyword", search);
+            vParams.Add("@IsCAP", isCap);
             vParams.Add("@PMOCustomer", pmoCustomer);
             vParams.Add("@Blacklist", blacklist);
             vParams.Add("@Holdshipment", holdshipment);
