@@ -17,5 +17,6 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string AdminApprovedDate { get; set; }
         public string RejectedDate { get; set; }
         public string RejectedBy { get; set; }
+        public string WaitingAdminApproveBy { get; set; }
     }
 }

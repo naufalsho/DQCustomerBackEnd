@@ -13,6 +13,7 @@ namespace DQCustomer.BusinessObject.ViewModel
         public string IndustryClassID { get; set; }
         public string IndustryClass { get; set; }
         public string IndustryClassBusiness { get; set; }
+        public string DirectorateName { get; set; }
         public string CustomerCategory { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
