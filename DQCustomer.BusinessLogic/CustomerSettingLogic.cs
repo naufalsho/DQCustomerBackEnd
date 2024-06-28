@@ -728,6 +728,7 @@ namespace DQCustomer.BusinessLogic
                     envelope.IndustryClassID = existing.IndustryClassID;
                     envelope.IndustryClass = existing.IndustryClass;
                     envelope.IndustryClassBusiness = existing.IndustryClassBusiness;
+                    envelope.DirectorateName = existing.DirectorateName;
                     envelope.CustomerName = existing.CustomerName;
                     envelope.AvgAR = existing.AvgAR;
                     envelope.PMOCustomer = existing.PMOCustomer;
